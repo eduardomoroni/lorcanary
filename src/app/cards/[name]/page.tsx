@@ -1,6 +1,6 @@
 import Image from "next/image";
 import { createCardUrl } from "@/spaces/cards/utils";
-import { Metadata } from "next";
+import type { Metadata, ResolvingMetadata } from "next";
 
 interface Card {
   id: string;
@@ -21,6 +21,12 @@ export const dynamicParams = true; // or false, to 404 on unknown paths
 
 const url = "https://play.lorcanito.com/api/sets/004";
 
+type Props = {
+  params: Promise<{ id: string }>;
+  searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
+};
+
+// https://nextjs.org/docs/app/building-your-application/optimizing/metadata
 export async function generateStaticParams() {
   return [...Array(204).keys()].map((i) => {
     return {
@@ -31,11 +37,10 @@ export async function generateStaticParams() {
   });
 }
 
-export async function generateMetadata({
-  params,
-}: {
-  params: Promise<{ name: string }>;
-}) {
+export async function generateMetadata(
+  { params, searchParams }: Props,
+  parent: ResolvingMetadata,
+): Promise<Metadata> {
   console.log(params);
   const metadata: Metadata = {
     openGraph: {
