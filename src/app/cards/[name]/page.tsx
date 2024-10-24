@@ -78,6 +78,16 @@ export async function generateMetadata(
     keywords: ["Disney Lorcana", "Lorcana", alt],
     robots: "index, follow",
     openGraph: openGraph,
+    title: "Lorcanary Card Database",
+    description: "Your Lorcana Library!",
+    applicationName: "Lorcanary",
+    alternates: {
+      languages: {
+        fr: "https://lorcanary.com/fr",
+        de: "https://lorcanary.com/de",
+        en: "https://lorcanary.com/en",
+      },
+    },
   };
 
   return metadata;
