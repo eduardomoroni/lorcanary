@@ -30,13 +30,13 @@ export async function generateStaticParams() {
     })
 }
 
-export default async function Page({ params }: { params: { name: string } }) {
+export default async function Page({ params }: { params: Promise<{ name: string }> }) {
     const id = (await params).name;
 
     const card: Card = await fetch(
         url
     ).then((res) => res.json()).then((data) => {
-        return data.cards.find((card: unknown) => String(card.number) === String(id));
+        return data.cards.find((card: {number: number}) => String(card.number) === String(id));
     })
 
     return (
