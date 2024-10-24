@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { createCardUrl } from "@/spaces/cards/utils";
 import type { Metadata, ResolvingMetadata } from "next";
+import { OpenGraph } from "next/dist/lib/metadata/types/opengraph-types";
 
 interface Card {
   id: string;
@@ -42,28 +43,40 @@ export async function generateMetadata(
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   console.log(params);
+  const alt = "Card Name";
+
+  const openGraph: OpenGraph = {
+    title: "Lorcanary Card Database",
+    description: "Your Lorcana Library!",
+    url: "https://lorcanary.com",
+    siteName: "Lorcanary",
+    locale: "en",
+    type: "website",
+    images: [
+      {
+        url: "https://six-inks.pages.dev/assets/images/cards/004/art_only/222.webp",
+        width: 734,
+        height: 603,
+        alt: alt,
+      },
+      {
+        url: "https://six-inks.pages.dev/assets/images/cards/EN/004/222.webp",
+        width: 734,
+        height: 1024,
+        alt: "My custom alt",
+      },
+      {
+        url: "https://six-inks.pages.dev/assets/images/cards/EN/004/art_and_name/222.webp",
+        width: 734,
+        height: 767,
+        alt: "My custom alt",
+      },
+    ],
+  };
   const metadata: Metadata = {
-    openGraph: {
-      title: "Lorcanary Card Database",
-      description: "Your Lorcana Library!",
-      url: "https://lorcanary.com",
-      siteName: "Lorcanary",
-      images: [
-        {
-          url: "https://nextjs.org/og.png",
-          width: 800,
-          height: 600,
-        },
-        {
-          url: "https://nextjs.org/og-alt.png",
-          width: 1800,
-          height: 1600,
-          alt: "My custom alt",
-        },
-      ],
-      locale: "en_US",
-      type: "website",
-    },
+    keywords: ["Disney Lorcana", "Lorcana", alt],
+    robots: "index, follow",
+    openGraph: openGraph,
   };
 
   return metadata;

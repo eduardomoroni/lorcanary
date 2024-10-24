@@ -8,15 +8,15 @@ function createCardPageSitemap(
 
   const sitemap: MetadataRoute.Sitemap = [
     {
+      priority: 1,
       url: `https://lorcanary.com/cards/${number}`,
       lastModified: "2024-10-24",
       changeFrequency: "weekly",
       images: [
-        `https://six-inks.pages.dev/assets/images/cards/004/${set}/${number}.webp`,
+        `https://six-inks.pages.dev/assets/images/cards/${set}/art_only/${number}.webp`,
         `https://six-inks.pages.dev/assets/images/cards/EN/${set}/${number}.webp`,
         `https://six-inks.pages.dev/assets/images/cards/EN/${set}/art_and_name/${number}.webp`,
       ],
-      priority: 1,
       alternates: {
         languages: {
           fr: `https://lorcanary.com/fr/cards/${number}`,
