@@ -1,4 +1,5 @@
 import Image from "next/image";
+import {createCardUrl} from "@/spaces/cards/utils";
 
 interface Card {
     id: string
@@ -8,6 +9,7 @@ interface Card {
     name: string
 }
 
+
 // Next.js will invalidate the cache when a
 // request comes in, at most once every 60 seconds.
 export const revalidate = 86400 // 24 hours
@@ -16,6 +18,7 @@ export const revalidate = 86400 // 24 hours
 // If a request comes in for a path that hasn't been generated,
 // Next.js will server-render the page on-demand.
 export const dynamicParams = true // or false, to 404 on unknown paths
+
 
 const  url = 'https://play.lorcanito.com/api/sets/004';
 
@@ -43,7 +46,7 @@ export default async function Page({ params }: { params: Promise<{ name: string 
         <main>
             <h1>{id}</h1>
             <p>{JSON.stringify(card)}</p>
-            <Image src={card.url} alt={card.name} height={1024} width={734} />
+            <Image unoptimized src={createCardUrl("URR", Number(id))} alt={card.name} height={1024} width={734} />
         </main>
     )
 }
