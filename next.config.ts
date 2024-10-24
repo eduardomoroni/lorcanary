@@ -30,7 +30,7 @@ const nextConfig: NextConfig = {
     ],
   },
   i18n: {
-    locales: ["en", "fr", "de", "pt-BR"],
+    locales: ["en", "fr", "de"],
     defaultLocale: "en",
     localeDetection: false,
   },
