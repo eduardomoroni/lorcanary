@@ -34,7 +34,7 @@ export async function generateStaticParams() {
   return [...Array(204).keys()].map((i) => {
     return {
       params: {
-        id: i.toString(),
+        id: i.toString().padStart(3, "0"),
       },
     };
   });
@@ -46,29 +46,30 @@ export async function generateMetadata(
 ): Promise<Metadata> {
   console.log(params);
   const alt = "Card Name";
+  const cardNumber = (await params).id.padStart(3, "0");
 
   const openGraph: OpenGraph = {
     title: "Lorcanary Card Database",
     description: "Your Lorcana Library!",
-    url: "https://lorcanary.com",
+    url: `https://lorcanary.com/cards/${cardNumber}`,
     siteName: "Lorcanary",
     locale: "en",
     type: "website",
     images: [
       {
-        url: "https://six-inks.pages.dev/assets/images/cards/004/art_only/222.webp",
+        url: `https://six-inks.pages.dev/assets/images/cards/004/art_only/${cardNumber}.webp`,
         width: 734,
         height: 603,
         alt: alt,
       },
       {
-        url: "https://six-inks.pages.dev/assets/images/cards/EN/004/222.webp",
+        url: `https://six-inks.pages.dev/assets/images/cards/EN/004/${cardNumber}.webp`,
         width: 734,
         height: 1024,
         alt: "My custom alt",
       },
       {
-        url: "https://six-inks.pages.dev/assets/images/cards/EN/004/art_and_name/222.webp",
+        url: `https://six-inks.pages.dev/assets/images/cards/EN/004/art_and_name/${cardNumber}.webp`,
         width: 734,
         height: 767,
         alt: "My custom alt",
@@ -85,9 +86,9 @@ export async function generateMetadata(
     applicationName: "Lorcanary",
     alternates: {
       languages: {
-        fr: "https://lorcanary.com/fr",
-        de: "https://lorcanary.com/de",
-        en: "https://lorcanary.com/en",
+        fr: `https://lorcanary.com/fr/cards/${cardNumber}`,
+        de: `https://lorcanary.com/de/cards/${cardNumber}`,
+        en: `https://lorcanary.com/en/cards/${cardNumber}`,
       },
     },
   };
@@ -95,12 +96,8 @@ export async function generateMetadata(
   return metadata;
 }
 
-export default async function Page({
-  params,
-}: {
-  params: Promise<{ name: string }>;
-}) {
-  const id = (await params).name;
+export default async function Page({ params }: Props) {
+  const id = (await params).id.padStart(3, "0");
 
   const card: Card = await fetch(url, { cache: "force-cache" })
     .then((res) => res.json())
