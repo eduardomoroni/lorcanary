@@ -73,6 +73,7 @@ export async function generateMetadata(
       },
     ],
   };
+
   const metadata: Metadata = {
     keywords: ["Disney Lorcana", "Lorcana", alt],
     robots: "index, follow",
