@@ -20,6 +20,8 @@ export const revalidate = 86400; // 24 hours
 // Next.js will server-render the page on-demand.
 export const dynamicParams = true; // or false, to 404 on unknown paths
 
+export const dynamic = "force-static";
+
 const url = "https://play.lorcanito.com/api/sets/004";
 
 type Props = {
@@ -100,7 +102,7 @@ export default async function Page({
 }) {
   const id = (await params).name;
 
-  const card: Card = await fetch(url)
+  const card: Card = await fetch(url, { cache: "force-cache" })
     .then((res) => res.json())
     .then((data) => {
       return data.cards.find(
