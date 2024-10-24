@@ -126,7 +126,7 @@ export function createCardUrl(
         ? pad(enchantedCard || number, 3)
         : pad(number, 3);
 
-    let url = `https://six-inks.pages.dev/assets/images/cards/${language.toLocaleUpperCase()}/${edition}/${cardNumber}.avif`;
+    const url = `https://six-inks.pages.dev/assets/images/cards/${language.toLocaleUpperCase()}/${edition}/${cardNumber}.avif`;
 
     if (opt?.imageOnly) {
         return `https://six-inks.pages.dev/assets/images/cards/${edition}/art_only/${cardNumber}.avif`;
