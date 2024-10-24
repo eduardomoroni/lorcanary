@@ -1,7 +1,11 @@
+import Image from "next/image";
+
 interface Card {
     id: string
     title: string
     content: string
+    url: string
+    name: string
 }
 
 // Next.js will invalidate the cache when a
@@ -13,7 +17,7 @@ export const revalidate = 86400 // 24 hours
 // Next.js will server-render the page on-demand.
 export const dynamicParams = true // or false, to 404 on unknown paths
 
-const  url = 'https://play.lorcanito.com/api/sets/001';
+const  url = 'https://play.lorcanito.com/api/sets/004';
 
 export async function generateStaticParams() {
 
@@ -39,6 +43,7 @@ export default async function Page({ params }: { params: { name: string } }) {
         <main>
             <h1>{id}</h1>
             <p>{JSON.stringify(card)}</p>
+            <Image src={card.url} alt={card.name} height={1024} width={734} />
         </main>
     )
 }
