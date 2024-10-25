@@ -57,17 +57,19 @@ export default async function Page({ params }: CardPageProps) {
     };
   }
 
+  const alt = cardFullName(card.name, card.title);
   return (
     <main>
-      <h1>{cardNameToUrlSafeString(card.name, card.title)}</h1>
-      <p>{JSON.stringify(card)}</p>
+      <h1>{alt}</h1>
       <Image
         unoptimized
         src={createCardUrl(card.set, Number(card.number))}
-        alt={cardFullName(card.name, card.title)}
+        alt={alt}
         height={1024}
         width={734}
       />
+      <h2>{cardNameToUrlSafeString(card.name, card.title)}</h2>
+      <p>{JSON.stringify(card)}</p>
     </main>
   );
 }
