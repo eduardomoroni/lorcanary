@@ -69,7 +69,20 @@ export default async function Page({ params }: CardPageProps) {
         width={734}
       />
       <h2>{cardNameToUrlSafeString(card.name, card.title)}</h2>
-      <p>{JSON.stringify(card)}</p>
+
+      {Object.entries(card).map(([key, value]) => {
+        console.log(key, value);
+
+        if (key === "abilities") {
+          return null;
+        }
+
+        return (
+          <p key={key}>
+            <strong>{key}</strong>: {value}
+          </p>
+        );
+      })}
     </main>
   );
 }
