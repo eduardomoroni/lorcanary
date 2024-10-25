@@ -2,15 +2,9 @@ import Image from "next/image";
 import { createCardUrl } from "@/spaces/cards/utils";
 import type { Metadata, ResolvingMetadata } from "next";
 import { OpenGraph } from "next/dist/lib/metadata/types/opengraph-types";
-
-interface Card {
-  id: string;
-  number: string;
-  title: string;
-  content: string;
-  url: string;
-  name: string;
-}
+import { LorcanitoCard } from "@/shared/types/lorcanito";
+import { cardFullName, cardNameToUrlSafeString } from "@/shared/strings";
+import { getCardByName, getCardBySetAndNumber } from "@/data/lorcanitoCards";
 
 // Next.js will invalidate the cache when a
 // request comes in, at most once every 60 seconds.
@@ -23,20 +17,32 @@ export const dynamicParams = false; // or false, to 404 on unknown paths
 
 export const dynamic = "force-static";
 
-const url = "https://play.lorcanito.com/api/sets/004";
-
 type Props = {
-  params: Promise<{ setOrName: string; number: string }>;
+  params: Promise<{ setOrName: string; number?: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 // https://nextjs.org/docs/app/building-your-application/optimizing/metadata
 export async function generateStaticParams() {
+  const allCardNames: LorcanitoCard[] = await fetch(
+    "https://play.lorcanito.com/api/sets/all",
+    { cache: "force-cache" },
+  )
+    .then((res) => res.json())
+    .then((data) => {
+      return data.cards.map((card: LorcanitoCard) =>
+        cardNameToUrlSafeString(card.name, card.title),
+      );
+    });
+
+  // This returns all possible permutations of card numbers and set names
+  // Allowing the server to know what pages to generate at build time
+  // Currently the pages are being generated at runtime, so improve build time
   const paths = [...Array(204).keys()].map((i) => {
     return {
       params: {
         number: i.toString().padStart(3, "0"),
-        setOrName: ["001", "002", "003", "004", "005", "006"],
+        setOrName: ["001", "002", "003", "004", "005", "006", ...allCardNames],
       },
     };
   });
@@ -44,13 +50,13 @@ export async function generateStaticParams() {
 }
 
 export async function generateMetadata(
-  { params, searchParams }: Props,
+  { params }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
   const resolvedParams = await params;
   console.log(resolvedParams);
   const alt = "Card Name";
-  const cardNumber = resolvedParams.number.padStart(3, "0");
+  const cardNumber = resolvedParams.number?.padStart(3, "0");
 
   const openGraph: OpenGraph = {
     title: "Lorcanary Card Database",
@@ -101,24 +107,29 @@ export async function generateMetadata(
 }
 
 export default async function Page({ params }: Props) {
-  const id = (await params).number.padStart(3, "0");
+  const { number, setOrName } = await params;
 
-  const card: Card = await fetch(url, { cache: "force-cache" })
-    .then((res) => res.json())
-    .then((data) => {
-      return data.cards.find(
-        (card: { number: number }) => String(card.number) === String(id),
-      );
-    });
+  const isSet = !!number && !isNaN(Number(setOrName));
+
+  const card = await (isSet
+    ? getCardBySetAndNumber(setOrName, number)
+    : getCardByName(setOrName));
+
+  if (!card) {
+    return {
+      status: 404,
+      error: new Error("Card not found"),
+    };
+  }
 
   return (
     <main>
-      <h1>{id}</h1>
+      <h1>{cardNameToUrlSafeString(card.name, card.title)}</h1>
       <p>{JSON.stringify(card)}</p>
       <Image
         unoptimized
-        src={createCardUrl("URR", Number(id))}
-        alt={card.name}
+        src={createCardUrl(card.set, Number(card.number))}
+        alt={cardFullName(card.name, card.title)}
         height={1024}
         width={734}
       />
