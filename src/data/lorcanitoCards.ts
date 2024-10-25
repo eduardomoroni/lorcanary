@@ -30,3 +30,15 @@ export async function getCardByName(
       ),
     );
 }
+
+export async function allLorcanitoCardNames(): Promise<string[]> {
+  return fetch(`https://play.lorcanito.com/api/sets/all`, {
+    cache: "force-cache",
+  })
+    .then((res) => res.json())
+    .then((data) =>
+      data.cards.map((card: LorcanitoCard) =>
+        cardNameToUrlSafeString(card.name, card.title),
+      ),
+    );
+}
