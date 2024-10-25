@@ -6,6 +6,11 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Compensates for fixed header*/
+main {
+  margin-top: 88px;
+}
+
 @layer base {
   :root {
     --background: 0 0% 100%;
