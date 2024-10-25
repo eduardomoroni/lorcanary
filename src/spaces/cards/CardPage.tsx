@@ -5,6 +5,7 @@ import { OpenGraph } from "next/dist/lib/metadata/types/opengraph-types";
 
 interface Card {
   id: string;
+  number: string;
   title: string;
   content: string;
   url: string;
@@ -18,35 +19,38 @@ export const revalidate = 86400; // 24 hours
 // We'll prerender only the params from `generateStaticParams` at build time.
 // If a request comes in for a path that hasn't been generated,
 // Next.js will server-render the page on-demand.
-export const dynamicParams = true; // or false, to 404 on unknown paths
+export const dynamicParams = false; // or false, to 404 on unknown paths
 
 export const dynamic = "force-static";
 
 const url = "https://play.lorcanito.com/api/sets/004";
 
 type Props = {
-  params: Promise<{ id: string }>;
+  params: Promise<{ setOrName: string; number: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
 // https://nextjs.org/docs/app/building-your-application/optimizing/metadata
 export async function generateStaticParams() {
-  return [...Array(204).keys()].map((i) => {
+  const paths = [...Array(204).keys()].map((i) => {
     return {
       params: {
-        id: i.toString().padStart(3, "0"),
+        number: i.toString().padStart(3, "0"),
+        setOrName: ["001", "002", "003", "004", "005", "006"],
       },
     };
   });
+  return paths;
 }
 
 export async function generateMetadata(
   { params, searchParams }: Props,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  console.log(params);
+  const resolvedParams = await params;
+  console.log(resolvedParams);
   const alt = "Card Name";
-  const cardNumber = (await params).id.padStart(3, "0");
+  const cardNumber = resolvedParams.number.padStart(3, "0");
 
   const openGraph: OpenGraph = {
     title: "Lorcanary Card Database",
@@ -97,7 +101,7 @@ export async function generateMetadata(
 }
 
 export default async function Page({ params }: Props) {
-  const id = (await params).id.padStart(3, "0");
+  const id = (await params).number.padStart(3, "0");
 
   const card: Card = await fetch(url, { cache: "force-cache" })
     .then((res) => res.json())
