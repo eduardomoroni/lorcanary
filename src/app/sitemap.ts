@@ -2,9 +2,13 @@ import type { MetadataRoute } from "next";
 import type { LorcanitoCard } from "@/shared/types/lorcanito";
 import { getAllCards } from "@/data/lorcanitoCards";
 import { cardNameToUrlSafeString } from "@/shared/strings";
+import { convertCardSet } from "@/spaces/cards/utils";
+
+const lastModified = "2024-10-27";
+const baseUrl = `https://lorcanary.com`;
 
 function createCardPageSitemap(card: LorcanitoCard): MetadataRoute.Sitemap {
-  const set = card.set.padStart(3, "0");
+  const set = convertCardSet(card.set);
   const number = card.number.toString().padStart(3, "0");
   const urlSafeName = cardNameToUrlSafeString(card.name, card.title);
 
@@ -17,7 +21,7 @@ function createCardPageSitemap(card: LorcanitoCard): MetadataRoute.Sitemap {
   const sitemap: MetadataRoute.Sitemap = [
     {
       priority: 0.5,
-      lastModified: "2024-10-24",
+      lastModified: lastModified,
       changeFrequency: "weekly",
       images,
       url: `https://lorcanary.com/cards/${set}/${number}`,
@@ -31,7 +35,7 @@ function createCardPageSitemap(card: LorcanitoCard): MetadataRoute.Sitemap {
     },
     {
       priority: 1,
-      lastModified: "2024-10-24",
+      lastModified: lastModified,
       changeFrequency: "weekly",
       images,
       url: `https://lorcanary.com/cards/${urlSafeName}`,
@@ -44,6 +48,24 @@ function createCardPageSitemap(card: LorcanitoCard): MetadataRoute.Sitemap {
       },
     },
   ];
+
+  if (card.title) {
+    const endpoint = `${cardNameToUrlSafeString(card.name)}/${cardNameToUrlSafeString(card.title)}`;
+    sitemap.push({
+      priority: 0.75,
+      lastModified: lastModified,
+      changeFrequency: "weekly",
+      images,
+      url: `${baseUrl}/cards/${endpoint}`,
+      alternates: {
+        languages: {
+          fr: `${baseUrl}/fr/cards/${endpoint}`,
+          de: `${baseUrl}/de/cards/${endpoint}`,
+          en: `${baseUrl}/cards/${endpoint}`,
+        },
+      },
+    });
+  }
 
   return sitemap;
 }

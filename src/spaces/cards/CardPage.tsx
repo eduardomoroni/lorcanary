@@ -42,47 +42,52 @@ export async function generateStaticParams() {
 }
 
 export default async function Page({ params }: CardPageProps) {
-  const { number, setOrName } = await params;
+  try {
+    const { number, setOrName } = await params;
 
-  const isSet = !!number && !isNaN(Number(setOrName));
+    const isSet = !!number && !isNaN(Number(setOrName));
 
-  const card = await (isSet
-    ? getCardBySetAndNumber(setOrName, number)
-    : getCardByName(setOrName));
+    const card = await (isSet
+      ? getCardBySetAndNumber(setOrName, number)
+      : getCardByName(setOrName, number));
 
-  if (!card) {
+    if (!card) {
+      return {
+        status: 404,
+        error: new Error("Card not found"),
+      };
+    }
+
+    const alt = cardFullName(card.name, card.title);
+    return (
+      <main>
+        <h1>{alt}</h1>
+        <Image
+          unoptimized
+          src={createCardUrl(card.set, Number(card.number))}
+          alt={alt}
+          height={1024}
+          width={734}
+        />
+        <h2>{cardNameToUrlSafeString(card.name, card.title)}</h2>
+
+        {Object.entries(card).map(([key, value]) => {
+          if (key === "abilities") {
+            return null;
+          }
+
+          return (
+            <p key={key}>
+              <strong>{key}</strong>: {value}
+            </p>
+          );
+        })}
+      </main>
+    );
+  } catch (error) {
     return {
       status: 404,
-      error: new Error("Card not found"),
+      error: error,
     };
   }
-
-  const alt = cardFullName(card.name, card.title);
-  return (
-    <main>
-      <h1>{alt}</h1>
-      <Image
-        unoptimized
-        src={createCardUrl(card.set, Number(card.number))}
-        alt={alt}
-        height={1024}
-        width={734}
-      />
-      <h2>{cardNameToUrlSafeString(card.name, card.title)}</h2>
-
-      {Object.entries(card).map(([key, value]) => {
-        console.log(key, value);
-
-        if (key === "abilities") {
-          return null;
-        }
-
-        return (
-          <p key={key}>
-            <strong>{key}</strong>: {value}
-          </p>
-        );
-      })}
-    </main>
-  );
 }

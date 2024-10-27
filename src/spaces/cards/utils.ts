@@ -95,6 +95,11 @@ const EDITION_MAP: Record<string, string> = {
   ITI: "003",
   URR: "004",
   SSK: "005",
+  "001": "001",
+  "002": "002",
+  "003": "003",
+  "004": "004",
+  "005": "005",
   "006": "006",
 };
 
@@ -137,4 +142,9 @@ export function createCardUrl(
   }
 
   return url;
+}
+
+export function convertCardSet(cardSet: string = ""): string {
+  const paddedSet = cardSet.padStart(3, "0");
+  return EDITION_MAP[paddedSet] || paddedSet;
 }

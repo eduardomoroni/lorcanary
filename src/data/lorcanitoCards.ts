@@ -25,11 +25,14 @@ export async function getAllCards(): Promise<{ cards: LorcanitoCard[] }> {
 
 export async function getCardByName(
   name: string,
+  title?: string,
 ): Promise<LorcanitoCard | undefined> {
   return getAllCards().then((data) =>
     data.cards.find(
       (card: LorcanitoCard) =>
-        cardNameToUrlSafeString(card.name, card.title) === name,
+        cardNameToUrlSafeString(card.name, card.title) === name ||
+        cardNameToUrlSafeString(card.name, card.title) ===
+          cardNameToUrlSafeString(name, title),
     ),
   );
 }
