@@ -6,6 +6,7 @@ import {
   getCardByName,
   getCardBySetAndNumber,
 } from "@/data/lorcanitoCards";
+import Head from "next/head";
 
 // Next.js will invalidate the cache when a
 // request comes in, at most once every 60 seconds.
@@ -59,30 +60,60 @@ export default async function Page({ params }: CardPageProps) {
     }
 
     const alt = cardFullName(card.name, card.title);
+    const urlSafeName = cardNameToUrlSafeString(card.name, card.title);
+
     return (
-      <main>
-        <h1>{alt}</h1>
-        <Image
-          unoptimized
-          src={createCardUrl(card.set, Number(card.number))}
-          alt={alt}
-          height={1024}
-          width={734}
-        />
-        <h2>{cardNameToUrlSafeString(card.name, card.title)}</h2>
+      <>
+        <Head>
+          <link
+            rel="alternate"
+            hrefLang="en"
+            href={`https://lorcanary.com/cards/en/${urlSafeName}`}
+          />
+          <link
+            rel="alternate"
+            hrefLang="de"
+            href={`https://lorcanary.com/cards/de/${urlSafeName}`}
+          />
+          <link
+            rel="alternate"
+            hrefLang="fr"
+            href={`https://lorcanary.com/cards/fr/${urlSafeName}`}
+          />
+          <link
+            rel="alternate"
+            hrefLang="x-default"
+            href={`https://lorcanary.com/cards/${urlSafeName}`}
+          />
+          <link
+            rel="canonical"
+            href={`https://lorcanary.com/cards/${urlSafeName}`}
+          />
+        </Head>
+        <main>
+          <h1>{alt}</h1>
+          <Image
+            unoptimized
+            src={createCardUrl(card.set, Number(card.number))}
+            alt={alt}
+            height={1024}
+            width={734}
+          />
+          <h2>{cardNameToUrlSafeString(card.name, card.title)}</h2>
 
-        {Object.entries(card).map(([key, value]) => {
-          if (key === "abilities") {
-            return null;
-          }
+          {Object.entries(card).map(([key, value]) => {
+            if (key === "abilities") {
+              return null;
+            }
 
-          return (
-            <p key={key}>
-              <strong>{key}</strong>: {value}
-            </p>
-          );
-        })}
-      </main>
+            return (
+              <p key={key}>
+                <strong>{key}</strong>: {value}
+              </p>
+            );
+          })}
+        </main>
+      </>
     );
   } catch (error) {
     return {
