@@ -7,6 +7,16 @@ import { convertCardSet } from "@/spaces/cards/utils";
 const lastModified = "2024-10-27";
 const baseUrl = `https://lorcanary.com`;
 
+function generateAlternates(url: string) {
+  return {
+    languages: {
+      fr: url.replace(".com/cards", ".com/fr/cards"),
+      de: url.replace(".com/cards", ".com/de/cards"),
+      en: url.replace(".com/cards", ".com/en/cards"),
+    },
+  } as const;
+}
+
 function createCardPageSitemap(card: LorcanitoCard): MetadataRoute.Sitemap {
   const set = convertCardSet(card.set);
   const number = card.number.toString().padStart(3, "0");
@@ -27,13 +37,9 @@ function createCardPageSitemap(card: LorcanitoCard): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       images,
       url: `https://lorcanary.com/cards/${set}/${number}`,
-      alternates: {
-        languages: {
-          fr: `https://lorcanary.com/fr/cards/${set}/${number}`,
-          de: `https://lorcanary.com/de/cards/${set}/${number}`,
-          en: `https://lorcanary.com/en/cards/${set}/${number}`,
-        },
-      },
+      alternates: generateAlternates(
+        `https://lorcanary.com/cards/${set}/${number}`,
+      ),
     },
     {
       priority: 1,
@@ -41,13 +47,9 @@ function createCardPageSitemap(card: LorcanitoCard): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       images,
       url: `https://lorcanary.com/cards/${urlSafeName}`,
-      alternates: {
-        languages: {
-          fr: `https://lorcanary.com/fr/cards/${urlSafeName}`,
-          de: `https://lorcanary.com/de/cards/${urlSafeName}`,
-          en: `https://lorcanary.com/en/cards/${urlSafeName}`,
-        },
-      },
+      alternates: generateAlternates(
+        `https://lorcanary.com/cards/${urlSafeName}`,
+      ),
     },
   ];
 
@@ -59,13 +61,7 @@ function createCardPageSitemap(card: LorcanitoCard): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       images,
       url: `${baseUrl}/cards/${endpoint}`,
-      alternates: {
-        languages: {
-          fr: `${baseUrl}/fr/cards/${endpoint}`,
-          de: `${baseUrl}/de/cards/${endpoint}`,
-          en: `${baseUrl}/cards/${endpoint}`,
-        },
-      },
+      alternates: generateAlternates(`${baseUrl}/cards/${endpoint}`),
     });
   }
 
