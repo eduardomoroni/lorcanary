@@ -69,10 +69,11 @@ export async function generateMetadata(
     description: "Your Lorcana Library!",
     applicationName: "Lorcanary",
     alternates: {
+      // TODO: IMPROVE THIS TO THE ACTUAL URL, not the one with alt
       languages: {
-        fr: `https://lorcanary.com/fr/cards/${cardSet}/${cardNumber}`,
-        de: `https://lorcanary.com/de/cards/${cardSet}/${cardNumber}`,
-        en: `https://lorcanary.com/en/cards/${cardSet}/${cardNumber}`,
+        fr: `https://lorcanary.com/fr/cards/${alt}`,
+        de: `https://lorcanary.com/de/cards/${alt}`,
+        en: `https://lorcanary.com/en/cards/${alt}`,
       },
     },
   };
