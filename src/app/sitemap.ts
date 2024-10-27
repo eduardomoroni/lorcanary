@@ -13,9 +13,11 @@ function createCardPageSitemap(card: LorcanitoCard): MetadataRoute.Sitemap {
   const urlSafeName = cardNameToUrlSafeString(card.name, card.title);
 
   const images = [
-    `https://six-inks.pages.dev/assets/images/cards/${set}/art_only/${number}.webp`,
+    // `https://six-inks.pages.dev/assets/images/cards/${set}/art_only/${number}.webp`,
     `https://six-inks.pages.dev/assets/images/cards/EN/${set}/${number}.webp`,
-    `https://six-inks.pages.dev/assets/images/cards/EN/${set}/art_and_name/${number}.webp`,
+    `https://six-inks.pages.dev/assets/images/cards/FR/${set}/${number}.webp`,
+    `https://six-inks.pages.dev/assets/images/cards/DE/${set}/${number}.webp`,
+    // `https://six-inks.pages.dev/assets/images/cards/EN/${set}/art_and_name/${number}.webp`,
   ];
 
   const sitemap: MetadataRoute.Sitemap = [

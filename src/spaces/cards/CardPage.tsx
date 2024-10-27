@@ -1,5 +1,3 @@
-import Image from "next/image";
-import { createCardUrl } from "@/spaces/cards/utils";
 import { cardFullName, cardNameToUrlSafeString } from "@/shared/strings";
 import {
   allLorcanitoCardNames,
@@ -7,6 +5,7 @@ import {
   getCardBySetAndNumber,
 } from "@/data/lorcanitoCards";
 import Head from "next/head";
+import { CardImage } from "@/spaces/cards/CardImage";
 
 // Next.js will invalidate the cache when a
 // request comes in, at most once every 60 seconds.
@@ -85,6 +84,7 @@ export default async function Page({ params }: CardPageProps) {
             hrefLang="x-default"
             href={`https://lorcanary.com/cards/${urlSafeName}`}
           />
+          {/*https://developers.google.com/search/docs/crawling-indexing/consolidate-duplicate-urls*/}
           <link
             rel="canonical"
             href={`https://lorcanary.com/cards/${urlSafeName}`}
@@ -92,13 +92,7 @@ export default async function Page({ params }: CardPageProps) {
         </Head>
         <main>
           <h1>{alt}</h1>
-          <Image
-            unoptimized
-            src={createCardUrl(card.set, Number(card.number))}
-            alt={alt}
-            height={1024}
-            width={734}
-          />
+          <CardImage card={card} />
           <h2>{cardNameToUrlSafeString(card.name, card.title)}</h2>
 
           {Object.entries(card).map(([key, value]) => {
