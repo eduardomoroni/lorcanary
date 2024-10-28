@@ -39,6 +39,7 @@ function Navbar() {
             <a
               target="_blank"
               href="https://github.com/eduardomoroni/lorcanary"
+              aria-label="Link to the GitHub repository"
               className="m800:hidden flex items-center justify-center rounded-base border-2 border-border shadow-nav dark:shadow-navDark dark:border-darkBorder p-2 transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none dark:hover:shadow-none"
             >
               <svg
