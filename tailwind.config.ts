@@ -1,108 +1,110 @@
-import type { Config } from "tailwindcss";
-
-const shadCNPreset = {
-  theme: {
-    extend: {
-      colors: {
-        background: "hsl(var(--background))",
-        foreground: "hsl(var(--foreground))",
-        card: {
-          DEFAULT: "hsl(var(--card))",
-          foreground: "hsl(var(--card-foreground))",
-        },
-        popover: {
-          DEFAULT: "hsl(var(--popover))",
-          foreground: "hsl(var(--popover-foreground))",
-        },
-        primary: {
-          DEFAULT: "hsl(var(--primary))",
-          foreground: "hsl(var(--primary-foreground))",
-        },
-        secondary: {
-          DEFAULT: "hsl(var(--secondary))",
-          foreground: "hsl(var(--secondary-foreground))",
-        },
-        muted: {
-          DEFAULT: "hsl(var(--muted))",
-          foreground: "hsl(var(--muted-foreground))",
-        },
-        accent: {
-          DEFAULT: "hsl(var(--accent))",
-          foreground: "hsl(var(--accent-foreground))",
-        },
-        destructive: {
-          DEFAULT: "hsl(var(--destructive))",
-          foreground: "hsl(var(--destructive-foreground))",
-        },
-        border: "hsl(var(--border))",
-        input: "hsl(var(--input))",
-        ring: "hsl(var(--ring))",
-        chart: {
-          "1": "hsl(var(--chart-1))",
-          "2": "hsl(var(--chart-2))",
-          "3": "hsl(var(--chart-3))",
-          "4": "hsl(var(--chart-4))",
-          "5": "hsl(var(--chart-5))",
-        },
-      },
-      borderRadius: {
-        lg: "var(--radius)",
-        md: "calc(var(--radius) - 2px)",
-        sm: "calc(var(--radius) - 4px)",
-      },
-    },
-  },
-};
-
-const neoBrutalismPreset = {
-  theme: {
-    extend: {
-      colors: {
-        main: "#a388ee",
-        mainAccent: "#9e66ff", // not needed for shadcn components
-        overlay: "rgba(0,0,0,0.8)", // background color overlay for alert dialogs, modals, etc.
-
-        // light mode
-        bg: "#e3dff2",
-        text: "#000",
-        border: "#000",
-
-        // dark mode
-        darkBg: "#272733",
-        darkText: "#eeefe9",
-        darkBorder: "#000",
-        secondaryBlack: "#212121", // opposite of plain white, not used pitch black because borders and box-shadows are that color
-      },
-      borderRadius: {
-        base: "5px",
-      },
-      boxShadow: {
-        light: "4px 4px 0px 0px #000",
-        dark: "4px 4px 0px 0px #000",
-      },
-      translate: {
-        boxShadowX: "4px",
-        boxShadowY: "4px",
-        reverseBoxShadowX: "-4px",
-        reverseBoxShadowY: "-4px",
-      },
-      fontWeight: {
-        base: "500",
-        heading: "700",
-      },
-    },
-  },
-};
-
-const config: Config = {
-  presets: [shadCNPreset, neoBrutalismPreset],
-  darkMode: ["class"],
+/** @type {import('tailwindcss').Config} */
+module.exports = {
   content: [
     "./src/pages/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/components/**/*.{js,ts,jsx,tsx,mdx}",
     "./src/app/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/layouts/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/markdown/**/*.{js,ts,jsx,tsx,mdx}",
+    "./src/mdx-components.tsx",
   ],
+  theme: {
+    extend: {
+      colors: {
+        main: "var(--main)",
+        main50: "var(--main50)",
+        mainAccent: "var(--main-accent)",
+        overlay: "rgba(0,0,0,0.8)",
 
-  plugins: [require("tailwindcss-animate"), require("@tailwindcss/typography")],
+        // light mode
+        bg: "var(--bg)",
+        text: "black",
+        border: "var(--border)",
+
+        // dark mode
+        darkBg: "var(--dark-bg)",
+        darkText: "#e6e6e6",
+        darkBorder: "var(--dark-border)",
+        darkNavBorder: "#000",
+
+        secondaryBlack: "#212121",
+      },
+      translate: {
+        boxShadowX: "var(--horizontal-box-shadow)",
+        boxShadowY: "var(--vertical-box-shadow)",
+        reverseBoxShadowX: "calc(var(--horizontal-box-shadow) * -1)",
+        reverseBoxShadowY: "calc(var(--vertical-box-shadow) * -1)",
+      },
+      boxShadow: {
+        light:
+          "var(--horizontal-box-shadow) var(--vertical-box-shadow) 0px 0px var(--border)",
+        dark: "var(--horizontal-box-shadow) var(--vertical-box-shadow) 0px 0px var(--dark-border)",
+        nav: "4px 4px 0px 0px var(--border)",
+        navDark: "4px 4px 0px 0px var(--dark-border)",
+      },
+      fontWeight: {
+        base: "var(--base-font-weight)",
+        heading: "var(--heading-font-weight)",
+      },
+      borderRadius: {
+        base: "var(--border-radius)",
+      },
+      keyframes: {
+        marquee: {
+          "0%": { transform: "translateX(0%)" },
+          "100%": { transform: "translateX(-100%)" },
+        },
+        marquee2: {
+          "0%": { transform: "translateX(100%)" },
+          "100%": { transform: "translateX(0%)" },
+        },
+        "accordion-down": {
+          from: { height: "0" },
+          to: { height: "var(--radix-accordion-content-height)" },
+        },
+        "accordion-up": {
+          from: { height: "var(--radix-accordion-content-height)" },
+          to: { height: "0" },
+        },
+        "caret-blink": {
+          "0%,70%,100%": { opacity: "1" },
+          "20%,50%": { opacity: "0" },
+        },
+      },
+      animation: {
+        marquee: "marquee 5s linear infinite",
+        marquee2: "marquee2 5s linear infinite",
+        "accordion-down": "accordion-down 0.2s ease-out",
+        "accordion-up": "accordion-up 0.2s ease-out",
+        "caret-blink": "caret-blink 1.25s ease-out infinite",
+      },
+      screens: {
+        m1600: { raw: "(max-width: 1600px)" },
+        m1500: { raw: "(max-width: 1500px)" },
+        m1400: { raw: "(max-width: 1400px)" },
+        m1300: { raw: "(max-width: 1300px)" },
+        m1250: { raw: "(max-width: 1250px)" },
+        m1200: { raw: "(max-width: 1200px)" },
+        m1100: { raw: "(max-width: 1100px)" },
+        m1000: { raw: "(max-width: 1000px)" },
+        m900: { raw: "(max-width: 900px)" },
+        m850: { raw: "(max-width: 850px)" },
+        m800: { raw: "(max-width: 800px)" },
+        m750: { raw: "(max-width: 750px)" },
+        m700: { raw: "(max-width: 700px)" },
+        m650: { raw: "(max-width: 650px)" },
+        m600: { raw: "(max-width: 600px)" },
+        m550: { raw: "(max-width: 550px)" },
+        m500: { raw: "(max-width: 500px)" },
+        m450: { raw: "(max-width: 450px)" },
+        m400: { raw: "(max-width: 400px)" },
+        m350: { raw: "(max-width: 350px)" },
+      },
+      width: {
+        container: "1300px",
+      },
+    },
+  },
+  plugins: [require("@tailwindcss/typography"), require("tailwindcss-animate")],
+  darkMode: "class",
 };
-export default config;
