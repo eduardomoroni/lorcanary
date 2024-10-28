@@ -1,6 +1,6 @@
 export default async function Footer() {
   return (
-    <footer className="m500:text-sm z-30 bg-white px-5 py-5 text-center font-base dark:bg-secondaryBlack">
+    <footer className="m500:text-sm z-30 bg-main50 px-5 py-5 text-center font-base dark:bg-secondaryBlack">
       We are not affiliated with or endorsed by The Walt Disney Company or its
       subsidiaries. <br />
       All Disney-related artwork, trademarks, and intellectual property remain

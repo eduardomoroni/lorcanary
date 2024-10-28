@@ -10,12 +10,12 @@ main {
 :root {
   --main: #88aaee;
   --main50: #88aaeeb3;
-  --main-accent: #4d80e6;
+  --main-accent: #fc7303;
 
-  --bg: #dfe5f2;
+  --bg: #fff4e0;
   --border: #000;
 
-  --dark-bg: #272933;
+  --dark-bg: #FD9745;
   --dark-border: #000;
 
   --border-radius: 5px;
@@ -27,7 +27,7 @@ main {
 
 body,
 .scrollbar {
-  --sb-track-color: #ffffff;
+  --sb-track-color: #fff4e0;
   --sb-thumb-color: #000000;
   --sb-size: 16px;
 }
