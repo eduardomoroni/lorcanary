@@ -1,6 +1,9 @@
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
+  experimental: {
+    nextScriptWorkers: true,
+  },
   typescript: {
     // !! WARN !!
     // Dangerously allow production builds to successfully complete even if

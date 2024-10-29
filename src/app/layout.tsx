@@ -22,7 +22,7 @@ const AdsenseScript = () => {
     <Script
       // data-adtest="on"
       src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7112315789769225"
-      strategy="beforeInteractive"
+      strategy="worker"
       crossOrigin="anonymous"
     />
   );
@@ -33,9 +33,9 @@ function GoogleAnalytics({ measurementId = "G-7FCXZEL9ZX" }) {
     <>
       <Script
         src={`https://www.googletagmanager.com/gtag/js?id=${measurementId}`}
-        strategy="afterInteractive"
+        strategy="worker"
       />
-      <Script id="google-analytics" strategy="afterInteractive">
+      <Script id="google-analytics" strategy="worker">
         {`
           window.dataLayer = window.dataLayer || [];
           function gtag(){dataLayer.push(arguments);}
