@@ -22,7 +22,18 @@ export const metadata: Metadata = {
   description: "Disney Lorcana TCG Card Library",
 };
 
-export function GoogleAnalytics({ measurementId = "G-7FCXZEL9ZX" }) {
+const AdsenseScript = () => {
+  return (
+    <Script
+      // data-adtest="on"
+      src="https://pagead2.googlesyndication.com/pagead/js/adsbygoogle.js?client=ca-pub-7112315789769225"
+      strategy="beforeInteractive"
+      crossOrigin="anonymous"
+    />
+  );
+};
+
+function GoogleAnalytics({ measurementId = "G-7FCXZEL9ZX" }) {
   return (
     <>
       <Script
@@ -54,6 +65,7 @@ export default function RootLayout({
       lang="en"
     >
       <head>
+        <meta name="google-adsense-account" content="ca-pub-7112315789769225" />
         <GoogleAnalytics />
       </head>
       <body
@@ -68,6 +80,7 @@ export default function RootLayout({
           {children}
           <Footer />
         </ThemeProvider>
+        <AdsenseScript />
       </body>
     </html>
   );
