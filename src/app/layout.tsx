@@ -6,11 +6,6 @@ import { ThemeProvider } from "@/components/app/ThemeProvider";
 import Footer from "@/components/app/Footer";
 import Script from "next/script";
 
-const geistSans = localFont({
-  src: "./fonts/GeistVF.woff",
-  variable: "--font-geist-sans",
-  weight: "100 900",
-});
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
   variable: "--font-geist-mono",
@@ -96,7 +91,7 @@ export default function RootLayout({
         <GoogleAnalytics />
       </head>
       <body
-        className={`${geistSans.variable} ${geistMono.variable} antialiased bg-yellow-200 dark:bg-gray-800 text-black dark:text-white`}
+        className={`${geistMono.variable} antialiased bg-yellow-200 dark:bg-gray-800 text-black dark:text-white`}
       >
         <ThemeProvider
           attribute="class"
