@@ -53,6 +53,31 @@ function GoogleAnalytics({ measurementId = "G-7FCXZEL9ZX" }) {
   );
 }
 
+// <script type="speculationrules">
+//   {
+//     "prerender": [
+//   {
+//     "where": {
+//     "and": [
+//   {"href_matches": "/*"},
+//   {"not": {"href_matches": "/logout"}},
+//   {"not": {"href_matches": "/*\\?*(^|&)add-to-cart=*"}},
+//   {"not": {"selector_matches": ".no-prerender"}},
+//   {"not": {"selector_matches": "[rel~=nofollow]"}}
+//     ]
+//   }
+//   }
+//     ],
+//     "prefetch": [
+//   {
+//     "urls": ["next.html", "next2.html"],
+//     "requires": ["anonymous-client-ip-when-cross-origin"],
+//     "referrer_policy": "no-referrer"
+//   }
+//     ]
+//   }
+// </script>
+
 export default function RootLayout({
   children,
 }: Readonly<{
@@ -66,6 +91,8 @@ export default function RootLayout({
     >
       <head>
         <meta name="google-adsense-account" content="ca-pub-7112315789769225" />
+        <link rel="dns-prefetch" href="https://six-inks.pages.dev" />
+        <link rel="preconnect" href="https://six-inks.pages.dev" />
         <GoogleAnalytics />
       </head>
       <body

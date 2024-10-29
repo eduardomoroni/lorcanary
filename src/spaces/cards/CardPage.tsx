@@ -6,6 +6,7 @@ import {
 } from "@/data/lorcanitoCards";
 import Head from "next/head";
 import { CardImage } from "@/spaces/cards/CardImage";
+import { createCardUrl } from "@/spaces/cards/utils";
 
 // Next.js will invalidate the cache when a
 // request comes in, at most once every 60 seconds.
@@ -60,10 +61,14 @@ export default async function Page({ params }: CardPageProps) {
 
     const alt = cardFullName(card.name, card.title);
     const urlSafeName = cardNameToUrlSafeString(card.name, card.title);
+    const imageUrl = createCardUrl(card.set, Number(card.number), {
+      language: "EN",
+    });
 
     return (
       <>
         <Head>
+          <link rel="preload" href={imageUrl} as="image" />
           <link
             rel="alternate"
             hrefLang="en"
