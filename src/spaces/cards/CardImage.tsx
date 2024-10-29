@@ -11,8 +11,9 @@ export const CardImage = ({ card }: { card: LorcanitoCard }) => {
 
   return (
     <Image
+      unoptimized
       priority
-      quality={50}
+      quality={75}
       src={createCardUrl(card.set, Number(card.number))}
       alt={alt}
       height={1024 / 2}
