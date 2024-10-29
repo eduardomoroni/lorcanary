@@ -1,52 +1,52 @@
-'use client'
+"use client";
 
-import { CommandList } from 'cmdk'
-import { Check, ChevronsUpDown } from 'lucide-react'
+import { CommandList } from "cmdk";
+import { Check, ChevronsUpDown } from "lucide-react";
 
-import * as React from 'react'
+import * as React from "react";
 
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button";
 import {
   Command,
   CommandEmpty,
   CommandGroup,
   CommandInput,
   CommandItem,
-} from '@/components/ui/command'
+} from "@/components/ui/command";
 import {
   Popover,
   PopoverContent,
   PopoverTrigger,
-} from '@/components/ui/popover'
+} from "@/components/ui/popover";
 
-import { cn } from '@/lib/utils'
+import { cn } from "@/lib/utils";
 
 const frameworks = [
   {
-    value: 'next.js',
-    label: 'Next.js',
+    value: "next.js",
+    label: "Next.js",
   },
   {
-    value: 'sveltekit',
-    label: 'SvelteKit',
+    value: "sveltekit",
+    label: "SvelteKit",
   },
   {
-    value: 'nuxt.js',
-    label: 'Nuxt.js',
+    value: "nuxt.js",
+    label: "Nuxt.js",
   },
   {
-    value: 'remix',
-    label: 'Remix',
+    value: "remix",
+    label: "Remix",
   },
   {
-    value: 'astro',
-    label: 'Astro',
+    value: "astro",
+    label: "Astro",
   },
-]
+];
 
 export function ComboboxDemo() {
-  const [open, setOpen] = React.useState(false)
-  const [value, setValue] = React.useState('')
+  const [open, setOpen] = React.useState(false);
+  const [value, setValue] = React.useState("");
 
   return (
     <Popover open={open} onOpenChange={setOpen}>
@@ -56,10 +56,11 @@ export function ComboboxDemo() {
           role="combobox"
           aria-expanded={open}
           className="w-[200px] justify-between"
+          aria-label="Combo box button"
         >
           {value
             ? frameworks.find((framework) => framework.value === value)?.label
-            : 'Select framework...'}
+            : "Select framework..."}
           <ChevronsUpDown color="black" className="ml-2 h-4 w-4 shrink-0" />
         </Button>
       </PopoverTrigger>
@@ -74,14 +75,14 @@ export function ComboboxDemo() {
                   key={framework.value}
                   value={framework.value}
                   onSelect={(currentValue) => {
-                    setValue(currentValue === value ? '' : currentValue)
-                    setOpen(false)
+                    setValue(currentValue === value ? "" : currentValue);
+                    setOpen(false);
                   }}
                 >
                   <Check
                     className={cn(
-                      'mr-2 h-4 w-4',
-                      value === framework.value ? 'opacity-100' : 'opacity-0',
+                      "mr-2 h-4 w-4",
+                      value === framework.value ? "opacity-100" : "opacity-0",
                     )}
                   />
                   {framework.label}
@@ -92,5 +93,5 @@ export function ComboboxDemo() {
         </Command>
       </PopoverContent>
     </Popover>
-  )
+  );
 }

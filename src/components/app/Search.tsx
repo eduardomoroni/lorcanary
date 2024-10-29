@@ -43,6 +43,7 @@ export default function Search() {
     <>
       <Button
         onClick={() => setOpen(true)}
+        aria-label="Search"
         className="relative bg-white dark:text-white dark:bg-secondaryBlack shadow-nav dark:shadow-navDark hover:!translate-x-[4px] hover:!translate-y-[4px] hover:shadow-none dark:hover:shadow-none px-5 m1100:pr-14 m900:p-2 pr-20 m500:h-9 shrink-0 m500:w-9 m500:p-0 h-[44px] text-lg"
       >
         <span className="m1100:hidden">Search...</span>

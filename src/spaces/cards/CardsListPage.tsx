@@ -26,6 +26,7 @@ export default async function CardsListPage() {
             />
           </div>
           <Button
+            aria-label="Card Search Filters"
             variant="default"
             className="bg-indigo-600 hover:bg-indigo-700"
           >

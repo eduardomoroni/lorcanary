@@ -25,6 +25,7 @@ export default function MobileDrawer() {
       <div className="hidden w-[236px] m900:block m800:w-[108px] m400:w-9">
         <button
           onClick={() => setIsDrawerActive(true)}
+          aria-label="Open Drawer"
           className="flex items-center justify-center rounded-base border-2 border-border dark:border-darkBorder p-2 shadow-[4px_4px_0px_0px_rgba(0,0,0,1)] transition-all hover:translate-x-[3px] hover:translate-y-[3px] hover:shadow-none"
         >
           <Menu className="h-6 w-6 m500:h-4 m500:w-4" />

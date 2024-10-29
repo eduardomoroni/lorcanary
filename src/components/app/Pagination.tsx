@@ -1,33 +1,33 @@
-'use client'
+"use client";
 
-import { ArrowLeft, ArrowRight } from 'lucide-react'
+import { ArrowLeft, ArrowRight } from "lucide-react";
 
-import { useRouter } from 'next/navigation'
+import { useRouter } from "next/navigation";
 
-import { Button } from '@/components/ui/button'
+import { Button } from "@/components/ui/button";
 
 type Props = {
   prev?: {
-    name: string
-    path: string
-  }
+    name: string;
+    path: string;
+  };
   next?: {
-    name: string
-    path: string
-  }
-}
+    name: string;
+    path: string;
+  };
+};
 
 export default function Pagination({ prev, next }: Props) {
-  const router = useRouter()
+  const router = useRouter();
 
-  let justifyContent
+  let justifyContent;
 
   if (prev && next) {
-    justifyContent = 'justify-between'
+    justifyContent = "justify-between";
   } else if (prev) {
-    justifyContent = 'justify-start'
+    justifyContent = "justify-start";
   } else if (next) {
-    justifyContent = 'justify-end'
+    justifyContent = "justify-end";
   }
 
   return (
@@ -35,8 +35,9 @@ export default function Pagination({ prev, next }: Props) {
       {prev?.name && (
         <Button
           className="px-5 py-2 h-[unset] m400:px-3.5 m400:text-xs"
+          aria-label="Previous Page"
           onClick={() => {
-            router.push(prev.path)
+            router.push(prev.path);
           }}
         >
           <ArrowLeft className="mr-2 w-4 h-4" />
@@ -47,8 +48,9 @@ export default function Pagination({ prev, next }: Props) {
       {next?.name && (
         <Button
           className="px-5 py-2 h-[unset] m400:px-3.5 m400:text-xs"
+          aria-label="Next Page"
           onClick={() => {
-            router.push(next.path)
+            router.push(next.path);
           }}
         >
           {next.name}
@@ -56,5 +58,5 @@ export default function Pagination({ prev, next }: Props) {
         </Button>
       )}
     </div>
-  )
+  );
 }
