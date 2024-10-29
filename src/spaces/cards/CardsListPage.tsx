@@ -6,7 +6,6 @@ import { getAllCards } from "@/data/lorcanitoCards";
 import { createCardUrl } from "@/spaces/cards/utils";
 import { cardFullName, cardNameToUrlSafeString } from "@/shared/strings";
 import Image from "next/image";
-import Link from "next/link";
 
 export default async function CardsListPage() {
   const cards = await getAllCards();
@@ -41,7 +40,7 @@ export default async function CardsListPage() {
             const urlSafeName = cardNameToUrlSafeString(card.name, card.title);
 
             return (
-              <Link
+              <a
                 key={card.id}
                 href={`/cards/${urlSafeName}`}
                 className="block cursor-pointer"
@@ -97,7 +96,7 @@ export default async function CardsListPage() {
                     {/*</div>*/}
                   </CardFooter>
                 </Card>
-              </Link>
+              </a>
             );
           })}
         </div>
