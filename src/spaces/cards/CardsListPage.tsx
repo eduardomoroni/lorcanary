@@ -44,7 +44,6 @@ export default async function CardsListPage() {
               <Link
                 key={card.id}
                 href={`/cards/${urlSafeName}`}
-                prefetch={false}
                 className="block cursor-pointer"
               >
                 <Card
