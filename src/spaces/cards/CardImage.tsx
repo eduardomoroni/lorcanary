@@ -14,6 +14,7 @@ export const CardImage = ({ card }: { card: LorcanitoCard }) => {
       unoptimized
       priority
       quality={75}
+      className="rounded-lg"
       src={createCardUrl(card.set, Number(card.number))}
       alt={alt}
       height={1024 / 2}
