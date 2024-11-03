@@ -25,6 +25,13 @@ module.exports = {
         darkNavBorder: "#000",
 
         secondaryBlack: "#212121",
+
+        ruby: "#C74241",
+        sapphire: "#088BBC",
+        amethyst: "#7D3D7B",
+        emerald: "#2B9043",
+        amber: "#F0A82D",
+        steel: "#8D97A0",
       },
       translate: {
         boxShadowX: "var(--horizontal-box-shadow)",

@@ -23,6 +23,14 @@ main {
   --vertical-box-shadow: 4px;
   --heading-font-weight: 700;
   --base-font-weight: 500;
+
+  --ruby: #C74241;
+  --sapphire: #088BBC;
+  --emerald: #2B9043;
+  --amethyst: #7D3D7B;
+  --amber: #F0A82D;
+  --steel: #8D97A0;
+
 }
 
 body,

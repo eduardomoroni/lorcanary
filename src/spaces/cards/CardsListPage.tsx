@@ -11,7 +11,7 @@ export default async function CardsListPage() {
   const cards = await getAllCards();
 
   return (
-    <div className="min-h-screen bg-gray-900 text-white p-4">
+    <main className="min-h-screen bg-gray-900 text-white p-4">
       <div className="space-y-4">
         <div className="flex items-center space-x-2">
           <div className="relative flex-grow">
@@ -102,6 +102,6 @@ export default async function CardsListPage() {
           })}
         </div>
       </div>
-    </div>
+    </main>
   );
 }

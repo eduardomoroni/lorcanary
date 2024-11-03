@@ -1,20 +1,10 @@
-import Image from "next/image";
-import { ChevronRight, Home, Plus, Minus, X, ExternalLink } from "lucide-react";
-import Link from "next/link";
-
-import { Button } from "@/components/ui/button";
 import { Card, CardContent } from "@/components/ui/card";
 import { Badge } from "@/components/ui/badge";
-import { Separator } from "@/components/ui/separator";
-import {
-  Tooltip,
-  TooltipContent,
-  TooltipProvider,
-  TooltipTrigger,
-} from "@/components/ui/tooltip";
+
 import type { LorcanitoCard } from "@/shared/types/lorcanito";
 import { CardImage } from "@/spaces/cards/CardImage";
 import { cardFullName } from "@/shared/strings";
+import { clsx } from "clsx";
 
 const SET_MAP: Record<LorcanitoCard["set"], string> = {
   TFC: "The First Chapter",
@@ -35,7 +25,7 @@ const RARITY_MAP: Record<LorcanitoCard["rarity"], string> = {
 
 export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
   const fullName = cardFullName(card.name, card.title);
-  console.log(card);
+
   return (
     <div className="min-h-screen bg-background">
       {/*<header className="border-b">*/}
@@ -53,10 +43,22 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
       {/*</header>*/}
 
       {/* Main Content */}
-      <main className="container py-4 grid gap-6 lg:grid-cols-[1fr,400px]">
+      <main className="container py-4 grid gap-6 lg:grid-cols-[1fr,400px] mx-auto">
+        <div
+          className={
+            "bg-amethyst bg-amber bg-ruby bg-emerald bg-sapphire bg-steel"
+          }
+          style={{ display: "none", height: 0, width: 0 }}
+        />
+
         {/* Left Column - Card Image & Versions */}
         <div className="space-y-4">
-          <Card className="border-2 border-muted p-2 w-fit mx-auto">
+          <Card
+            className={clsx(
+              "border-2 border-muted p-2 w-fit mx-auto",
+              `bg-${card.color}`,
+            )}
+          >
             <CardImage card={card} />
           </Card>
 
@@ -83,7 +85,7 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
 
         {/* Right Column - Card Details */}
         <div className="space-y-4">
-          <div className="space-y-4">
+          <div className="space-y-4 mx-auto flex-col flex items-center">
             <div className="flex justify-between items-start">
               <div>
                 <h1 className="text-2xl font-bold">{fullName}</h1>
@@ -97,7 +99,7 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
             </div>
 
             <div className="flex gap-2">
-              <Badge variant="default">
+              <Badge variant="default" className={`bg-${card.color}`}>
                 {card.type.charAt(0).toUpperCase() + card.type.slice(1)}
               </Badge>
               {card.characteristics.map((characteristic) => (
@@ -110,7 +112,7 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
           </div>
 
           <Card>
-            <CardContent className="pt-6">
+            <CardContent className={clsx("pt-6", `bg-${card.color}`)}>
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -133,34 +135,34 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
                   </div>
                 </div>
 
-                <Separator />
+                {/*<Separator />*/}
 
-                <div>
-                  <h3 className="font-semibold mb-2">Description</h3>
-                  <p className="text-sm text-muted-foreground">
-                    A character with cost 2 or more can exert to sing this song
-                    for free.
-                  </p>
-                  <p className="text-sm">
-                    Chosen opponent reveals their hand and discards a
-                    non-character card of your choice.
-                  </p>
-                </div>
+                {/*<div>*/}
+                {/*  <h3 className="font-semibold mb-2">Description</h3>*/}
+                {/*  <p className="text-sm text-muted-foreground">*/}
+                {/*    A character with cost 2 or more can exert to sing this song*/}
+                {/*    for free.*/}
+                {/*  </p>*/}
+                {/*  <p className="text-sm">*/}
+                {/*    Chosen opponent reveals their hand and discards a*/}
+                {/*    non-character card of your choice.*/}
+                {/*  </p>*/}
+                {/*</div>*/}
 
-                <Separator />
+                {/*<Separator />*/}
 
-                <div>
-                  <h3 className="font-semibold mb-2">Flavor Text</h3>
-                  <p className="text-sm italic text-muted-foreground">
-                    {card.flavour}
-                  </p>
-                </div>
+                {/*<div>*/}
+                {/*  <h3 className="font-semibold mb-2">Flavor Text</h3>*/}
+                {/*  <p className="text-sm italic text-muted-foreground">*/}
+                {/*    {card.flavour}*/}
+                {/*  </p>*/}
+                {/*</div>*/}
               </div>
             </CardContent>
           </Card>
 
           <Card>
-            <CardContent className="pt-6">
+            <CardContent className={clsx("pt-6", `bg-${card.color}`)}>
               {Object.entries(card).map(([key, value]) => {
                 if (
                   [
