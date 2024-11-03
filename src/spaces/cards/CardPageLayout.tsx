@@ -91,9 +91,9 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
                   {`${card.set}-${String(card.number).padStart(3, "0")} ${fullName}`}
                 </p>
               </div>
-              <Button variant="default" size="icon">
-                <X className="h-4 w-4" />
-              </Button>
+              {/*<Button variant="default" size="icon">*/}
+              {/*  <X className="h-4 w-4" />*/}
+              {/*</Button>*/}
             </div>
 
             <div className="flex gap-2">
