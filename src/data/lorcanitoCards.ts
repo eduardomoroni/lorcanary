@@ -19,6 +19,9 @@ export async function getCardBySetAndNumber(
 export async function getAllCards(): Promise<{ cards: LorcanitoCard[] }> {
   const res = await fetch(`https://play.lorcanito.com/api/sets/all`, {
     cache: "force-cache",
+    next: {
+      revalidate: 3600 * 24, // 24 hours
+    },
   });
   return await res.json();
 }
