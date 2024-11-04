@@ -1,9 +1,12 @@
 "use client";
 
 import React, { useState, useRef, useEffect } from "react";
-import { Input } from "@/components/ui/input";
+import { Input, inputStyles } from "@/components/ui/input";
 import { X, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
+import { useLocalStorage } from "@uidotdev/usehooks";
+import { clsx } from "clsx";
+import { Badge } from "@/components/ui/badge";
 
 interface Filter {
   name: string;
@@ -36,12 +39,35 @@ interface CustomFilterInputProps
   autoFocus?: boolean;
 }
 
+const placeholder = "Type a filter (e.g., name:value)";
+
+export function SSRCardSearchFilterFallback() {
+  return (
+    <>
+      <Input
+        type="text"
+        disabled={true}
+        className="flex-grow bg-transparent outline-none placeholder-gray-400"
+        placeholder={placeholder}
+      />
+      <Button
+        aria-label="Card Search Filters"
+        variant="default"
+        disabled={true}
+        className="bg-indigo-600 hover:bg-indigo-700"
+      >
+        <SlidersHorizontal className="mr-2" size={20} />
+        Filters
+      </Button>
+    </>
+  );
+}
+
 export function CardSearchFilter({
   autoFocus = false,
   className,
   ...props
 }: CustomFilterInputProps) {
-  const [filters, setFilters] = useState<Filter[]>([]);
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
   const [activeFilter, setActiveFilter] = useState<FilterOption | null>(null);
@@ -49,12 +75,17 @@ export function CardSearchFilter({
   const [isFocused, setIsFocused] = useState(false);
   const inputRef = useRef<HTMLInputElement>(null);
   const suggestionsRef = useRef<HTMLDivElement>(null);
-
+  const [filters, setFilters] = useLocalStorage<Filter[]>(
+    "cardSearchFilters",
+    [],
+  );
   useEffect(() => {
     if (autoFocus && inputRef.current) {
       inputRef.current.focus();
     }
   }, [autoFocus]);
+
+  const activeFilterNames = filters.map((f) => f.name);
 
   useEffect(() => {
     const parts = input.split(":");
@@ -62,6 +93,7 @@ export function CardSearchFilter({
       setSuggestions(
         availableFilters
           .map((f) => f.name)
+          .filter((suggestion) => !activeFilterNames.includes(suggestion))
           .filter((f) => f.startsWith(parts[0].toLowerCase())),
       );
       setActiveFilter(null);
@@ -84,7 +116,7 @@ export function CardSearchFilter({
       setActiveFilter(null);
     }
     setActiveSuggestionIndex(-1);
-  }, [input]);
+  }, [input, JSON.stringify(activeFilterNames)]);
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setInput(e.target.value);
@@ -182,21 +214,24 @@ export function CardSearchFilter({
   return (
     <>
       <div className={`relative flex-grow ${className}`}>
-        <div className="flex flex-wrap gap-2 p-2 rounded-md bg-gray-800 border-gray-700 text-white">
+        <div
+          className={clsx(
+            // "flex flex-wrap gap-x-2 rounded-md bg-gray-800 border-gray-700 text-white",
+            inputStyles,
+            "gap-2 items-center px-2",
+          )}
+        >
           {filters.map((filter, index) => (
-            <div
-              key={index}
-              className="flex items-center bg-indigo-600 text-white rounded-full px-3 py-1 text-sm"
-            >
+            <Badge key={index} className="flex items-center p-1">
               <span className="font-semibold">{filter.name}:</span>
               <span className="ml-1">{filter.value}</span>
               <button
                 onClick={() => removeFilter(index)}
-                className="ml-2 text-white hover:text-gray-200"
+                className="ml-2 hover:text-gray-200"
               >
                 <X size={14} />
               </button>
-            </div>
+            </Badge>
           ))}
           <input
             ref={inputRef}
@@ -207,7 +242,7 @@ export function CardSearchFilter({
             onFocus={handleFocus}
             onBlur={handleBlur}
             className="flex-grow bg-transparent outline-none placeholder-gray-400"
-            placeholder="Type a filter (e.g., name:value)"
+            placeholder={placeholder}
             {...props}
           />
         </div>
@@ -244,3 +279,5 @@ export function CardSearchFilter({
     </>
   );
 }
+
+export default CardSearchFilter;

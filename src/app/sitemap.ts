@@ -68,7 +68,7 @@ function createCardPageSitemap(card: LorcanitoCard): MetadataRoute.Sitemap {
   return sitemap;
 }
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
-  const { cards } = await getAllCards();
+  const cards = await getAllCards();
 
   return cards.map((card) => createCardPageSitemap(card)).flat();
 }

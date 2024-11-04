@@ -16,14 +16,11 @@ export async function getCardBySetAndNumber(
     );
 }
 
-export async function getAllCards(): Promise<{ cards: LorcanitoCard[] }> {
+export async function getAllCards(): Promise<LorcanitoCard[]> {
   const res = await fetch(`https://play.lorcanito.com/api/sets/all`, {
     cache: "force-cache",
-    next: {
-      revalidate: 3600 * 24, // 24 hours
-    },
   });
-  return await res.json();
+  return (await res.json()).cards || [];
 }
 
 export async function getCardByName(
@@ -31,7 +28,7 @@ export async function getCardByName(
   title?: string,
 ): Promise<LorcanitoCard | undefined> {
   return getAllCards().then((data) =>
-    data.cards.find(
+    data.find(
       (card: LorcanitoCard) =>
         cardNameToUrlSafeString(card.name, card.title) === name ||
         cardNameToUrlSafeString(card.name, card.title) ===
@@ -42,7 +39,7 @@ export async function getCardByName(
 
 export async function allLorcanitoCardNames(): Promise<string[]> {
   return getAllCards().then((data) =>
-    data.cards.map((card: LorcanitoCard) =>
+    data.map((card: LorcanitoCard) =>
       cardNameToUrlSafeString(card.name, card.title),
     ),
   );
