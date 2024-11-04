@@ -84,8 +84,8 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
         </div>
 
         {/* Right Column - Card Details */}
-        <div className="space-y-4">
-          <div className="space-y-4 mx-auto flex-col flex items-center">
+        <div className="space-y-4 mx-8 sm:mx-0">
+          <div className="space-y-4 flex-col flex items-center">
             <div className="flex justify-between items-start">
               <div>
                 <h1 className="text-2xl font-bold">{fullName}</h1>
