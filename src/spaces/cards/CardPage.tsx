@@ -1,12 +1,8 @@
-import { cardFullName, cardNameToUrlSafeString } from "@/shared/strings";
 import {
   allLorcanitoCardNames,
   getCardByName,
   getCardBySetAndNumber,
 } from "@/data/lorcanitoCards";
-import Head from "next/head";
-import { CardImage } from "@/spaces/cards/CardImage";
-import { createCardUrl } from "@/spaces/cards/utils";
 import CardPageLayout from "@/spaces/cards/CardPageLayout";
 
 export type CardPageProps = {
@@ -48,12 +44,6 @@ export default async function Page({ params }: CardPageProps) {
         error: new Error("Card not found"),
       };
     }
-
-    const alt = cardFullName(card.name, card.title);
-    const urlSafeName = cardNameToUrlSafeString(card.name, card.title);
-    const imageUrl = createCardUrl(card.set, Number(card.number), {
-      language: "EN",
-    });
 
     return <CardPageLayout card={card} />;
   } catch (error) {

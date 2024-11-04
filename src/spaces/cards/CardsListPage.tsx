@@ -1,20 +1,10 @@
 import { getAllCards } from "@/data/lorcanitoCards";
+import { ClientOnly } from "@/components/app/ClientSideOnly";
 import { CardsList, SSRCardsListFallback } from "@/components/app/CardsList";
-import dynamic from "next/dynamic";
-import { Input } from "@/components/ui/input";
-
 import {
   CardSearchFilter,
   SSRCardSearchFilterFallback,
 } from "@/components/app/CardSearchFilter";
-import { ClientOnly } from "@/components/app/ClientSideOnly";
-// const CardSearchFilter = dynamic(
-//   () => import("@/components/app/CardSearchFilter"),
-//   {
-//     ssr: true,
-//     loading: () => <p>Loading your game...</p>,
-//   },
-// );
 
 export default async function CardsListPage() {
   const cards = await getAllCards();

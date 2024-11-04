@@ -5,6 +5,12 @@ import type { LorcanitoCard } from "@/shared/types/lorcanito";
 import { CardImage } from "@/spaces/cards/CardImage";
 import { cardFullName } from "@/shared/strings";
 import { clsx } from "clsx";
+import {
+  Accordion,
+  AccordionContent,
+  AccordionItem,
+  AccordionTrigger,
+} from "@/components/ui/accordion";
 
 const SET_MAP: Record<LorcanitoCard["set"], string> = {
   TFC: "The First Chapter",
@@ -26,8 +32,10 @@ const RARITY_MAP: Record<LorcanitoCard["rarity"], string> = {
 export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
   const fullName = cardFullName(card.name, card.title);
 
+  const bgColor = `bg-${card.color}`;
   return (
-    <div className="min-h-screen bg-background">
+    // 208 = 120px (footer) + 88px (header)
+    <div className="min-h-[calc(100vh-208px)] bg-background">
       {/*<header className="border-b">*/}
       {/*  <div className="container flex items-center gap-2 h-14">*/}
       {/*    <Link href="#" className="text-muted-foreground hover:text-primary">*/}
@@ -43,7 +51,7 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
       {/*</header>*/}
 
       {/* Main Content */}
-      <main className="container py-4 grid gap-6 lg:grid-cols-[1fr,400px] mx-auto">
+      <main className="container py-2 lg:grid lg:grid-cols-[1fr,400px] mx-auto">
         <div
           className={
             "bg-amethyst bg-amber bg-ruby bg-emerald bg-sapphire bg-steel"
@@ -54,10 +62,7 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
         {/* Left Column - Card Image & Versions */}
         <div className="space-y-4">
           <Card
-            className={clsx(
-              "border-2 border-muted p-2 w-fit mx-auto",
-              `bg-${card.color}`,
-            )}
+            className={clsx("border-2 border-muted p-2 w-fit mx-auto", bgColor)}
           >
             <CardImage card={card} />
           </Card>
@@ -99,7 +104,7 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
             </div>
 
             <div className="flex gap-2">
-              <Badge variant="default" className={`bg-${card.color}`}>
+              <Badge variant="default" className={bgColor}>
                 {card.type.charAt(0).toUpperCase() + card.type.slice(1)}
               </Badge>
               {card.characteristics.map((characteristic) => (
@@ -112,7 +117,7 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
           </div>
 
           <Card>
-            <CardContent className={clsx("pt-6", `bg-${card.color}`)}>
+            <CardContent className={clsx("pt-6", bgColor)}>
               <div className="space-y-4">
                 <div className="grid grid-cols-2 gap-4">
                   <div>
@@ -161,28 +166,36 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
             </CardContent>
           </Card>
 
-          <Card>
-            <CardContent className={clsx("pt-6", `bg-${card.color}`)}>
-              {Object.entries(card).map(([key, value]) => {
-                if (
-                  [
-                    "abilities",
-                    "implemented",
-                    "alternativeUrl",
-                    "language",
-                  ].includes(key)
-                ) {
-                  return null;
-                }
+          <Accordion className="text-base sm:text-lg" type="single" collapsible>
+            <AccordionItem className={"mb-2"} value="item-1">
+              <AccordionTrigger className={bgColor}>
+                Lorcanito Card Details
+              </AccordionTrigger>
+              <AccordionContent>
+                {Object.entries(card).map(([key, value]) => {
+                  if (
+                    ["implemented", "alternativeUrl", "language"].includes(key)
+                  ) {
+                    return null;
+                  }
 
-                return (
-                  <p key={key}>
-                    <strong>{key}</strong>: {value}
-                  </p>
-                );
-              })}
-            </CardContent>
-          </Card>
+                  if (key === "abilities" && value?.length > 0) {
+                    return (
+                      <p key={key}>
+                        <strong>{key}</strong>: {JSON.stringify(value || [])}
+                      </p>
+                    );
+                  }
+
+                  return (
+                    <p key={key}>
+                      <strong>{key}</strong>: {value}
+                    </p>
+                  );
+                })}
+              </AccordionContent>
+            </AccordionItem>
+          </Accordion>
 
           {/*<Card>*/}
           {/*  <CardContent className="pt-6">*/}

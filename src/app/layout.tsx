@@ -89,7 +89,10 @@ export default function RootLayout({
         <meta name="google-adsense-account" content="ca-pub-7112315789769225" />
         <link rel="dns-prefetch" href="https://six-inks.pages.dev" />
         <link rel="preconnect" href="https://six-inks.pages.dev" />
-        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <meta
+          name="viewport"
+          content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no"
+        />
         <GoogleAnalytics />
       </head>
       <body
