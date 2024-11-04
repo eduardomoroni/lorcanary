@@ -1,12 +1,13 @@
 "use client";
 
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useCallback } from "react";
 import { Input, inputStyles } from "@/components/ui/input";
 import { X, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { clsx } from "clsx";
 import { Badge } from "@/components/ui/badge";
+import { usePathname, useRouter, useSearchParams } from "next/navigation";
 
 interface Filter {
   name: string;
@@ -63,6 +64,37 @@ export function SSRCardSearchFilterFallback() {
   );
 }
 
+export function useFilterUrlUpdater(filters: Filter[]) {
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
+
+  const createQueryString = useCallback(
+    (filters: Filter[]) => {
+      const params = new URLSearchParams(searchParams);
+
+      Array.from(params.keys()).forEach((key) => {
+        params.delete(key);
+      });
+
+      filters
+        .filter((filter) => ["type", "color"].includes(filter.name))
+        .forEach((filter) => {
+          params.set(filter.name, filter.value);
+        });
+
+      return params.toString();
+    },
+    [searchParams, filters],
+  );
+
+  useEffect(() => {
+    const newQueryString = createQueryString(filters);
+
+    router.push(`${pathname}?${newQueryString}`);
+  }, [JSON.stringify(filters)]);
+}
+
 export function CardSearchFilter({
   autoFocus = false,
   className,
@@ -79,6 +111,7 @@ export function CardSearchFilter({
     "cardSearchFilters",
     [],
   );
+  useFilterUrlUpdater(filters);
   useEffect(() => {
     if (autoFocus && inputRef.current) {
       inputRef.current.focus();

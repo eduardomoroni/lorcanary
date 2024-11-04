@@ -5,8 +5,14 @@ import {
   CardSearchFilter,
   SSRCardSearchFilterFallback,
 } from "@/components/app/CardSearchFilter";
+import type { LorcanitoCard } from "@/shared/types/lorcanito";
 
-export default async function CardsListPage() {
+type Props = {
+  color?: LorcanitoCard["color"];
+  type?: LorcanitoCard["type"];
+};
+
+export default async function CardsListPage(props: Props) {
   const cards = await getAllCards();
 
   return (
