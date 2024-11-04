@@ -6,40 +6,29 @@ import { cardFullName, cardNameToUrlSafeString } from "@/shared/strings";
 import { Card, CardContent, CardFooter } from "@/components/ui/card";
 import type { LorcanitoCard } from "@/shared/types/lorcanito";
 import { useLocalStorage } from "@uidotdev/usehooks";
+import {
+  Filter,
+  filterByAttributes,
+  filterCards,
+} from "@/spaces/cards/cardFilterHelpers";
 
-interface Filter {
-  name: string;
-  value: string;
-}
+type Props = {
+  color?: LorcanitoCard["color"];
+  type?: LorcanitoCard["type"];
+  cards: LorcanitoCard[];
+};
 
-function filterCards(filters: Filter[]) {
-  return (card: LorcanitoCard) => {
-    return filters.every((filter) => {
-      if (filter.name === "name") {
-        return card.name.toLowerCase().includes(filter.value.toLowerCase());
-      }
-      if (filter.name === "type") {
-        return card.type.toLowerCase() === filter.value.toLowerCase();
-      }
-      if (filter.name === "color") {
-        return card.color.toLowerCase() === filter.value.toLowerCase();
-      }
-      return true;
-    });
-  };
-}
-
-export function SSRCardsListFallback({ cards }: { cards: LorcanitoCard[] }) {
+export function SSRCardsListFallback({ cards, color, type }: Props) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
-      {cards.map((card) => (
+      {cards.filter(filterByAttributes({ color, type })).map((card) => (
         <CardListItem key={card.id} card={card} />
       ))}
     </div>
   );
 }
 
-export function CardsList({ cards }: { cards: LorcanitoCard[] }) {
+export function CardsList({ cards }: Props) {
   const [filters] = useLocalStorage<Filter[]>("cardSearchFilters", []);
 
   return (

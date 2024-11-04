@@ -19,11 +19,11 @@ export default async function CardsListPage(props: Props) {
     <main className="min-h-screen bg-gray-900 text-white p-4">
       <div className="space-y-4">
         <div className="flex items-center space-x-2">
-          <ClientOnly loading={<SSRCardSearchFilterFallback />}>
+          <ClientOnly loading={<SSRCardSearchFilterFallback {...props} />}>
             <CardSearchFilter />
           </ClientOnly>
         </div>
-        <ClientOnly loading={<SSRCardsListFallback cards={cards} />}>
+        <ClientOnly loading={<SSRCardsListFallback {...props} cards={cards} />}>
           <CardsList cards={cards} />
         </ClientOnly>
       </div>

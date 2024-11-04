@@ -8,6 +8,12 @@ import { useLocalStorage } from "@uidotdev/usehooks";
 import { clsx } from "clsx";
 import { Badge } from "@/components/ui/badge";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
+import type { LorcanitoCard } from "@/shared/types/lorcanito";
+
+type Props = {
+  color?: LorcanitoCard["color"];
+  type?: LorcanitoCard["type"];
+};
 
 interface Filter {
   name: string;
@@ -42,7 +48,7 @@ interface CustomFilterInputProps
 
 const placeholder = "Type a filter (e.g., name:value)";
 
-export function SSRCardSearchFilterFallback() {
+export function SSRCardSearchFilterFallback(props: Props) {
   return (
     <>
       <Input
