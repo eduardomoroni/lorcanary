@@ -7,6 +7,12 @@ main {
   margin-top: 88px;
 }
 
+@media (min-width: 500px) {
+  main {
+    margin-top: 4rem;
+  }
+}
+
 :root {
   --main: #88aaee;
   --main50: #88aaeeb3;
