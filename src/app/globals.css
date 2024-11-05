@@ -4,13 +4,7 @@
 
 /* Compensates for fixed header*/
 main {
-  margin-top: 88px;
-}
-
-@media (min-width: 500px) {
-  main {
-    margin-top: 4rem;
-  }
+  margin-top: 4rem;
 }
 
 :root {
