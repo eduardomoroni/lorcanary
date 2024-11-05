@@ -29,6 +29,9 @@ const RARITY_MAP: Record<LorcanitoCard["rarity"], string> = {
   legendary: "Legendary",
 };
 
+const credit =
+  "This website uses trademarks and/or copyrights associated with Disney Lorcana TCG, used under Ravensburger’s Community Code Policy (https://cdn.ravensburger.com/lorcana/community-code-en). We are expressly prohibited from charging you to use or access this content. This website is not published, endorsed, or specifically approved by Disney or Ravensburger. For more information about Disney Lorcana TCG, visit https://www.disneylorcana.com/en-US/.”";
+
 export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
   const fullName = cardFullName(card.name, card.title);
 
@@ -64,7 +67,12 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
           <Card
             className={clsx("border-2 border-muted p-2 w-fit mx-auto", bgColor)}
           >
-            <CardImage card={card} />
+            <div itemScope itemType="https://schema.org/ImageObject">
+              <CardImage card={card} />
+              <span className="sr-only" itemProp="creditText">
+                {credit}
+              </span>
+            </div>
           </Card>
 
           {/*<div className="space-y-4">*/}
@@ -104,7 +112,7 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
             </div>
 
             <div className="flex gap-2">
-              <Badge variant="default" className={bgColor}>
+              <Badge variant="neutral">
                 {card.type.charAt(0).toUpperCase() + card.type.slice(1)}
               </Badge>
               {card.characteristics.map((characteristic) => (
@@ -174,7 +182,13 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
               <AccordionContent>
                 {Object.entries(card).map(([key, value]) => {
                   if (
-                    ["implemented", "alternativeUrl", "language"].includes(key)
+                    [
+                      "implemented",
+                      "alternativeUrl",
+                      "language",
+                      "id",
+                      "url",
+                    ].includes(key)
                   ) {
                     return null;
                   }

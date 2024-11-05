@@ -335,14 +335,14 @@ export function SSRCardSearchFilterFallback(props: {
           </div>
         )}
       </div>
-      <Button
-        aria-label="Card Search Filters"
-        variant="default"
-        className="bg-indigo-600 hover:bg-indigo-700"
-      >
-        <SlidersHorizontal className="mr-2" size={20} />
-        Filters
-      </Button>
+      {/*<Button*/}
+      {/*  aria-label="Card Search Filters"*/}
+      {/*  variant="default"*/}
+      {/*  className="bg-indigo-600 hover:bg-indigo-700"*/}
+      {/*>*/}
+      {/*  <SlidersHorizontal className="mr-2" size={20} />*/}
+      {/*  Filters*/}
+      {/*</Button>*/}
     </>
   );
 }

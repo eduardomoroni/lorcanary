@@ -11,6 +11,8 @@ export const CardImage = ({ card }: { card: LorcanitoCard }) => {
 
   return (
     <Image
+      // https://developers.google.com/search/docs/appearance/structured-data/image-license-metadata#microdata
+      itemProp="contentUrl"
       unoptimized
       priority
       quality={75}
