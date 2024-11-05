@@ -15,7 +15,7 @@ main {
   --bg: #fff4e0;
   --border: #000;
 
-  --dark-bg: #FD9745;
+  --dark-bg: #fd9745;
   --dark-border: #000;
 
   --border-radius: 5px;
@@ -24,13 +24,12 @@ main {
   --heading-font-weight: 700;
   --base-font-weight: 500;
 
-  --ruby: #C74241;
-  --sapphire: #088BBC;
-  --emerald: #2B9043;
-  --amethyst: #7D3D7B;
-  --amber: #F0A82D;
-  --steel: #8D97A0;
-
+  --ruby: #c74241;
+  --sapphire: #088bbc;
+  --emerald: #2b9043;
+  --amethyst: #7d3d7b;
+  --amber: #f0a82d;
+  --steel: #8d97a0;
 }
 
 body,

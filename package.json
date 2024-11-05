@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@radix-ui/react-accordion": "^1.2.1",
+    "@radix-ui/react-alert-dialog": "^1.1.2",
+    "@radix-ui/react-avatar": "^1.1.1",
     "@radix-ui/react-checkbox": "^1.1.2",
     "@radix-ui/react-context-menu": "^2.2.2",
     "@radix-ui/react-dialog": "^1.1.2",
@@ -48,6 +50,7 @@
     "react": "19.0.0-rc-69d4b800-20241021",
     "react-day-picker": "^9.2.1",
     "react-dom": "19.0.0-rc-69d4b800-20241021",
+    "react-hook-form": "^7.53.1",
     "react-resizable-panels": "^2.1.6",
     "server-only": "^0.0.1",
     "tailwind-merge": "^2.5.4",

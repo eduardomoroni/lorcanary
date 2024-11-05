@@ -1,12 +1,12 @@
-import { SquareArrowOutUpRight } from 'lucide-react'
+import { SquareArrowOutUpRight } from "lucide-react";
 
-import ComponentWrapper from '@/components/app/ComponentWrapper'
+import ComponentWrapper from "@/components/app/ComponentWrapper";
 
 type Props = {
-  name: string
-  exampleComponent: JSX.Element
-  docsLink?: string
-}
+  name: string;
+  exampleComponent: JSX.Element;
+  docsLink?: string;
+};
 
 export default function Component({ name, exampleComponent, docsLink }: Props) {
   return (
@@ -26,5 +26,5 @@ export default function Component({ name, exampleComponent, docsLink }: Props) {
 
       <ComponentWrapper>{exampleComponent}</ComponentWrapper>
     </div>
-  )
+  );
 }
