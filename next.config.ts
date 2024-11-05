@@ -22,6 +22,11 @@ const nextConfig: NextConfig = {
     remotePatterns: [
       {
         protocol: "https",
+        hostname: "cdn-1.lorcanary.com",
+        pathname: "/assets/images/**",
+      },
+      {
+        protocol: "https",
         hostname: "six-inks.pages.dev",
         pathname: "/assets/images/**",
       },

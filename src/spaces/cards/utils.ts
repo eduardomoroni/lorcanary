@@ -126,10 +126,10 @@ export function createCardUrl(
     ? pad(enchantedCard || number, 3)
     : pad(number, 3);
 
-  const url = `https://six-inks.pages.dev/assets/images/cards/${language.toLocaleUpperCase()}/${edition}/${cardNumber}.webp`;
+  const url = `https://cdn-1.lorcanary.com/assets/images/cards/${language.toLocaleUpperCase()}/${edition}/${cardNumber}.webp`;
 
   if (opt?.imageOnly) {
-    return `https://six-inks.pages.dev/assets/images/cards/${edition}/art_only/${cardNumber}.webp`;
+    return `https://cdn-1.lorcanary.com/assets/images/cards/${edition}/art_only/${cardNumber}.webp`;
   }
 
   if (opt?.hideCardText) {
@@ -138,7 +138,7 @@ export function createCardUrl(
 
   // Enchanted cards are only available in English
   if (enchanted && enchantedCard) {
-    return `https://six-inks.pages.dev/assets/images/cards/EN/${edition}/${cardNumber}.webp`;
+    return `https://cdn-1.lorcanary.com/assets/images/cards/EN/${edition}/${cardNumber}.webp`;
   }
 
   return url;

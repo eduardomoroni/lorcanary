@@ -1,14 +1,14 @@
 import CardsListPage from "@/spaces/cards/CardsListPage";
 import { use } from "react";
-import { LorcanitoCard } from "@/shared/types/lorcanito";
 import type { Metadata } from "next";
-import { getCacheKeyForAttributes } from "@/spaces/cards/cardFilterHelpers";
+import {
+  getCacheKeyForAttributes,
+  type ValidParams,
+} from "@/spaces/cards/cardFilterHelpers";
 
 type Params = Promise<{ slug: string }>;
-type SearchParams = Promise<{
-  color?: LorcanitoCard["color"];
-  type?: LorcanitoCard["type"];
-}>;
+
+type SearchParams = Promise<ValidParams>;
 
 type Props = {
   params: Params;

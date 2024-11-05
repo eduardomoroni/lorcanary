@@ -18,12 +18,17 @@ type Props = {
   cards: LorcanitoCard[];
 };
 
-export function SSRCardsListFallback({ cards, color, type }: Props) {
+const SSR_CARDS_LIMIT = 30;
+
+export function SSRCardsListFallback({ cards, ...filters }: Props) {
   return (
     <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
-      {cards.filter(filterByAttributes({ color, type })).map((card) => (
-        <CardListItem key={card.id} card={card} />
-      ))}
+      {cards
+        .filter(filterByAttributes(filters))
+        .slice(0, SSR_CARDS_LIMIT)
+        .map((card) => (
+          <CardListItem key={card.id} card={card} />
+        ))}
     </div>
   );
 }

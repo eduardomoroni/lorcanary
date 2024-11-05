@@ -1,19 +1,13 @@
 "use client";
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
-import { Input, inputStyles } from "@/components/ui/input";
+import { inputStyles } from "@/components/ui/input";
 import { X, SlidersHorizontal } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { clsx } from "clsx";
 import { Badge } from "@/components/ui/badge";
 import { usePathname, useRouter, useSearchParams } from "next/navigation";
-import type { LorcanitoCard } from "@/shared/types/lorcanito";
-
-type Props = {
-  color?: LorcanitoCard["color"];
-  type?: LorcanitoCard["type"];
-};
 
 interface Filter {
   name: string;
@@ -48,28 +42,6 @@ interface CustomFilterInputProps
 
 const placeholder = "Type a filter (e.g., name:value)";
 
-export function SSRCardSearchFilterFallback(props: Props) {
-  return (
-    <>
-      <Input
-        type="text"
-        disabled={true}
-        className="flex-grow bg-transparent outline-none placeholder-gray-400"
-        placeholder={placeholder}
-      />
-      <Button
-        aria-label="Card Search Filters"
-        variant="default"
-        disabled={true}
-        className="bg-indigo-600 hover:bg-indigo-700"
-      >
-        <SlidersHorizontal className="mr-2" size={20} />
-        Filters
-      </Button>
-    </>
-  );
-}
-
 export function useFilterUrlUpdater(filters: Filter[]) {
   const router = useRouter();
   const pathname = usePathname();
@@ -97,14 +69,16 @@ export function useFilterUrlUpdater(filters: Filter[]) {
   useEffect(() => {
     const newQueryString = createQueryString(filters);
 
-    router.push(`${pathname}?${newQueryString}`);
+    if (newQueryString !== searchParams.toString()) {
+      // @ts-expect-error - Next types are wrong this should be a shallow object
+      router.push(`${pathname}?${newQueryString}`, { shallow: true });
+    }
   }, [JSON.stringify(filters)]);
 }
 
 export function CardSearchFilter({
   autoFocus = false,
   className,
-  ...props
 }: CustomFilterInputProps) {
   const [input, setInput] = useState("");
   const [suggestions, setSuggestions] = useState<string[]>([]);
@@ -251,6 +225,61 @@ export function CardSearchFilter({
   };
 
   return (
+    <SSRCardSearchFilterFallback
+      className={className}
+      handleBlur={handleBlur}
+      handleFocus={handleFocus}
+      handleInputChange={handleInputChange}
+      handleInputKeyDown={handleInputKeyDown}
+      input={input}
+      inputRef={inputRef}
+      isFocused={isFocused}
+      removeFilter={removeFilter}
+      suggestions={suggestions}
+      suggestionsRef={suggestionsRef}
+      activeSuggestionIndex={activeSuggestionIndex}
+      filters={filters}
+      handleSuggestionClick={handleSuggestionClick}
+    />
+  );
+}
+
+function noOp() {}
+
+export function SSRCardSearchFilterFallback(props: {
+  className?: string;
+  input?: string;
+  handleInputChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
+  handleInputKeyDown?: (e: React.KeyboardEvent<HTMLInputElement>) => void;
+  handleFocus?: () => void;
+  handleBlur?: () => void;
+  activeSuggestionIndex?: number;
+  removeFilter?: (index: number) => void;
+  handleSuggestionClick?: (suggestion: string) => void;
+  inputRef?: React.RefObject<HTMLInputElement>;
+  suggestionsRef?: React.RefObject<HTMLDivElement>;
+  filters?: Filter[];
+  suggestions?: string[];
+  isFocused?: boolean;
+}) {
+  const {
+    activeSuggestionIndex,
+    input,
+    className = "",
+    handleInputChange = noOp,
+    handleInputKeyDown = noOp,
+    handleFocus = noOp,
+    handleBlur = noOp,
+    suggestions = [],
+    removeFilter = noOp,
+    handleSuggestionClick = noOp,
+    inputRef,
+    suggestionsRef,
+    filters = [],
+    isFocused,
+  } = props;
+
+  return (
     <>
       <div className={`relative flex-grow ${className}`}>
         <div
@@ -282,7 +311,6 @@ export function CardSearchFilter({
             onBlur={handleBlur}
             className="flex-grow bg-transparent outline-none placeholder-gray-400"
             placeholder={placeholder}
-            {...props}
           />
         </div>
         {isFocused && suggestions.length > 0 && (

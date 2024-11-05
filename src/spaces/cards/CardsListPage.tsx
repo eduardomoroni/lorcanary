@@ -6,6 +6,7 @@ import {
   SSRCardSearchFilterFallback,
 } from "@/components/app/CardSearchFilter";
 import type { LorcanitoCard } from "@/shared/types/lorcanito";
+import { fromSearchParamsToFilters } from "@/spaces/cards/cardFilterHelpers";
 
 type Props = {
   color?: LorcanitoCard["color"];
@@ -19,8 +20,14 @@ export default async function CardsListPage(props: Props) {
     <main className="min-h-screen bg-gray-900 text-white p-4">
       <div className="space-y-4">
         <div className="flex items-center space-x-2">
-          <ClientOnly loading={<SSRCardSearchFilterFallback {...props} />}>
-            <CardSearchFilter />
+          <ClientOnly
+            loading={
+              <SSRCardSearchFilterFallback
+                filters={fromSearchParamsToFilters(props)}
+              />
+            }
+          >
+            <CardSearchFilter {...props} />
           </ClientOnly>
         </div>
         <ClientOnly loading={<SSRCardsListFallback {...props} cards={cards} />}>

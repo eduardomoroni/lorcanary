@@ -1,8 +1,19 @@
 import type { LorcanitoCard } from "@/shared/types/lorcanito";
 
+export type ValidParams = {
+  color?: LorcanitoCard["color"];
+  type?: LorcanitoCard["type"];
+};
+
 export interface Filter {
   name: string;
   value: string;
+}
+
+export function notEmptyPredicate<TValue>(
+  value: TValue | null | undefined,
+): value is TValue {
+  return value !== null && value !== undefined;
 }
 
 export function filterCards(filters: Filter[]) {
@@ -20,6 +31,23 @@ export function filterCards(filters: Filter[]) {
       return true;
     });
   };
+}
+
+export function fromSearchParamsToFilters(searchParams: ValidParams): Filter[] {
+  return Object.keys(searchParams)
+    .map((key) => {
+      const value = searchParams[key as keyof ValidParams];
+
+      if (!value) {
+        return null;
+      }
+
+      return {
+        name: key,
+        value: value,
+      };
+    })
+    .filter(notEmptyPredicate);
 }
 
 export function filterByAttributes({
