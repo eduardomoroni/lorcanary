@@ -69,7 +69,7 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
           >
             <div itemScope itemType="https://schema.org/ImageObject">
               <CardImage card={card} />
-              <span className="sr-only" itemProp="creditText">
+              <span className="sr-only" itemProp="copyrightNotice">
                 {credit}
               </span>
             </div>
