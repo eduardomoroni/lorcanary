@@ -72,6 +72,53 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
               <span className="sr-only" itemProp="copyrightNotice">
                 {credit}
               </span>
+
+              <div
+                itemProp="creator"
+                itemScope
+                itemType="https://schema.org/Organization"
+                className="sr-only"
+              >
+                <span itemProp="name" className="sr-only">
+                  Ravensburger
+                </span>
+                <a
+                  href="https://www.ravensburger.com"
+                  itemProp="url"
+                  className="sr-only"
+                >
+                  Visit Ravensburger
+                </a>
+              </div>
+
+              <div
+                itemProp="copyrightHolder"
+                itemScope
+                itemType="https://schema.org/Organization"
+                className="sr-only"
+              >
+                <span itemProp="name" className="sr-only">
+                  Disney
+                </span>
+                <a
+                  href="https://www.disneylorcana.com/en-GB"
+                  itemProp="url"
+                  className="sr-only"
+                >
+                  Visit Disney Lorcana TCG
+                </a>
+              </div>
+
+              <p itemProp="caption" className="sr-only">
+                {fullName} from Disney Lorcana TCG
+              </p>
+
+              {/*<a*/}
+              {/*  href="https://yourwebsite.com/disney-lorcana"*/}
+              {/*  itemProp="associatedArticle"*/}
+              {/*>*/}
+              {/*  Learn more about Disney Lorcana*/}
+              {/*</a>*/}
             </div>
           </Card>
 
