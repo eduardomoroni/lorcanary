@@ -32,13 +32,15 @@ export default async function Page({ params, ...rest }: CardPageProps) {
   try {
     const { number, setOrName } = await params;
 
+    for (const key in rest) {
+      console.log(key, await rest[key]);
+    }
+
     const isSet = !!number && !isNaN(Number(setOrName));
 
     const card = await (isSet
       ? getCardBySetAndNumber(setOrName, number)
       : getCardByName(setOrName, number));
-
-    console.log(rest);
 
     if (!card) {
       return (
