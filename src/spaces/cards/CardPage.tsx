@@ -28,7 +28,7 @@ export async function generateStaticParams() {
   return paths;
 }
 
-export default async function Page({ params }: CardPageProps) {
+export default async function Page({ params, ...rest }: CardPageProps) {
   try {
     const { number, setOrName } = await params;
 
@@ -38,8 +38,14 @@ export default async function Page({ params }: CardPageProps) {
       ? getCardBySetAndNumber(setOrName, number)
       : getCardByName(setOrName, number));
 
+    console.log(rest);
+
     if (!card) {
-      return <p>{`Card not found: ${number} ${setOrName}`}</p>;
+      return (
+        <main>
+          <p>{`Card not found: ${number} ${setOrName}`}</p>
+        </main>
+      );
     }
 
     return <CardPageLayout card={card} />;
