@@ -1,6 +1,7 @@
 import MobileDrawer from "@/components/app/MobileDrawer";
 import Search from "@/components/app/Search";
 import { ThemeSwitcher } from "@/components/app/ThemeSwitcher";
+import Link from "next/link";
 
 function Navbar() {
   return (
@@ -9,12 +10,13 @@ function Navbar() {
         <MobileDrawer />
 
         <div className="flex items-center gap-10">
-          <a
+          <Link
             className="text-4xl m900:w-[unset] font-heading m500:text-xl"
+            prefetch={false}
             href={"/"}
           >
             LORCANARY
-          </a>
+          </Link>
 
           {/*<div className="flex items-center gap-10 m1000:gap-8 m900:hidden">*/}
           {/*  <Link className="text-xl m1000:text-lg font-base" href="/docs">*/}
