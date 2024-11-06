@@ -11,6 +11,7 @@ import {
   filterByAttributes,
   filterCards,
 } from "@/spaces/cards/cardFilterHelpers";
+import Link from "next/link";
 
 type Props = {
   color?: LorcanitoCard["color"];
@@ -50,8 +51,9 @@ function CardListItem({ card }: { card: LorcanitoCard }) {
   const urlSafeName = cardNameToUrlSafeString(card.name, card.title);
 
   return (
-    <a
+    <Link
       key={card.id}
+      prefetch={false}
       href={`/cards/${urlSafeName}`}
       className="block cursor-pointer"
     >
@@ -100,6 +102,6 @@ function CardListItem({ card }: { card: LorcanitoCard }) {
           {/*</div>*/}
         </CardFooter>
       </Card>
-    </a>
+    </Link>
   );
 }
