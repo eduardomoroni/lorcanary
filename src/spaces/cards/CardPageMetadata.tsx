@@ -2,7 +2,7 @@ import type { Metadata, ResolvingMetadata } from "next";
 import type { OpenGraph } from "next/dist/lib/metadata/types/opengraph-types";
 import type { CardPageProps } from "@/spaces/cards/CardPage";
 import { getCardByName, getCardBySetAndNumber } from "@/data/lorcanitoCards";
-import { cardFullName } from "@/shared/strings";
+import { cardFullName, cardNameToUrlSafeString } from "@/shared/strings";
 
 export async function generateMetadata(
   { params }: CardPageProps,
@@ -17,38 +17,47 @@ export async function generateMetadata(
     : getCardByName(setOrName));
 
   if (!card) {
-    return {};
+    return {
+      title: "Lorcanary",
+      description: "Disney Lorcana Card Library",
+      keywords: ["Disney Lorcana", "Lorcana", "TCG", "Card Database"],
+    };
   }
 
-  const alt = cardFullName(card.name, card.title);
+  const urlSafeName = cardNameToUrlSafeString(card.name, card.title);
+
+  const description = card.text || "Lorcanary Disney Lorcana Card Library";
+  const title = cardFullName(card.name, card.title);
+  const alt = title;
   const cardNumber = String(card.number).padStart(3, "0");
   const cardSet = String(card.set).padStart(3, "0");
 
   const openGraph: OpenGraph = {
-    title: "Lorcanary Card Database",
-    description: "Your Lorcana Library!",
-    url: `https://lorcanary.com/cards/${cardNumber}`,
+    title: title,
+    description: description,
+    url: `https://lorcanary.com/cards/${urlSafeName}`,
     siteName: "Lorcanary",
+    // We need to add other locales here
     locale: "en",
     type: "website",
     images: [
       {
-        url: `https://six-inks.pages.dev/assets/images/cards/004/art_only/${cardNumber}.webp`,
+        url: `https://cdn-1.lorcanary.com/assets/images/cards/${cardSet}/art_only/${cardNumber}.webp`,
         width: 734,
         height: 603,
         alt: alt,
       },
       {
-        url: `https://six-inks.pages.dev/assets/images/cards/EN/004/${cardNumber}.webp`,
+        url: `https://cdn-1.lorcanary.com/assets/images/cards/EN/${cardSet}/${cardNumber}.webp`,
         width: 734,
         height: 1024,
-        alt: "My custom alt",
+        alt: alt,
       },
       {
-        url: `https://six-inks.pages.dev/assets/images/cards/EN/004/art_and_name/${cardNumber}.webp`,
+        url: `https://cdn-1.lorcanary.com/assets/images/cards/EN/${cardSet}/art_and_name/${cardNumber}.webp`,
         width: 734,
         height: 767,
-        alt: "My custom alt",
+        alt: alt,
       },
     ],
   };
@@ -65,15 +74,14 @@ export async function generateMetadata(
     ],
     robots: "index, follow",
     openGraph: openGraph,
-    title: "Lorcanary Card Database",
-    description: "Your Lorcana Library!",
+    title: title,
+    description: description,
     applicationName: "Lorcanary",
     alternates: {
-      // TODO: IMPROVE THIS TO THE ACTUAL URL, not the one with alt
       languages: {
-        fr: `https://lorcanary.com/fr/cards/${alt}`,
-        de: `https://lorcanary.com/de/cards/${alt}`,
-        en: `https://lorcanary.com/en/cards/${alt}`,
+        fr: `https://lorcanary.com/fr/cards/${urlSafeName}`,
+        de: `https://lorcanary.com/de/cards/${urlSafeName}`,
+        en: `https://lorcanary.com/en/cards/${urlSafeName}`,
       },
     },
   };
