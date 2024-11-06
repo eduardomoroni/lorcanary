@@ -39,10 +39,7 @@ export default async function Page({ params }: CardPageProps) {
       : getCardByName(setOrName, number));
 
     if (!card) {
-      return {
-        status: 404,
-        error: new Error("Card not found"),
-      };
+      return <p>{`Card not found: ${number} ${setOrName}`}</p>;
     }
 
     return <CardPageLayout card={card} />;
