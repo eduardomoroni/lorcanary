@@ -82,7 +82,6 @@ export default function RootLayout({
     <html
       // https://github.com/pacocoursey/next-themes
       suppressHydrationWarning
-      lang="en"
     >
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />

@@ -3,14 +3,17 @@ import type { OpenGraph } from "next/dist/lib/metadata/types/opengraph-types";
 import type { CardPageProps } from "@/spaces/cards/CardPage";
 import { getCardByName, getCardBySetAndNumber } from "@/data/lorcanitoCards";
 import { cardFullName, cardNameToUrlSafeString } from "@/shared/strings";
+import { LorcanitoCard } from "@/shared/types/lorcanito";
 
 export async function generateMetadata(
   { params }: CardPageProps,
   parent: ResolvingMetadata,
 ): Promise<Metadata> {
-  const { number, setOrName } = await params;
+  const { number, setOrName, locale } = await params;
 
   const isSet = !!number && !isNaN(Number(setOrName));
+
+  console.log(locale);
 
   const card = await (isSet
     ? getCardBySetAndNumber(setOrName, number)
@@ -22,6 +25,44 @@ export async function generateMetadata(
       description: "Disney Lorcana Card Library",
       keywords: ["Disney Lorcana", "Lorcana", "TCG", "Card Database"],
     };
+  }
+
+  const urlSafeName = cardNameToUrlSafeString(card.name, card.title);
+
+  const description = card.text || "Lorcanary Disney Lorcana Card Library";
+  const title = cardFullName(card.name, card.title);
+  const alt = title;
+
+  const metadata: Metadata = {
+    keywords: [
+      "Disney Lorcana",
+      "Lorcana",
+      "TCG",
+      "DLC",
+      card.title ? card.title : "",
+      card.name,
+      alt,
+    ],
+    robots: "index, follow",
+    openGraph: createOpenGraphForCard(card),
+    title: title,
+    description: description,
+    applicationName: "Lorcanary",
+    alternates: {
+      languages: {
+        fr: `https://lorcanary.com/fr/cards/${urlSafeName}`,
+        de: `https://lorcanary.com/de/cards/${urlSafeName}`,
+        en: `https://lorcanary.com/en/cards/${urlSafeName}`,
+      },
+    },
+  };
+
+  return metadata;
+}
+
+function createOpenGraphForCard(card?: LorcanitoCard) {
+  if (!card) {
+    return undefined;
   }
 
   const urlSafeName = cardNameToUrlSafeString(card.name, card.title);
@@ -62,29 +103,5 @@ export async function generateMetadata(
     ],
   };
 
-  const metadata: Metadata = {
-    keywords: [
-      "Disney Lorcana",
-      "Lorcana",
-      "TCG",
-      "DLC",
-      card.title ? card.title : "",
-      card.name,
-      alt,
-    ],
-    robots: "index, follow",
-    openGraph: openGraph,
-    title: title,
-    description: description,
-    applicationName: "Lorcanary",
-    alternates: {
-      languages: {
-        fr: `https://lorcanary.com/fr/cards/${urlSafeName}`,
-        de: `https://lorcanary.com/de/cards/${urlSafeName}`,
-        en: `https://lorcanary.com/en/cards/${urlSafeName}`,
-      },
-    },
-  };
-
-  return metadata;
+  return openGraph;
 }

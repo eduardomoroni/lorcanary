@@ -4,7 +4,7 @@ import { getAllCards } from "@/data/lorcanitoCards";
 import { cardNameToUrlSafeString } from "@/shared/strings";
 import { convertCardSet } from "@/spaces/cards/utils";
 
-const lastModified = "2024-10-27";
+const lastModified = "2024-11-06";
 const baseUrl = `https://lorcanary.com`;
 
 function generateAlternates(url: string) {
@@ -23,11 +23,11 @@ function createCardPageSitemap(card: LorcanitoCard): MetadataRoute.Sitemap {
   const urlSafeName = cardNameToUrlSafeString(card.name, card.title);
 
   const images = [
-    // `https://six-inks.pages.dev/assets/images/cards/${set}/art_only/${number}.webp`,
-    `https://six-inks.pages.dev/assets/images/cards/EN/${set}/${number}.webp`,
-    `https://six-inks.pages.dev/assets/images/cards/FR/${set}/${number}.webp`,
-    `https://six-inks.pages.dev/assets/images/cards/DE/${set}/${number}.webp`,
-    // `https://six-inks.pages.dev/assets/images/cards/EN/${set}/art_and_name/${number}.webp`,
+    `https://six-inks.pages.dev/assets/images/cards/${set}/art_only/${number}.webp`,
+    `https://six-inks.pages.dev/assets/images/cards/EN/${set}/art_and_name/${number}.webp`,
+    `https://cdn-1.lorcanary.com/assets/images/cards/EN/${set}/${number}.webp`,
+    // `https://six-inks.pages.dev/assets/images/cards/FR/${set}/${number}.webp`,
+    // `https://six-inks.pages.dev/assets/images/cards/DE/${set}/${number}.webp`,
   ];
 
   const sitemap: MetadataRoute.Sitemap = [
@@ -37,9 +37,9 @@ function createCardPageSitemap(card: LorcanitoCard): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       images,
       url: `https://lorcanary.com/cards/${set}/${number}`,
-      alternates: generateAlternates(
-        `https://lorcanary.com/cards/${set}/${number}`,
-      ),
+      // alternates: generateAlternates(
+      //   `https://lorcanary.com/cards/${set}/${number}`,
+      // ),
     },
     {
       priority: 1,
@@ -47,23 +47,24 @@ function createCardPageSitemap(card: LorcanitoCard): MetadataRoute.Sitemap {
       changeFrequency: "weekly",
       images,
       url: `https://lorcanary.com/cards/${urlSafeName}`,
-      alternates: generateAlternates(
-        `https://lorcanary.com/cards/${urlSafeName}`,
-      ),
+      // alternates: generateAlternates(
+      //   `https://lorcanary.com/cards/${urlSafeName}`,
+      // ),
     },
   ];
 
-  if (card.title) {
-    const endpoint = `${cardNameToUrlSafeString(card.name)}/${cardNameToUrlSafeString(card.title)}`;
-    sitemap.push({
-      priority: 0.75,
-      lastModified: lastModified,
-      changeFrequency: "weekly",
-      images,
-      url: `${baseUrl}/cards/${endpoint}`,
-      alternates: generateAlternates(`${baseUrl}/cards/${endpoint}`),
-    });
-  }
+  // TODO: ENABLE LATER
+  // if (card.title) {
+  //   const endpoint = `${cardNameToUrlSafeString(card.name)}/${cardNameToUrlSafeString(card.title)}`;
+  //   sitemap.push({
+  //     priority: 0.75,
+  //     lastModified: lastModified,
+  //     changeFrequency: "weekly",
+  //     images,
+  //     url: `${baseUrl}/cards/${endpoint}`,
+  //     // alternates: generateAlternates(`${baseUrl}/cards/${endpoint}`),
+  //   });
+  // }
 
   return sitemap;
 }

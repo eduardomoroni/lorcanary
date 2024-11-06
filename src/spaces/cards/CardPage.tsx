@@ -6,7 +6,7 @@ import {
 import CardPageLayout from "@/spaces/cards/CardPageLayout";
 
 export type CardPageProps = {
-  params: Promise<{ setOrName: string; number?: string }>;
+  params: Promise<{ setOrName: string; number?: string; locale?: string }>;
   searchParams: Promise<{ [key: string]: string | string[] | undefined }>;
 };
 
