@@ -19,11 +19,12 @@ type Props = {
   cards: LorcanitoCard[];
 };
 
-const SSR_CARDS_LIMIT = 30;
+const SSR_CARDS_LIMIT = 6 * 4;
+const CLIENT_CARDS_LIMIT = 6 * 20;
 
 export function SSRCardsListFallback({ cards, ...filters }: Props) {
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
+    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
       {cards
         .filter(filterByAttributes(filters))
         .slice(0, SSR_CARDS_LIMIT)
@@ -34,14 +35,18 @@ export function SSRCardsListFallback({ cards, ...filters }: Props) {
   );
 }
 
+// TODO: PAGINATE FOR SEO PURPOSES
 export function CardsList({ cards }: Props) {
   const [filters] = useLocalStorage<Filter[]>("cardSearchFilters", []);
 
   return (
-    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
-      {cards.filter(filterCards(filters)).map((card) => (
-        <CardListItem key={card.id} card={card} />
-      ))}
+    <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
+      {cards
+        .filter(filterCards(filters))
+        .slice(0, CLIENT_CARDS_LIMIT)
+        .map((card) => (
+          <CardListItem key={card.id} card={card} />
+        ))}
     </div>
   );
 }
