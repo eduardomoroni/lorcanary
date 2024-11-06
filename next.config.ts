@@ -27,6 +27,11 @@ const nextConfig: NextConfig = {
       },
       {
         protocol: "https",
+        hostname: "lorcana-cards.pages.dev",
+        pathname: "/assets/images/**",
+      },
+      {
+        protocol: "https",
         hostname: "six-inks.pages.dev",
         pathname: "/assets/images/**",
       },

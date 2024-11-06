@@ -19,12 +19,13 @@ export async function generateMetadata({
   searchParams,
 }: Props): Promise<Metadata> {
   return {
-    // title: `Landing Page for ${name || "Guest"}`,
-    // description: `A custom landing page with ${title} in ${color} for ${type}`,
-    // This will be used as the cache key
     other: { cacheKey: getCacheKeyForAttributes(await searchParams) },
   };
 }
+
+export const dynamicParams = false;
+export const dynamic = "force-static";
+export const fetchCache = "force-cache";
 
 export default function Home({ searchParams }: Props) {
   const { type, color } = use(searchParams);
