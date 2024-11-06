@@ -14,6 +14,8 @@ export type CardPageProps = {
 export async function generateStaticParams() {
   const allCardNames = await allLorcanitoCardNames();
 
+  console.log(allCardNames);
+
   // This returns all possible permutations of card numbers and set names
   // Allowing the server to know what pages to generate at build time
   // Currently the pages are being generated at runtime, so improve build time
@@ -28,12 +30,12 @@ export async function generateStaticParams() {
   return paths;
 }
 
-export default async function Page({ params, ...rest }: CardPageProps) {
+export default async function Page(props: CardPageProps) {
   try {
-    const { number, setOrName } = await params;
+    const { number, setOrName } = await props.params;
 
-    for (const key in rest) {
-      console.log(key, await rest[key]);
+    for (const key in props) {
+      console.log(key, await props[key]);
     }
 
     const isSet = !!number && !isNaN(Number(setOrName));
