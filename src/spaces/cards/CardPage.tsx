@@ -47,9 +47,6 @@ export default async function Page({ params }: CardPageProps) {
 
     return <CardPageLayout card={card} />;
   } catch (error) {
-    return {
-      status: 404,
-      error: error,
-    };
+    return <p>Status: {JSON.stringify(error)}</p>;
   }
 }

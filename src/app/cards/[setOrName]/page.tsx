@@ -4,7 +4,7 @@ export { generateMetadata } from "@/spaces/cards/CardPageMetadata";
 
 // Next.js will invalidate the cache when a
 // request comes in, at most once every 60 seconds.
-export const revalidate = 86400; // 24 hours
+// export const revalidate = 86400; // 24 hours
 
 // We'll prerender only the params from `generateStaticParams` at build time.
 // If a request comes in for a path that hasn't been generated,
