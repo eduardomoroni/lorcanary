@@ -15,14 +15,14 @@ type Props = {
   searchParams: SearchParams;
 };
 
-// export async function generateMetadata({
-//   searchParams,
-// }: Props): Promise<Metadata> {
-//   const colorType = await searchParams;
-//   return {
-//     other: { cacheKey: getCacheKeyForAttributes(colorType) },
-//   };
-// }
+export async function generateMetadata({
+  searchParams,
+}: Props): Promise<Metadata> {
+  const colorType = await searchParams;
+  return {
+    other: { cacheKey: getCacheKeyForAttributes(colorType) },
+  };
+}
 
 export const dynamicParams = false;
 export const dynamic = "force-static";

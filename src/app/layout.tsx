@@ -86,8 +86,8 @@ export default function RootLayout({
       <head>
         <link rel="icon" href="/favicon.ico" sizes="any" />
         <meta name="google-adsense-account" content="ca-pub-7112315789769225" />
-        <link rel="dns-prefetch" href="https://six-inks.pages.dev" />
-        <link rel="preconnect" href="https://six-inks.pages.dev" />
+        <link rel="dns-prefetch" href="https://cdn-1.lorcanary.com" />
+        <link rel="preconnect" href="https://cdn-1.lorcanary.com" />
         <meta
           name="viewport"
           content="width=device-width, initial-scale=1.0, maximum-scale=5.0"

@@ -49,6 +49,7 @@ export async function generateMetadata(
     description: description,
     applicationName: "Lorcanary",
     alternates: {
+      canonical: `https://lorcanary.com/en/cards/${urlSafeName}`,
       languages: {
         fr: `https://lorcanary.com/fr/cards/${urlSafeName}`,
         de: `https://lorcanary.com/de/cards/${urlSafeName}`,
