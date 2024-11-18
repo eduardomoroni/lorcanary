@@ -1,7 +1,8 @@
 import MobileDrawer from "@/components/app/MobileDrawer";
-import Search from "@/components/app/Search";
 import { ThemeSwitcher } from "@/components/app/ThemeSwitcher";
 import Link from "next/link";
+import NavDropdown from "@/components/app/NavDropdown";
+import { clsx } from "clsx";
 
 function Navbar() {
   return (
@@ -18,21 +19,27 @@ function Navbar() {
             LORCANARY
           </Link>
 
-          {/*<div className="flex items-center gap-10 m1000:gap-8 m900:hidden">*/}
-          {/*  <Link className="text-xl m1000:text-lg font-base" href="/docs">*/}
-          {/*    Docs*/}
-          {/*  </Link>*/}
+          <div className="flex items-center gap-10 m1000:gap-8 m900:hidden">
+            <Link
+              className={clsx("text-xl m1000:text-lg font-base")}
+              href="/cards"
+            >
+              Cards
+            </Link>
 
-          {/*  <NavDropdown />*/}
+            {/*<NavDropdown />*/}
 
-          {/*  <Link className="text-xl m1000:text-lg font-base" href="/templates">*/}
-          {/*    Templates*/}
-          {/*  </Link>*/}
-          {/*</div>*/}
+            <Link
+              className={clsx("text-xl m1000:text-lg font-base")}
+              href="/decks"
+            >
+              Decks
+            </Link>
+          </div>
         </div>
 
         <div className="flex items-center gap-10 m1000:gap-5">
-          <Search />
+          {/*<Search />*/}
 
           <div className="flex items-center justify-end gap-5 m800:w-[unset] m400:gap-3">
             <a
