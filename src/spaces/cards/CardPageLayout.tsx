@@ -72,7 +72,15 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
               <span className="sr-only" itemProp="copyrightNotice">
                 {credit}
               </span>
-
+              <span className="sr-only" itemProp="license">
+                {credit}
+              </span>
+              <span className="sr-only" itemProp="acquireLicensePage">
+                {credit}
+              </span>
+              <span className="sr-only" itemProp="creditText">
+                {credit}
+              </span>
               <div
                 itemProp="creator"
                 itemScope
@@ -90,7 +98,6 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
                   Visit Ravensburger
                 </a>
               </div>
-
               <div
                 itemProp="copyrightHolder"
                 itemScope
@@ -108,11 +115,9 @@ export default function CardPageLayout({ card }: { card: LorcanitoCard }) {
                   Visit Disney Lorcana TCG
                 </a>
               </div>
-
               <p itemProp="caption" className="sr-only">
                 {fullName} from Disney Lorcana TCG
               </p>
-
               {/*<a*/}
               {/*  href="https://yourwebsite.com/disney-lorcana"*/}
               {/*  itemProp="associatedArticle"*/}

@@ -13,8 +13,6 @@ export async function generateMetadata(
 
   const isSet = !!number && !isNaN(Number(setOrName));
 
-  console.log(locale);
-
   const card = await (isSet
     ? getCardBySetAndNumber(setOrName, number)
     : getCardByName(setOrName));
