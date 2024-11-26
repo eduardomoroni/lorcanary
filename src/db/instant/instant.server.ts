@@ -15,7 +15,7 @@ export async function getGamesByDeckListId(deckListId: number) {
         // Matches last 20min on average, and we have 300 matches per hour
         // So we should have 100 matches in the last 20min
         // and half of them are worth watching
-        limit: 150,
+        limit: 100,
         order: {
           serverCreatedAt: "desc",
         },

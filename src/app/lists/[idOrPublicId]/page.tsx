@@ -25,7 +25,7 @@ export default async function Decks({ searchParams, params }: Props) {
   });
   const liveGames = await getGamesByDeckListId(Number(idOrPublicId));
 
-  const value = { decks: deckList, liveGames };
+  const value = { ...deckList, liveGames };
 
   console.log(JSON.stringify(value));
 
