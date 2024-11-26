@@ -1,5 +1,5 @@
-import type { DeckWithCards } from "@/db/types";
-import { db } from "@/db/index";
+import type { DeckWithCards } from "@/db/drizzle/types";
+import { db } from "@/db/drizzle/index";
 
 const withClause = {
   history: true,

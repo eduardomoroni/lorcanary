@@ -1,4 +1,4 @@
-import type { DeckWithCards } from "@/db/types";
+import type { DeckWithCards } from "@/db/drizzle/types";
 
 export type CardPageProps = {
   decks: DeckWithCards[];

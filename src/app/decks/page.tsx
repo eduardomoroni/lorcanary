@@ -1,5 +1,5 @@
 import { type ValidParams } from "@/spaces/cards/cardFilterHelpers";
-import { readDecks } from "@/db/deck";
+import { readDecks } from "@/db/drizzle/deck";
 import { DecksPage } from "@/spaces/decks/DecksPage";
 
 type Params = Promise<{ slug: string }>;

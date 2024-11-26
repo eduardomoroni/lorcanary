@@ -1,6 +1,6 @@
-import { db } from "@/db/index";
+import { db } from "@/db/drizzle/index";
 import { eq, or, sql } from "drizzle-orm";
-import { deckVersions, gameResult } from "@/db/schema";
+import { deckVersions, gameResult } from "@/db/drizzle/schema";
 
 interface DeckStats {
   deck_id: number;
