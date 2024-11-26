@@ -8,6 +8,7 @@ import {
   text,
   timestamp,
   varchar,
+  index,
 } from "drizzle-orm/pg-core";
 import { type InferSelectModel, relations } from "drizzle-orm";
 
@@ -103,6 +104,64 @@ export type GameResult = {
   name?: string;
   metadata?: GameResultMetadata;
 };
+
+export const gameResult = pgTable(
+  `game_result`,
+  {
+    id: serial("id").primaryKey(),
+    winnerId: integer("winner_id").notNull(),
+    winnerDeckId: integer("winner_deck_id").notNull(),
+    loserId: integer("loser_id").notNull(),
+    loserDeckId: integer("loser_deck_id").notNull(),
+    otp: integer("otp").notNull(),
+    otd: integer("otd").notNull(),
+    name: varchar("name"),
+    metadata: jsonb("metadata").$type<GameResultMetadata>(),
+    ...timestamps,
+  },
+  (table) => {
+    return {
+      winnerIdIdx: index("winner_id_idx").on(table.winnerId),
+      winnerDeckIdIdx: index("winner_deck_id_idx").on(table.winnerDeckId),
+      loserIdIdx: index("loser_id_idx").on(table.loserId),
+      loserDeckIdIdx: index("loser_deck_id_idx").on(table.loserDeckId),
+      metadata: index("metadata_idx").on(table.metadata),
+    };
+  },
+);
+
+export const gameResultRelations = relations(gameResult, ({ one, many }) => ({
+  winner: one(profiles, {
+    fields: [gameResult.winnerId],
+    references: [profiles.id],
+    relationName: "game_result_winner",
+  }),
+  loser: one(profiles, {
+    fields: [gameResult.loserId],
+    references: [profiles.id],
+    relationName: "game_result_loser",
+  }),
+  goingFirst: one(profiles, {
+    fields: [gameResult.otp],
+    references: [profiles.id],
+    relationName: "going_first",
+  }),
+  goingSecond: one(profiles, {
+    fields: [gameResult.otd],
+    references: [profiles.id],
+    relationName: "going_second",
+  }),
+  winningDeck: one(deckVersions, {
+    fields: [gameResult.winnerDeckId],
+    references: [deckVersions.id],
+    relationName: "winning_deck",
+  }),
+  losingDeck: one(deckVersions, {
+    fields: [gameResult.loserDeckId],
+    references: [deckVersions.id],
+    relationName: "losing_deck",
+  }),
+}));
 
 export const profiles = pgTable("profile", {
   id: serial("id").primaryKey(),

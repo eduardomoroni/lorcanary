@@ -1,10 +1,4 @@
-import CardsListPage from "@/spaces/cards/CardsListPage";
-import { use } from "react";
-import type { Metadata } from "next";
-import {
-  getCacheKeyForAttributes,
-  type ValidParams,
-} from "@/spaces/cards/cardFilterHelpers";
+import { type ValidParams } from "@/spaces/cards/cardFilterHelpers";
 import { readDecks } from "@/db/deck";
 import { DecksPage } from "@/spaces/decks/DecksPage";
 
