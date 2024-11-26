@@ -28,6 +28,7 @@ export interface DeckStats {
   win_rate_otd: number;
   win_rate_otp: number;
   avg_duration: number;
+  distinct_players: number;
   median_duration: number;
   liveGames: string[];
 }

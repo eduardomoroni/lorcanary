@@ -69,6 +69,10 @@ export default function DeckStatsPage({ data }: { data: DeckStats }) {
                   <strong>Median Duration:</strong>{" "}
                   {Math.round(deckStats.median_duration / 60000)} minutes
                 </p>
+                <p>
+                  <strong>Total Players:</strong>{" "}
+                  {Math.round(deckStats.distinct_players)}
+                </p>
               </div>
             </div>
           </CardContent>
