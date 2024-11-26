@@ -12,9 +12,9 @@ type Props = {
   searchParams: SearchParams;
 };
 
-export const dynamicParams = false;
-export const dynamic = "force-static";
-export const fetchCache = "force-cache";
+// export const dynamicParams = false;
+// export const dynamic = "force-static";
+// export const fetchCache = "force-cache";
 
 export default async function Decks({ searchParams, params }: Props) {
   const { idOrPublicId } = await params;
