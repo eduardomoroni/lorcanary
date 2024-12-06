@@ -1,26 +1,20 @@
 import type { LorcanitoCard } from "@/shared/types/lorcanito";
 import { cardNameToUrlSafeString } from "@/shared/strings";
+import { mock } from "@/data/mock";
 
 export async function getCardBySetAndNumber(
   set: string,
   number: string,
 ): Promise<LorcanitoCard | undefined> {
-  return fetch(`https://play.lorcanito.com/api/sets/${set}`, {
-    cache: "force-cache",
-  })
-    .then((res) => res.json())
-    .then((data) =>
-      data.cards.find(
-        (card: LorcanitoCard) => Number(card.number) === Number(number),
-      ),
-    );
+  return getAllCards().then((res) =>
+    res.find(
+      (card) => card.set === set && Number(card.number) === Number(number),
+    ),
+  );
 }
 
 export async function getAllCards(): Promise<LorcanitoCard[]> {
-  const res = await fetch(`https://play.lorcanito.com/api/sets/all`, {
-    cache: "force-cache",
-  });
-  return (await res.json()).cards || [];
+  return mock.cards || [];
 }
 
 export async function getCardByName(

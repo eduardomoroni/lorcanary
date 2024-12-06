@@ -9,6 +9,7 @@ import {
   timestamp,
   varchar,
   index,
+  real,
 } from "drizzle-orm/pg-core";
 import { type InferSelectModel, relations } from "drizzle-orm";
 
@@ -173,6 +174,7 @@ export const profiles = pgTable("profile", {
   settings: jsonb("settings"),
   metadata: jsonb("metadata"),
   preferredColor: colorEnum(),
+  rankedMMR: real("ranked_mmr").default(1200).notNull(),
   currentDeckId: integer("current_deck_id"), // This is a deck version id
   ...timestamps,
 });

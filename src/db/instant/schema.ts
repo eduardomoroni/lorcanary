@@ -23,6 +23,8 @@ export type Lobby = {
   deckLists: number[];
   createdAt: number;
   updatedAt: number;
+  players: Record<string, { name: string; id: string; deckVersionId: number }>;
+  decks: Record<string, { qty: number; publicId: string }>;
 };
 
 export type Schema = {

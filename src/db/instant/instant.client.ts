@@ -1,15 +1,14 @@
-import "server-only";
-import { init } from "@instantdb/admin";
-import type { Schema } from "@/db/instant/schema";
 import { env } from "@/env.mjs";
+import type { Schema } from "@/db/instant/schema";
+import { init } from "@instantdb/react";
 
-const instantServerSideDB = init<Schema>({
+export const instantClientSideDB = init<Schema>({
   appId: env.NEXT_PUBLIC_INSTANT_APP_ID,
-  adminToken: env.INSTANT_APP_ADMIN_TOKEN,
+  devtool: false,
 });
 
-export async function getLiveGamesByDeckListId(deckListId: number) {
-  const response = await instantServerSideDB.query({
+export function useLiveGamesByDeckListId(deckListId: string) {
+  const { data, isLoading, error } = instantClientSideDB.useQuery({
     lobbies: {
       $: {
         // Matches last 20min on average, and we have 300 matches per hour
@@ -32,9 +31,12 @@ export async function getLiveGamesByDeckListId(deckListId: number) {
     },
   });
 
-  return response.lobbies
-    .filter((lobby) => {
-      return lobby.deckLists?.includes(deckListId);
-    })
-    .map((lobby) => lobby.gameId);
+  return {
+    data:
+      data?.lobbies.filter((lobby) => {
+        return lobby.deckLists?.includes(Number(deckListId));
+      }) || [],
+    isLoading,
+    error,
+  };
 }

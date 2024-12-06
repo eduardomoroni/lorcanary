@@ -16,7 +16,7 @@ interface DeckStats {
   distinct_players: number;
 }
 
-export const getDeckStats = async (deckId: number): Promise<DeckStats> => {
+export const getDeckListStats = async (deckId: number): Promise<DeckStats> => {
   const statsQuery = await db
     .select({
       total_games: sql<number>`
@@ -83,7 +83,7 @@ export const readList = async ({
   publicId: string;
   id: number;
 }) => {
-  const deckStats = await getDeckStats(id);
+  const deckStats = await getDeckListStats(id);
 
   const deckList = await db.query.deckVersions.findFirst({
     where: or(eq(deckVersions.id, id), eq(deckVersions.publicId, publicId)),
@@ -91,16 +91,25 @@ export const readList = async ({
       cards: {
         columns: {
           qty: true,
-          cardId: true,
+        },
+        with: {
+          card: {
+            columns: {
+              id: true,
+              publicId: true,
+              name: true,
+            },
+          },
         },
       },
       currentPlayers: {
         limit: 25,
         // TODO: orderBy top 25 players
-        orderBy: (players, { desc }) => [desc(players.id)],
+        orderBy: (players, { desc }) => [desc(players.rankedMMR)],
         columns: {
           id: true,
           name: true,
+          rankedMMR: true,
         },
       },
     },

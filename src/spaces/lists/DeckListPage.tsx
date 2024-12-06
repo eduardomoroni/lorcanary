@@ -9,10 +9,16 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import Link from "next/link";
 import type { DeckStats } from "@/spaces/lists/types";
+import { LiveGames } from "@/spaces/lists/LiveGames";
 
-export default function DeckStatsPage({ data }: { data: DeckStats }) {
+export default function DeckStatsPage({
+  data,
+  idOrPublicId,
+}: {
+  data: DeckStats;
+  idOrPublicId: string;
+}) {
   const deckStats: DeckStats = data;
 
   return (
@@ -87,17 +93,22 @@ export default function DeckStatsPage({ data }: { data: DeckStats }) {
               <Table>
                 <TableHeader>
                   <TableRow>
-                    <TableHead>Card ID</TableHead>
-                    <TableHead>Quantity</TableHead>
+                    <TableHead>Copies</TableHead>
+                    <TableHead>Card</TableHead>
                   </TableRow>
                 </TableHeader>
                 <TableBody>
-                  {deckStats.cards.map((card) => (
-                    <TableRow key={card.cardId}>
-                      <TableCell>{card.cardId}</TableCell>
-                      <TableCell>{card.qty}</TableCell>
-                    </TableRow>
-                  ))}
+                  {deckStats.cards
+                    .sort((a, b) => b.qty - a.qty)
+                    .map((card) => {
+                      console.log(card);
+                      return (
+                        <TableRow key={card.card.id}>
+                          <TableCell>{card.qty}</TableCell>
+                          <TableCell>{card.card.name}</TableCell>
+                        </TableRow>
+                      );
+                    })}
                 </TableBody>
               </Table>
             </ScrollArea>
@@ -112,63 +123,17 @@ export default function DeckStatsPage({ data }: { data: DeckStats }) {
             <ScrollArea className="h-[200px]">
               <ul className="space-y-2">
                 {deckStats.currentPlayers.map((player) => (
-                  <li key={player.id}>{player.name}</li>
+                  <li key={player.id}>
+                    {player.name}
+                    {" (" + Math.round(player.rankedMMR) + ")"}
+                  </li>
                 ))}
               </ul>
             </ScrollArea>
           </CardContent>
         </Card>
 
-        <Card className="md:col-span-2">
-          <CardHeader>
-            <CardTitle>Live Games</CardTitle>
-          </CardHeader>
-          <CardContent>
-            <ScrollArea className="h-[400px]">
-              <div className="space-y-6">
-                {deckStats.liveGames.map((gameId) => (
-                  <Link
-                    href={`https://play.lorcanito.com/games/${gameId}?referrer=deck-list-lorcanary`}
-                    target="_blank"
-                    key={gameId}
-                    className="block hover:bg-muted p-4 rounded-lg transition-colors"
-                  >
-                    <div className="mb-2">
-                      <h3 className="text-xl font-bold">
-                        Significant Cursed Merfolk Keeper Of Ancient Stories
-                      </h3>
-                    </div>
-                    <div className="flex items-center justify-between text-muted-foreground">
-                      <div className="flex items-center gap-2">
-                        <span>Starkey Selfless Protector (1521)</span>
-                        <div className="flex gap-1">
-                          <Badge className="bg-emerald-500/20 text-emerald-500">
-                            E
-                          </Badge>
-                          <Badge className="bg-purple-500/20 text-purple-500">
-                            A
-                          </Badge>
-                        </div>
-                      </div>
-                      <span className="font-medium">VS</span>
-                      <div className="flex items-center gap-2">
-                        <div className="flex gap-1">
-                          <Badge className="bg-purple-500/20 text-purple-500">
-                            A
-                          </Badge>
-                          <Badge className="bg-slate-500/20 text-slate-500">
-                            S
-                          </Badge>
-                        </div>
-                        <span>Hiram Flaversham Creative Thinker (1618)</span>
-                      </div>
-                    </div>
-                  </Link>
-                ))}
-              </div>
-            </ScrollArea>
-          </CardContent>
-        </Card>
+        <LiveGames idOrPublicId={idOrPublicId} />
       </div>
     </div>
   );

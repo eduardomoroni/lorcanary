@@ -1,11 +1,16 @@
 export interface Card {
   qty: number;
-  cardId: number;
+  card: {
+    id: number;
+    publicId: string;
+    name: string;
+  };
 }
 
 export interface Player {
   id: number;
   name: string;
+  rankedMMR: number;
 }
 
 export interface DeckStats {

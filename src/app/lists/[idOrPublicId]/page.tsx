@@ -1,6 +1,5 @@
 import { type ValidParams } from "@/spaces/cards/cardFilterHelpers";
 import { readList } from "@/db/drizzle/deck-versions";
-import { getGamesByDeckListId } from "@/db/instant/instant.server";
 import DeckListPage from "@/spaces/lists/DeckListPage";
 
 type Params = Promise<{ idOrPublicId: string }>;
@@ -23,11 +22,8 @@ export default async function Decks({ searchParams, params }: Props) {
     id: Number(idOrPublicId),
     publicId: idOrPublicId,
   });
-  const liveGames = await getGamesByDeckListId(Number(idOrPublicId));
 
-  const value = { ...deckList, liveGames };
+  const value = { ...deckList };
 
-  console.log(JSON.stringify(value));
-
-  return <DeckListPage data={value} />;
+  return <DeckListPage data={value} idOrPublicId={idOrPublicId} />;
 }
