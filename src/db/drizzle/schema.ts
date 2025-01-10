@@ -11,11 +11,14 @@ import {
   index,
   real,
 } from "drizzle-orm/pg-core";
-import { type InferSelectModel, relations } from "drizzle-orm";
+import { type InferSelectModel, relations, sql } from "drizzle-orm";
 
 const timestamps = {
-  createdAt: timestamp("created_at", { withTimezone: true }).notNull(),
+  createdAt: timestamp("created_at", { withTimezone: true })
+    .notNull()
+    .defaultNow(),
   updatedAt: timestamp("updated_at", { withTimezone: true })
+    .defaultNow()
     .notNull()
     .$onUpdate(() => new Date()),
 } as const;
@@ -336,3 +339,55 @@ export const decksRelations = relations(decks, ({ many, one }) => ({
     relationName: "deck_versioning",
   }),
 }));
+
+export const modeEnum = pgEnum("mode", [
+  "best-of-one",
+  "best-of-two",
+  "best-of-three",
+]);
+export type GameMode = (typeof modeEnum.enumValues)[number];
+
+type TableCard = {
+  instanceId: string;
+  publicId: string;
+  ownerId: string;
+};
+
+export type MatchesMetadata = {
+  gamesCount: number;
+  validation?: {
+    isValid: boolean;
+    [key: string]: boolean | undefined | number;
+  };
+};
+
+// The whole lorcanito codebase has the inverted Match/Game naming, this one is the correct naming.
+// SO this Match is actually Lorcanito Game
+export const matches = pgTable(`matches`, {
+  id: serial("id").primaryKey(),
+  name: text("name").notNull(),
+  publicId: text("public_id").notNull().unique(),
+  winnerId: integer("winner_id").notNull(),
+  loserId: integer("loser_id").notNull(),
+  otp: integer("otp").notNull(),
+  otd: integer("otd").notNull(),
+  winnerDeckListId: integer("winner_list_id").notNull(),
+  winnerColors: colorEnum("winner_colors")
+    .array()
+    .notNull()
+    .default(sql`ARRAY[]::color[]`),
+  loserDeckListId: integer("loser_list_id").notNull(),
+  loserColors: colorEnum("loser_colors")
+    .array()
+    .notNull()
+    .default(sql`ARRAY[]::color[]`),
+  winnerMMR: real("winner_mmr").notNull(),
+  loserMMR: real("loser_mmr").notNull(),
+  category: categoryEnum(),
+  mode: modeEnum(),
+  cards: jsonb("cards").$type<Record<string, TableCard>>(),
+  metadata: jsonb("metadata").$type<MatchesMetadata>(),
+  duration: integer("duration").notNull(),
+  state: text("state"),
+  ...timestamps,
+});
