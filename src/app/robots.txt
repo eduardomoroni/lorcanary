@@ -1,4 +1,4 @@
-src/app/robots.txtSitemap: https://db.lorcanito.com/sitemap.xml
+Sitemap: https://db.lorcanito.com/sitemap.xml
 
 User-Agent: *
 Disallow:
