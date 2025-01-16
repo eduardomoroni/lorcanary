@@ -15,7 +15,7 @@ type Props = {
 // export const dynamic = "force-static";
 // export const fetchCache = "force-cache";
 
-export default async function Decks({ searchParams, params }: Props) {
+export default async function Decks({ params }: Props) {
   const { idOrPublicId } = await params;
 
   const deckList = await readList({
@@ -25,5 +25,6 @@ export default async function Decks({ searchParams, params }: Props) {
 
   const value = { ...deckList };
 
+  // @ts-expect-error TODO: Leo please removfe this
   return <DeckListPage data={value} idOrPublicId={idOrPublicId} />;
 }

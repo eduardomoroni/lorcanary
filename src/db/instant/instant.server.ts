@@ -1,9 +1,8 @@
 import "server-only";
 import { init } from "@instantdb/admin";
-import type { Schema } from "@/db/instant/schema";
 import { env } from "@/env.mjs";
 
-const instantServerSideDB = init<Schema>({
+const instantServerSideDB = init({
   appId: env.NEXT_PUBLIC_INSTANT_APP_ID,
   adminToken: env.INSTANT_APP_ADMIN_TOKEN,
 });
