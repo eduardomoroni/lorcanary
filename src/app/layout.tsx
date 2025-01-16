@@ -13,7 +13,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Lorcanary",
+  title: "Lorcanito DB",
   description: "Disney Lorcana TCG Card Library",
 };
 

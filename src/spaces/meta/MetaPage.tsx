@@ -10,7 +10,7 @@ interface WinrateMatrixProps {
 
 export function MetaPage({ data }: WinrateMatrixProps) {
   return (
-    <div className="min-h-screen">
+    <div className="min-h-screen mt-16">
       <WinrateMatrix data={data} />
       <DeckStatisticsCharts data={data} />
     </div>

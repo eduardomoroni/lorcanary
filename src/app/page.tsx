@@ -12,7 +12,7 @@ type Props = {
 };
 
 export const metadata: Metadata = {
-  title: "Lorcanary",
+  title: "Lorcanito",
   description: "Disney Lorcana TCG Card Library",
 };
 

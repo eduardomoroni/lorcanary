@@ -51,9 +51,9 @@ export default function WinrateMatrix({ data }: WinrateMatrixProps) {
 
   return (
     <div className="">
-      <div className="max-w-[1400px] mx-auto space-y-6">
+      <div className="max-w-[1400px] mx-auto space-y-2">
         <h1 className="text-2xl font-semibold text-amber-300">
-          Winrate Matrix
+          Last updated: January 15, 2025
         </h1>
         {/* Date Range Filter */}
         {/*<div>*/}
@@ -107,12 +107,12 @@ export default function WinrateMatrix({ data }: WinrateMatrixProps) {
             <div className={clsx(cellStyle, "font-bold")}>OVERALL</div>
 
             {/* Column Headers */}
-            {sortedDecks.map((deck) => (
-              <div key={deck} className={cellStyle}>
+            {sortedDecks.map((deck, index) => (
+              <div key={deck + index + "header"} className={cellStyle}>
                 {/*{deck}*/}
-                {deck.split("/").map((word) => (
+                {deck.split("/").map((word, index) => (
                   <InkColorIcon
-                    key={word}
+                    key={word + index}
                     color={word as COLORS}
                     className={"m-0 h-10 w-10"}
                   />
@@ -121,10 +121,10 @@ export default function WinrateMatrix({ data }: WinrateMatrixProps) {
             ))}
 
             {/* Row Headers + Matrix Cells */}
-            {sortedDecks.map((rowDeck) => (
+            {sortedDecks.map((rowDeck, index) => (
               <>
                 <div
-                  key={rowDeck}
+                  key={rowDeck + index + "row"}
                   className={clsx(
                     "sticky left-0 z-10 flex-shrink-0 w-24",
                     cellStyle,
