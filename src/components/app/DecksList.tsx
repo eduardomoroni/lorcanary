@@ -24,13 +24,15 @@ export function DeckCard({
       >
         <div className="relative z-10 p-4 text-white">
           <div className="flex items-start justify-between gap-2">
-            <h3 className="font-semibold truncate">{name}</h3>
-            <div className="flex items-center gap-3 text-sm">
+            <h3 className="font-semibold truncate text-black dark:text-white">
+              {name}
+            </h3>
+            <div className="flex items-center gap-3 text-sm text-black dark:text-white">
               <div className="flex items-center gap-1">
                 <Eye className="w-4 h-4" />
                 {0}
               </div>
-              <div className="flex items-center gap-1">
+              <div className="flex items-center gap-1 text-black dark:text-white">
                 <Heart className="w-4 h-4" />
                 {0}
               </div>
@@ -56,7 +58,7 @@ export function DeckCard({
             <div className="text-lg font-bold text-green-400">$ 0.00</div>
           </div>
 
-          <div className="flex items-center justify-between mt-2 text-sm text-white/80">
+          <div className="flex items-center justify-between mt-2 text-sm text-black dark:text-white">
             <div className="flex items-center gap-1">
               <User className="w-3 h-3" />
               {ownerName}

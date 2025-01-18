@@ -12,24 +12,29 @@ export function CardList({ title, cards, count }: CardListProps) {
   return (
     <div className="space-y-2">
       <div className="flex items-center gap-2">
-        <h2 className="text-lg font-semibold text-white">{title}</h2>
-        <span className="rounded bg-gray-700 px-2 py-0.5 text-sm text-gray-300">
+        <h2 className="text-lg font-semibold text-black dark:text-white">
+          {title}
+        </h2>
+        <span className="rounded bg-main dark:bg-secondaryBlack px-2 py-0.5 text-sm text-black dark:text-white">
           {count}
         </span>
       </div>
-      <div className="space-y-1">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
         {cards.map((card) => (
           <div
             key={card.id}
-            className="flex items-center justify-between rounded bg-gray-800/50 px-3 py-2"
+            className="flex items-center justify-between rounded border-b-4 border-border dark:border-darkNavBorder bg-main dark:bg-secondaryBlack px-3 py-2"
           >
             <div className="flex items-center gap-2">
-              <span className="text-sm text-gray-400">{card.qty}x</span>
+              <span className="text-sm text-black dark:text-white">
+                {card.qty}x
+              </span>
               <div className="flex items-center gap-1">
                 <InkColorIcon color={card.lorcanitoCard.color} />
               </div>
-              <span className="text-sm text-white">
+              <span className="text-sm text-black dark:text-white">
                 {card.lorcanitoCard.name}
+                {card.lorcanitoCard.title && ` - ${card.lorcanitoCard.title}`}
               </span>
             </div>
             <div className="flex items-center gap-4">
@@ -51,7 +56,7 @@ export function CardListSkeleton({ count }: { count: number }) {
         <Skeleton className="h-6 w-32" />
         <Skeleton className="h-6 w-8" />
       </div>
-      <div className="space-y-1">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
         {Array.from({ length: count }).map((_, index) => (
           <div
             key={index}

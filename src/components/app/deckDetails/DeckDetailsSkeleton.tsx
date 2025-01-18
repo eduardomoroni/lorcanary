@@ -22,15 +22,15 @@ export function DeckDetailSkeleton() {
           <StatsSkeleton />
         </div>
 
-        <div className="grid gap-6 lg:grid-cols-[1fr,400px]">
-          <div className="space-y-6">
+        <div className="grid gap-6 lg:grid-cols-[2fr,1fr]">
+          <div className="space-y-8">
             <CardListSkeleton count={8} />
             <CardListSkeleton count={6} />
             <CardListSkeleton count={4} />
             <CardListSkeleton count={4} />
           </div>
 
-          <div className="space-y-6">
+          <div className="space-y-6 max-w-md w-full mx-auto">
             <Card className="p-4">
               <div className="mb-4 flex items-center justify-between">
                 <div>
