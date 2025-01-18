@@ -19,7 +19,7 @@ export async function generateMetadata(
 
   if (!card) {
     return {
-      title: "Lorcanary",
+      title: "Lorcanito",
       description: "Disney Lorcana Card Library",
       keywords: ["Disney Lorcana", "Lorcana", "TCG", "Card Database"],
     };
@@ -27,7 +27,7 @@ export async function generateMetadata(
 
   const urlSafeName = cardNameToUrlSafeString(card.name, card.title);
 
-  const description = card.text || "Lorcanary Disney Lorcana Card Library";
+  const description = card.text || "Lorcanito Disney Lorcana Card Library";
   const title = cardFullName(card.name, card.title);
   const alt = title;
 
@@ -45,13 +45,13 @@ export async function generateMetadata(
     openGraph: createOpenGraphForCard(card),
     title: title,
     description: description,
-    applicationName: "Lorcanary",
+    applicationName: "Lorcanito DB",
     alternates: {
-      canonical: `https://lorcanary.com/en/cards/${urlSafeName}`,
+      canonical: `https://db.lorcanito.com/en/cards/${urlSafeName}`,
       languages: {
-        fr: `https://lorcanary.com/fr/cards/${urlSafeName}`,
-        de: `https://lorcanary.com/de/cards/${urlSafeName}`,
-        en: `https://lorcanary.com/en/cards/${urlSafeName}`,
+        fr: `https://db.lorcanito.com/fr/cards/${urlSafeName}`,
+        de: `https://db.lorcanito.com/de/cards/${urlSafeName}`,
+        en: `https://db.lorcanito.com/en/cards/${urlSafeName}`,
       },
     },
   };
@@ -66,7 +66,7 @@ function createOpenGraphForCard(card?: LorcanitoCard) {
 
   const urlSafeName = cardNameToUrlSafeString(card.name, card.title);
 
-  const description = card.text || "Lorcanary Disney Lorcana Card Library";
+  const description = card.text || "Lorcanito Disney Lorcana Card Library";
   const title = cardFullName(card.name, card.title);
   const alt = title;
   const cardNumber = String(card.number).padStart(3, "0");
@@ -75,8 +75,8 @@ function createOpenGraphForCard(card?: LorcanitoCard) {
   const openGraph: OpenGraph = {
     title: title,
     description: description,
-    url: `https://lorcanary.com/cards/${urlSafeName}`,
-    siteName: "Lorcanary",
+    url: `https://db.lorcanito.com/cards/${urlSafeName}`,
+    siteName: "Lorcanito DB",
     // We need to add other locales here
     locale: "en",
     type: "website",

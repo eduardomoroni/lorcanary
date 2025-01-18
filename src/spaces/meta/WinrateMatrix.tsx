@@ -13,6 +13,7 @@ import {
 import { MatrixCell } from "@/spaces/meta/MatrixCell";
 import { InkColorIcon } from "@/spaces/icons/ColorIcon";
 import { COLORS } from "@/spaces/meta/constants";
+import clsx from "clsx";
 
 interface WinrateMatrixProps {
   data: MatchupData[];
@@ -45,13 +46,15 @@ export default function WinrateMatrix({ data }: WinrateMatrixProps) {
     { value: "alphabetical", label: "Alphabetical" },
   ];
 
-  return (
-    <div className="min-h-screen bg-gray-950 text-gray-200 p-6">
-      <div className="max-w-[1400px] mx-auto space-y-6">
-        <h1 className="text-2xl font-semibold text-amber-300">
-          Winrate Matrix
-        </h1>
+  const cellStyle =
+    "rounded-base  border-2 border-border dark:border-darkBorder bg-main text-black p-4 text-center font-medium dark:bg-gray-950 dark:text-gray-400 flex items-center justify-center";
 
+  return (
+    <div className="">
+      <div className="max-w-[1400px] mx-auto space-y-2">
+        <h1 className="text-2xl font-semibold text-amber-300">
+          Last updated: January 15, 2025
+        </h1>
         {/* Date Range Filter */}
         {/*<div>*/}
         {/*  <h2 className="text-sm uppercase text-gray-400 mb-3">DATE RANGE</h2>*/}
@@ -68,37 +71,29 @@ export default function WinrateMatrix({ data }: WinrateMatrixProps) {
         {/*    ))}*/}
         {/*  </div>*/}
         {/*</div>*/}
-
         {/* Sort Controls */}
-        {/*<div>*/}
-        {/*  <h2 className="text-sm mb-3">Sort archetypes by:</h2>*/}
-        {/*  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">*/}
-        {/*    {sortTypes.map((type) => (*/}
-        {/*      <Card*/}
-        {/*        key={type.value}*/}
-        {/*        className={`p-4 cursor-pointer transition-colors ${*/}
-        {/*          sortType === type.value*/}
-        {/*            ? "bg-gray-800 border-amber-300"*/}
-        {/*            : "bg-gray-900 hover:bg-gray-800"*/}
-        {/*        }`}*/}
-        {/*        onClick={() => setSortType(type.value)}*/}
-        {/*      >*/}
-        {/*        {type.label}*/}
-        {/*      </Card>*/}
-        {/*    ))}*/}
-        {/*  </div>*/}
-        {/*</div>*/}
-
-        {/* Toggle Details */}
-        {/*<div className="flex justify-end">*/}
-        {/*  <Button*/}
-        {/*    variant="outline"*/}
-        {/*    onClick={() => setShowDetails(!showDetails)}*/}
-        {/*  >*/}
-        {/*    {showDetails ? "Hide Details" : "Show Details"}*/}
-        {/*  </Button>*/}
-        {/*</div>*/}
-
+        <div>
+          <h2 className="text-sm mb-3">Sort by:</h2>
+          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+            {sortTypes.map((type) => (
+              <Card
+                key={type.value}
+                onClick={() => setSortType(type.value)}
+                className={`p-4 cursor-pointer transition-colors ${
+                  sortType === type.value ? "" : ""
+                }`}
+              >
+                {type.label}
+              </Card>
+            ))}
+          </div>
+        </div>
+        {/* Show Details Button */}
+        <div className="flex justify-end">
+          <Button onClick={() => setShowDetails(!showDetails)}>
+            {showDetails ? "Hide Details" : "Show Details"}
+          </Button>
+        </div>
         {/* Matrix Grid */}
         <div className="overflow-auto">
           <div
@@ -108,34 +103,40 @@ export default function WinrateMatrix({ data }: WinrateMatrixProps) {
             }}
           >
             {/* Empty top-left corners */}
-            <div className="sticky left-0 bg-gray-950" />
-            <div className="p-4 flex items-center text-center font-medium bg-gray-900">
-              OVERALL
-            </div>
+            <div className="sticky left-0  " />
+            <div className={clsx(cellStyle, "font-bold")}>OVERALL</div>
 
             {/* Column Headers */}
-            {sortedDecks.map((deck) => (
-              <div key={deck} className="p-4 text-center font-medium">
-                {deck}
-                {deck.split("/").map((word) => (
-                  <InkColorIcon key={word} color={word as COLORS} />
+            {sortedDecks.map((deck, index) => (
+              <div key={deck + index + "header"} className={cellStyle}>
+                {/*{deck}*/}
+                {deck.split("/").map((word, index) => (
+                  <InkColorIcon
+                    key={word + index}
+                    color={word as COLORS}
+                    className={"m-0 h-10 w-10"}
+                  />
                 ))}
               </div>
             ))}
 
             {/* Row Headers + Matrix Cells */}
-            {sortedDecks.map((rowDeck) => (
+            {sortedDecks.map((rowDeck, index) => (
               <>
                 <div
-                  key={rowDeck}
-                  className="sticky left-0 bg-gray-950 p-4 font-medium flex flex-col"
+                  key={rowDeck + index + "row"}
+                  className={clsx(
+                    "sticky left-0 z-10 flex-shrink-0 w-24",
+                    cellStyle,
+                  )}
                 >
-                  {rowDeck}
-                  <div key={rowDeck} className="flex flex-row">
-                    {rowDeck.split("/").map((word) => (
-                      <InkColorIcon key={word} color={word as COLORS} />
-                    ))}
-                  </div>
+                  {rowDeck.split("/").map((word) => (
+                    <InkColorIcon
+                      key={word}
+                      color={word as COLORS}
+                      className={"m-0 h-10 w-10 flex"}
+                    />
+                  ))}
                 </div>
 
                 <MatrixCell

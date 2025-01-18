@@ -72,11 +72,11 @@ export function getUniqueDecks(data: MatchupData[]): string[] {
 }
 
 export function getCellColor(winrate: number): string {
-  if (winrate >= 60) return "bg-green-600/20";
-  if (winrate >= 50) return "bg-green-500/10";
-  if (winrate >= 45) return "bg-yellow-600/20";
-  if (winrate >= 40) return "bg-orange-600/20";
-  return "bg-red-600/20";
+  if (winrate >= 60) return "bg-green-600";
+  if (winrate >= 50) return "bg-green-500";
+  if (winrate >= 45) return "bg-yellow-600";
+  if (winrate >= 40) return "bg-orange-600";
+  return "bg-red-600";
 }
 
 export function sortDecks(

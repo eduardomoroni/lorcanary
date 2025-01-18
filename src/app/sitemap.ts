@@ -5,7 +5,7 @@ import { cardNameToUrlSafeString } from "@/shared/strings";
 import { convertCardSet } from "@/spaces/cards/utils";
 
 const lastModified = "2024-11-06";
-const baseUrl = `https://lorcanary.com`;
+const baseUrl = `https://db.lorcanito.com`;
 
 function generateAlternates(url: string) {
   return {
@@ -36,7 +36,7 @@ function createCardPageSitemap(card: LorcanitoCard): MetadataRoute.Sitemap {
       lastModified: lastModified,
       changeFrequency: "weekly",
       images,
-      url: `https://lorcanary.com/cards/${set}/${number}`,
+      url: `https://db.lorcanito.com/cards/${set}/${number}`,
       // alternates: generateAlternates(
       //   `https://lorcanary.com/cards/${set}/${number}`,
       // ),
@@ -46,7 +46,7 @@ function createCardPageSitemap(card: LorcanitoCard): MetadataRoute.Sitemap {
       lastModified: lastModified,
       changeFrequency: "weekly",
       images,
-      url: `https://lorcanary.com/cards/${urlSafeName}`,
+      url: `https://db.lorcanito.com/cards/${urlSafeName}`,
       // alternates: generateAlternates(
       //   `https://lorcanary.com/cards/${urlSafeName}`,
       // ),

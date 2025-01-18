@@ -16,7 +16,7 @@ function Navbar() {
             prefetch={false}
             href={"/"}
           >
-            LORCANARY
+            LORCANITO DB
           </Link>
 
           <div className="flex items-center gap-10 m1000:gap-8 m900:hidden">

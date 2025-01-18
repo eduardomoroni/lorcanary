@@ -1,16 +1,16 @@
 export interface MatchupData {
   deck: string;
   versus: string;
-  total_matches: number;
-  wins: number;
-  overall_winrate: number;
-  wins_on_play: number;
-  matches_on_play: number;
-  play_winrate: number;
-  wins_on_draw: number;
-  matches_on_draw: number;
-  draw_winrate: number;
-  mirror_matches: number;
+  total_matches: string;
+  wins: string;
+  overall_winrate: string;
+  wins_on_play: string;
+  matches_on_play: string;
+  play_winrate: string;
+  wins_on_draw: string;
+  matches_on_draw: string;
+  draw_winrate: string;
+  mirror_matches: string;
 }
 
 export interface ProcessedMatchupData {

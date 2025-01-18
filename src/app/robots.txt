@@ -1,4 +1,4 @@
+Sitemap: https://db.lorcanito.com/sitemap.xml
+
 User-Agent: *
-Allow: /
-Disallow: /api/
-Sitemap: https://lorcanary.com/sitemap.xml
+Disallow:

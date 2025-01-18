@@ -35,5 +35,5 @@ export interface DeckStats {
   avg_duration: number;
   distinct_players: number;
   median_duration: number;
-  liveGames: string[];
+  liveGames?: string[];
 }

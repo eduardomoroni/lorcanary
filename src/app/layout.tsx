@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import localFont from "next/font/local";
 import "./globals.css";
 import Navbar from "@/components/app/Navbar";
-import { ThemeProvider } from "@/components/app/ThemeProvider";
 import Footer from "@/components/app/Footer";
 import Script from "next/script";
+import { ThemeProvider } from "next-themes";
 
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
@@ -13,7 +13,7 @@ const geistMono = localFont({
 });
 
 export const metadata: Metadata = {
-  title: "Lorcanary",
+  title: "Lorcanito DB",
   description: "Disney Lorcana TCG Card Library",
 };
 

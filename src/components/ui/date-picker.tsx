@@ -41,6 +41,7 @@ export default function DatePickerDemo() {
           mode="single"
           selected={date}
           onSelect={setDate}
+          // @ts-ignore
           initialFocus
         />
       </PopoverContent>
