@@ -1,12 +1,14 @@
 "use client";
 
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
 
 import { useRouter } from "next/navigation";
 
 import { Button } from "@/components/ui/button";
 
 type Props = {
+  current: number;
+  total: number;
   prev?: {
     name: string;
     path: string;
@@ -17,44 +19,38 @@ type Props = {
   };
 };
 
-export default function Pagination({ prev, next }: Props) {
+export default function Pagination({ prev, next, total, current }: Props) {
   const router = useRouter();
 
-  let justifyContent;
-
-  if (prev && next) {
-    justifyContent = "justify-between";
-  } else if (prev) {
-    justifyContent = "justify-start";
-  } else if (next) {
-    justifyContent = "justify-end";
-  }
-
   return (
-    <div className={`${justifyContent} mt-8 flex w-full items-center`}>
+    <div className="flex items-center justify-center space-x-2 my-8">
       {prev?.name && (
         <Button
-          className="px-5 py-2 h-[unset] m400:px-3.5 m400:text-xs"
+          variant="default"
+          size="icon"
           aria-label="Previous Page"
           onClick={() => {
             router.push(prev.path);
           }}
         >
-          <ArrowLeft className="mr-2 w-4 h-4" />
-          {prev.name}
+          <ChevronLeft className="h-4 w-4" />
+          <span className="sr-only">{prev.name}</span>
         </Button>
       )}
-
+      <span className="text-sm font-medium">
+        Page {current} of {total}
+      </span>
       {next?.name && (
         <Button
-          className="px-5 py-2 h-[unset] m400:px-3.5 m400:text-xs"
+          variant="default"
+          size="icon"
           aria-label="Next Page"
           onClick={() => {
             router.push(next.path);
           }}
         >
-          {next.name}
-          <ArrowRight className="ml-2 w-4 h-4" />
+          <ChevronRight className="h-4 w-4" />
+          <span className="sr-only">{next.name}</span>
         </Button>
       )}
     </div>

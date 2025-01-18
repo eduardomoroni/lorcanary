@@ -1,17 +1,14 @@
-import type { DeckWithCards } from "@/db/drizzle/types";
+"use client";
+
+import { DeckThumbnail } from "@/db/drizzle/types";
+import { DeckList } from "@/components/app/DecksList";
+import { use } from "react";
 
 export type CardPageProps = {
-  decks: DeckWithCards[];
+  decks: Promise<DeckThumbnail[]>;
 };
 
-export async function DecksPage(props: CardPageProps) {
-  try {
-    return (
-      <main>
-        <p>{JSON.stringify(props.decks, null, 2)}</p>
-      </main>
-    );
-  } catch (error) {
-    return <p>Status: {JSON.stringify(error)}</p>;
-  }
+export function DecksPage(props: CardPageProps) {
+  const allDecks = use(props.decks);
+  return <DeckList decks={allDecks} />;
 }

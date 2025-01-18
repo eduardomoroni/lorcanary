@@ -55106,3 +55106,6 @@ export const mock = {
     },
   ],
 };
+
+export const allCardsById = {};
+mock.cards.forEach((card) => (allCardsById[card.id] = card));
