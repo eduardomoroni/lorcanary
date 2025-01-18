@@ -1,7 +1,7 @@
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card } from "@/components/ui/card";
-import { DeckWithCards } from "@/db/drizzle/types";
+import { DBCardWIthCardJson, DeckWithCards } from "@/db/drizzle/types";
 import { CardList } from "@/components/app/deckDetails/DeckDetailsCardList";
 import { use } from "react";
 
@@ -11,18 +11,18 @@ interface DeckDetailProps {
 
 export function DeckDetail({ deckPromise }: DeckDetailProps) {
   const deck = use(deckPromise);
-  const characterCards = deck.currentVersion.cards.filter(
-    (card) => card.lorcanitoCard.type === "character",
-  );
-  const actionCards = deck.currentVersion.cards.filter(
-    (card) => card.lorcanitoCard.type === "action",
-  );
-  const locationCards = deck.currentVersion.cards.filter(
-    (card) => card.lorcanitoCard.type === "location",
-  );
-  const itemCards = deck.currentVersion.cards.filter(
-    (card) => card.lorcanitoCard.type === "item",
-  );
+  const cardCategories: { [key: string]: DBCardWIthCardJson[] } =
+    deck.currentVersion.cards.reduce(
+      (acc, card: DBCardWIthCardJson) => {
+        const type = card.lorcanitoCard.type;
+        if (!acc[type]) {
+          acc[type] = [];
+        }
+        acc[type].push(card);
+        return acc;
+      },
+      {} as { [key: string]: DBCardWIthCardJson[] },
+    );
 
   return (
     <div className="min-h-screen text-white">
@@ -45,26 +45,14 @@ export function DeckDetail({ deckPromise }: DeckDetailProps) {
 
         <div className="grid gap-6 lg:grid-cols-[2fr,1fr]">
           <div className="space-y-8">
-            <CardList
-              title="Characters"
-              cards={characterCards}
-              count={characterCards.length}
-            />
-            <CardList
-              title="Actions"
-              cards={actionCards}
-              count={actionCards.length}
-            />
-            <CardList
-              title="Locations"
-              cards={locationCards}
-              count={locationCards.length}
-            />
-            <CardList
-              title="Items"
-              cards={itemCards}
-              count={itemCards.length}
-            />
+            {Object.entries(cardCategories).map(([type, cards]) => (
+              <CardList
+                key={type}
+                title={type.charAt(0).toUpperCase() + type.slice(1) + "s"}
+                cards={cards}
+                count={cards.reduce((acc, card) => acc + card.qty, 0)}
+              />
+            ))}
           </div>
 
           <div className="space-y-6">
