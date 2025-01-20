@@ -2,7 +2,7 @@ import { db } from "@/db/drizzle/index";
 import { eq, or, sql } from "drizzle-orm";
 import { deckVersions, gameResult } from "@/db/drizzle/schema";
 
-interface DeckStats {
+export interface DeckStats {
   deck_id: number;
   total_games: number;
   total_games_otd: number;
@@ -16,7 +16,9 @@ interface DeckStats {
   distinct_players: number;
 }
 
-export const getDeckListStats = async (deckId: number): Promise<DeckStats> => {
+export const getDeckListStats = async (
+  deckId: number,
+): Promise<DeckStats | null> => {
   const statsQuery = await db
     .select({
       total_games: sql<number>`
@@ -60,6 +62,10 @@ export const getDeckListStats = async (deckId: number): Promise<DeckStats> => {
     .groupBy(sql`${deckId}`);
 
   const stats = statsQuery[0];
+
+  if (!stats) {
+    return null;
+  }
 
   return {
     deck_id: deckId,

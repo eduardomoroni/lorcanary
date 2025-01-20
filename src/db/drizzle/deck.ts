@@ -1,8 +1,9 @@
-import { DeckThumbnail, DeckWithCards } from "@/db/drizzle/types";
+import { DeckThumbnail, DeckWithCardsAndStats } from "@/db/drizzle/types";
 import { db } from "@/db/drizzle/index";
 import { decks } from "@/db/drizzle/schema";
 import { count, eq } from "drizzle-orm";
 import { getCardById, getDeckColors } from "@/data/lorcanitoCards";
+import { getDeckListStats } from "@/db/drizzle/deck-versions";
 
 const withClauseDeckThumbnails = {
   currentVersion: {
@@ -84,7 +85,9 @@ export const readDecks = async ({
   }));
 };
 
-export const readDeck = async (publicId: string): Promise<DeckWithCards> => {
+export const readDeck = async (
+  publicId: string,
+): Promise<DeckWithCardsAndStats> => {
   const deck = await db.query.decks.findFirst({
     where: eq(decks.publicId, publicId),
     with: withClause,
@@ -93,6 +96,8 @@ export const readDeck = async (publicId: string): Promise<DeckWithCards> => {
   if (!deck) {
     throw Error("Deck not found");
   }
+
+  const deckStats = await getDeckListStats(deck.id);
 
   return {
     id: deck.id,
@@ -118,6 +123,7 @@ export const readDeck = async (publicId: string): Promise<DeckWithCards> => {
           lorcanitoCard: getCardById(c.card.publicId),
         })) || [],
     },
+    stats: deckStats,
   };
 };
 

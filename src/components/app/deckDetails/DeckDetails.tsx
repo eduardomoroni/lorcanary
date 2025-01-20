@@ -1,15 +1,20 @@
 import { Badge } from "@/components/ui/badge";
 import { Card } from "@/components/ui/card";
-import { DBCardWIthCardJson, DeckWithCards } from "@/db/drizzle/types";
+import {
+  DBCardWIthCardJson,
+  DeckWithCards,
+  DeckWithCardsAndStats,
+} from "@/db/drizzle/types";
 import { CardList } from "@/components/app/deckDetails/DeckDetailsCardList";
 import { use } from "react";
 import { CostCurveChart } from "@/components/app/deckDetails/deckCharts/CostCurve";
 import { ColorsPieChart } from "@/components/app/deckDetails/deckCharts/ColorsPieChart";
 import { CardTypesPieChart } from "@/components/app/deckDetails/deckCharts/CardTypesPieChart";
 import { CardInkPieChart } from "@/components/app/deckDetails/deckCharts/InkPieChart";
+import { LiveGames } from "@/spaces/lists/LiveGames";
 
 interface DeckDetailProps {
-  deckPromise: Promise<DeckWithCards>;
+  deckPromise: Promise<DeckWithCardsAndStats>;
 }
 
 export function DeckDetail({ deckPromise }: DeckDetailProps) {
@@ -56,25 +61,94 @@ export function DeckDetail({ deckPromise }: DeckDetailProps) {
           </div>
 
           <div className="space-y-6">
-            {/*<Card className="p-4 bg-main dark:bg-secondaryBlack">*/}
-            {/*  <div className="mb-4 flex items-center justify-between">*/}
-            {/*    /!*  <div>*!/*/}
-            {/*    /!*    <div className="text-sm text-gray-400">Total</div>*!/*/}
-            {/*    /!*    <div className="text-2xl font-bold text-green-400">*!/*/}
-            {/*    /!*      ${deck.stats.price.toFixed(2)}*!/*/}
-            {/*    /!*    </div>*!/*/}
-            {/*    /!*  </div>*!/*/}
-            {/*    /!*  <div>*!/*/}
-            {/*    /!*    <div className="text-sm text-gray-400">Collection</div>*!/*/}
-            {/*    /!*    <div className="text-2xl font-bold">*!/*/}
-            {/*    /!*      {deck.stats.collectionPercent.toFixed(1)}%*!/*/}
-            {/*    /!*    </div>*!/*/}
-            {/*    /!*  </div>*!/*/}
-            {/*  </div>*/}
-            {/*  <Button className="w-full bg-main dark:bg-secondaryBlack text-black dark:text-white">*/}
-            {/*    Shop Missing Cards*/}
-            {/*  </Button>*/}
-            {/*</Card>*/}
+            <Card className="p-4 bg-main dark:bg-secondaryBlack text-center text-black dark:text-white">
+              AD HERE
+            </Card>
+            <LiveGames idOrPublicId={deck.publicId} />
+            <Card className="p-4 bg-main dark:bg-secondaryBlack text-center">
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <div className="text-sm text-black dark:text-white">
+                    Win Rate OTD
+                  </div>
+                  <div className="text-xl font-bold text-green-400">
+                    {deck.stats?.win_rate_otd}%
+                  </div>
+                </div>
+                <div>
+                  <div className="text-sm text-black dark:text-white">
+                    Win Rate
+                  </div>
+                  <div className="text-xl font-bold text-green-400">
+                    {deck.stats?.win_rate}%
+                  </div>
+                </div>
+                <div>
+                  <div className="text-sm text-black dark:text-white">
+                    Win Rate OTP
+                  </div>
+                  <div className="text-xl font-bold text-green-400">
+                    {deck.stats?.win_rate_otp}%
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-4 bg-main dark:bg-secondaryBlack text-center">
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <div className="text-sm text-black dark:text-white">
+                    Total Games OTD
+                  </div>
+                  <div className="text-xl font-bold text-green-400">
+                    {deck.stats?.total_games_otd}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-sm text-black dark:text-white">
+                    Total Games
+                  </div>
+                  <div className="text-xl font-bold text-green-400">
+                    {deck.stats?.total_games}
+                  </div>
+                </div>
+                <div>
+                  <div className="text-sm text-black dark:text-white">
+                    Total Games OTP
+                  </div>
+                  <div className="text-xl font-bold text-green-400">
+                    {deck.stats?.total_games_otp}
+                  </div>
+                </div>
+              </div>
+            </Card>
+
+            <Card className="p-4 bg-main dark:bg-secondaryBlack text-center">
+              <div className="mb-4 flex items-center justify-between">
+                <div>
+                  <div className="text-sm text-black dark:text-white">
+                    Median Game Duration
+                  </div>
+                  <div className="text-xl font-bold text-green-400">
+                    {deck.stats?.median_duration
+                      ? Math.round(deck.stats?.median_duration / 60000)
+                      : 0}{" "}
+                    minutes
+                  </div>
+                </div>
+                <div>
+                  <div className="text-sm text-black dark:text-white">
+                    Average Game Duration
+                  </div>
+                  <div className="text-xl font-bold text-green-400">
+                    {deck.stats?.avg_duration
+                      ? Math.round(deck.stats?.avg_duration / 60000)
+                      : 0}{" "}
+                    minutes
+                  </div>
+                </div>
+              </div>
+            </Card>
 
             <Card className="p-4 bg-main dark:bg-secondaryBlack">
               <h3 className="mb-4 font-semibold text-black dark:text-white">

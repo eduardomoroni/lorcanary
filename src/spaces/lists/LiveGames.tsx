@@ -18,7 +18,7 @@ export function LiveGames({ idOrPublicId }: { idOrPublicId: string }) {
   const { data, error, isLoading } = useLiveGamesByDeckListId(idOrPublicId);
 
   return (
-    <Card className="md:col-span-2">
+    <Card className="md:col-span-2 bg-main dark:bg-secondaryBlack text-black dark:text-white">
       <CardHeader>
         <CardTitle>Live Games</CardTitle>
       </CardHeader>

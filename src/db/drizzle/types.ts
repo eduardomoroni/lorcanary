@@ -1,6 +1,7 @@
 import { type InferSelectModel } from "drizzle-orm";
 import { users } from "./schema";
 import { CardColor, LorcanitoCard } from "@/shared/types/lorcanito";
+import { DeckStats } from "@/db/drizzle/deck-versions";
 
 export type User = InferSelectModel<typeof users>;
 
@@ -78,4 +79,8 @@ export type DBDeckWithCards = {
   ownerId: string;
   ownerProfileId: number;
   publicId: string;
+};
+
+export type DeckWithCardsAndStats = DeckWithCards & {
+  stats: DeckStats | null;
 };
