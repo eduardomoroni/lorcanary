@@ -1,6 +1,9 @@
 import { DeckWithCards } from "@/db/drizzle/types";
 import { InkColorIcon } from "@/spaces/icons/ColorIcon";
 import { Skeleton } from "@/components/ui/skeleton";
+import { cn } from "@/lib/utils";
+import { InklessIcon } from "@/spaces/icons/InklessIcon";
+import { InkIcon } from "@/spaces/icons/InkIcon";
 
 interface CardListProps {
   title: string;
@@ -23,7 +26,10 @@ export function CardList({ title, cards, count }: CardListProps) {
         {cards.map((card) => (
           <div
             key={card.id}
-            className="flex items-center justify-between rounded border-b-4 border-border dark:border-darkNavBorder bg-main dark:bg-secondaryBlack px-3 py-2"
+            className={cn(
+              "flex items-center justify-between rounded border-b-4 border-border dark:border-darkNavBorder px-3 py-2",
+              `bg-${card.lorcanitoCard.color}`,
+            )}
           >
             <div className="flex items-center gap-2">
               <span className="text-sm text-black dark:text-white">
@@ -31,6 +37,10 @@ export function CardList({ title, cards, count }: CardListProps) {
               </span>
               <div className="flex items-center gap-1">
                 <InkColorIcon color={card.lorcanitoCard.color} />
+                <InkIcon
+                  inkCost={card.lorcanitoCard.cost}
+                  inktype={card.lorcanitoCard.inkwell ? "inkpot" : "inkless"}
+                />
               </div>
               <span className="text-sm text-black dark:text-white">
                 {card.lorcanitoCard.name}
