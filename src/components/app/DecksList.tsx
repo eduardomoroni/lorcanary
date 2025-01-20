@@ -18,7 +18,8 @@ export function DeckCard({
     <Link href={`/decks/${publicId}`}>
       <Card
         className={cn(
-          "relative overflow-hidden bg-gradient-to-br transition-all duration-300 ease-in-out",
+          "relative overflow-hidden transition-all duration-300 ease-in-out",
+          `bg-${deckColors.filter(Boolean)[0]}`,
           "hover:shadow-lg hover:-translate-y-1 hover:brightness-110",
         )}
       >
@@ -55,7 +56,7 @@ export function DeckCard({
                 <InkColorIcon key={type} color={type} className="w-6 h-6" />
               ))}
             </div>
-            <div className="text-lg font-bold text-green-400">$ 0.00</div>
+            {/*<div className="text-lg font-bold text-green-400">$ 0.00</div>*/}
           </div>
 
           <div className="flex items-center justify-between mt-2 text-sm text-black dark:text-white">

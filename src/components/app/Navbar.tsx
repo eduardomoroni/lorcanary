@@ -1,7 +1,6 @@
 import MobileDrawer from "@/components/app/MobileDrawer";
 import { ThemeSwitcher } from "@/components/app/ThemeSwitcher";
 import Link from "next/link";
-import NavDropdown from "@/components/app/NavDropdown";
 import { clsx } from "clsx";
 
 function Navbar() {

@@ -26,6 +26,7 @@ export default function Pagination({ prev, next, total, current }: Props) {
     <div className="flex items-center justify-center space-x-2 my-8">
       {prev?.name && (
         <Button
+          className="bg-main dark:bg-secondaryBlack dark:text-darkText text-text"
           variant="default"
           size="icon"
           aria-label="Previous Page"
@@ -42,6 +43,7 @@ export default function Pagination({ prev, next, total, current }: Props) {
       </span>
       {next?.name && (
         <Button
+          className="bg-main dark:bg-secondaryBlack dark:text-darkText text-text"
           variant="default"
           size="icon"
           aria-label="Next Page"
