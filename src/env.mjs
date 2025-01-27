@@ -12,6 +12,7 @@ export const env = createEnv({
       .default("development"),
     DATABASE_URL: z.string(),
     INSTANT_APP_ADMIN_TOKEN: z.string(),
+    CLERK_SECRET_KEY: z.string(),
   },
 
   /**
@@ -22,6 +23,7 @@ export const env = createEnv({
   client: {
     NEXT_PUBLIC_TENANT: z.enum(["lorcana", "gundam"]).default("lorcana"),
     NEXT_PUBLIC_INSTANT_APP_ID: z.string(),
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY: z.string(),
   },
 
   /**
@@ -33,6 +35,9 @@ export const env = createEnv({
     DATABASE_URL: process.env.DATABASE_URL,
     NEXT_PUBLIC_INSTANT_APP_ID: process.env.NEXT_PUBLIC_INSTANT_APP_ID,
     INSTANT_APP_ADMIN_TOKEN: process.env.INSTANT_APP_ADMIN_TOKEN,
+    NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY:
+      process.env.NEXT_PUBLIC_CLERK_PUBLISHABLE_KEY,
+    CLERK_SECRET_KEY: process.env.CLERK_SECRET_KEY,
     NEXT_PUBLIC_TENANT: process.env.NEXT_PUBLIC_TENANT || "lorcana",
   },
   /**
