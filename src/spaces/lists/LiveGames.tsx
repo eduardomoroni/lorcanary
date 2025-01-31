@@ -23,7 +23,7 @@ export function LiveGames({ idOrPublicId }: { idOrPublicId: string }) {
         <CardTitle>Live Games</CardTitle>
       </CardHeader>
       <CardContent>
-        <ScrollArea className="h-[400px]">
+        <ScrollArea className="h-[200px]">
           <div className="space-y-6">
             {data.map((lobby) => {
               const players = Object.values(lobby.players);
