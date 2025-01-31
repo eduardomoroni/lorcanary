@@ -2,7 +2,6 @@ import { DeckWithCards } from "@/db/drizzle/types";
 import { InkColorIcon } from "@/spaces/icons/ColorIcon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
-import { InklessIcon } from "@/spaces/icons/InklessIcon";
 import { InkIcon } from "@/spaces/icons/InkIcon";
 
 interface CardListProps {

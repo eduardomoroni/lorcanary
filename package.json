@@ -11,6 +11,7 @@
     "prettier": "prettier . --write"
   },
   "dependencies": {
+    "@clerk/nextjs": "^6.10.2",
     "@instantdb/admin": "^0.17.7",
     "@instantdb/react": "^0.17.7",
     "@radix-ui/react-accordion": "^1.2.1",
@@ -50,7 +51,7 @@
     "input-otp": "^1.4.1",
     "lodash": "^4.17.21",
     "lucide-react": "^0.461.0",
-    "next": "15.1.4",
+    "next": "15.1.6",
     "next-themes": "^0.4.4",
     "postgres": "^3.4.5",
     "react": "19.0.0-rc-69d4b800-20241021",

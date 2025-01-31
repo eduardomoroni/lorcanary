@@ -2,6 +2,8 @@ import MobileDrawer from "@/components/app/MobileDrawer";
 import { ThemeSwitcher } from "@/components/app/ThemeSwitcher";
 import Link from "next/link";
 import { clsx } from "clsx";
+import { UserRoundCog } from "lucide-react";
+import * as React from "react";
 
 function Navbar() {
   return (
@@ -60,6 +62,16 @@ function Navbar() {
             </a>
 
             <ThemeSwitcher />
+
+            <Link
+              href="/profile"
+              target="_blank"
+              aria-label="Your Profile"
+              prefetch={false}
+              className="bg-white dark:bg-secondaryBlack flex items-center justify-center rounded-base border-2 border-border shadow-nav dark:shadow-navDark dark:border-darkBorder p-2 transition-all hover:translate-x-[4px] hover:translate-y-[4px] hover:shadow-none dark:hover:shadow-none"
+            >
+              <UserRoundCog className="h-6 w-6" />
+            </Link>
           </div>
         </div>
       </div>

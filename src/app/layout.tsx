@@ -5,6 +5,7 @@ import Navbar from "@/components/app/Navbar";
 import Footer from "@/components/app/Footer";
 import Script from "next/script";
 import { ThemeProvider } from "next-themes";
+import { ClerkProvider } from "@clerk/nextjs";
 
 const geistMono = localFont({
   src: "./fonts/GeistMonoVF.woff",
@@ -97,16 +98,18 @@ export default function RootLayout({
       <body
         className={`${geistMono.variable} antialiased bg-yellow-200 dark:bg-gray-800 text-black dark:text-white`}
       >
-        <ThemeProvider
-          attribute="class"
-          defaultTheme="dark"
-          disableTransitionOnChange
-        >
-          <Navbar />
-          {children}
-          <Footer />
-        </ThemeProvider>
-        <AdsenseScript />
+        <ClerkProvider>
+          <ThemeProvider
+            attribute="class"
+            defaultTheme="dark"
+            disableTransitionOnChange
+          >
+            <Navbar />
+            {children}
+            <Footer />
+          </ThemeProvider>
+          <AdsenseScript />
+        </ClerkProvider>
       </body>
     </html>
   );
