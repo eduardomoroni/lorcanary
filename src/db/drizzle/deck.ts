@@ -68,13 +68,14 @@ export const readDecks = async ({
   limit: number;
   offset: number;
 }): Promise<DeckThumbnail[]> => {
-  const decks = await db.query.decks.findMany({
+  const data = await db.query.decks.findMany({
     limit,
     offset,
+    where: eq(decks.visibility, "public"),
     with: withClauseDeckThumbnails,
   });
 
-  return decks.map((deck) => ({
+  return data.map((deck) => ({
     id: deck.id,
     name: deck.name,
     ownerName: deck.owner?.name,
@@ -129,7 +130,10 @@ export const readDeck = async (
 
 export const countDecks = async (): Promise<number> => {
   try {
-    const [rows] = await db.select({ count: count() }).from(decks);
+    const [rows] = await db
+      .select({ count: count() })
+      .from(decks)
+      .where(eq(decks.visibility, "public"));
     return rows.count;
   } catch (error) {
     console.error(error);

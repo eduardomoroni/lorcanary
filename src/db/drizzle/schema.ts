@@ -87,6 +87,8 @@ export const regionEnum = pgEnum("region", [
   "earth",
 ]);
 export type PlayerRegion = (typeof regionEnum.enumValues)[number];
+export const visibilityEnum = pgEnum("visibility", ["public", "private"]);
+export type Visibility = (typeof visibilityEnum.enumValues)[number];
 
 export type GameResultMetadata = {
   winnerElo: number;
@@ -317,6 +319,7 @@ export const decks = pgTable(`decks`, {
   ownerId: varchar("owner_id", { length: 255 }).notNull(),
   ownerProfileId: integer("owner_profile_id").notNull(),
   currentVersionId: integer("current_version_id").notNull(),
+  visibility: visibilityEnum().default("private"),
   ...timestamps,
 });
 
