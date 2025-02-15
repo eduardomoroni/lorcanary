@@ -3401,5 +3401,5 @@ export default async function Meta() {
   // console.log(JSON.stringify(matchups));
   // const serverStats = await getServerStats({ category: "ranked" });
   // console.log(JSON.stringify(serverStats));
-  return <MetaPage data={matchups} />;
+  return <MetaPage data={matchups} lastUpdated={"February 15, 2025"} />;
 }

@@ -17,6 +17,7 @@ import clsx from "clsx";
 
 interface WinrateMatrixProps {
   data: MatchupData[];
+  lastUpdated: string;
 }
 
 export default function WinrateMatrix({ data }: WinrateMatrixProps) {
@@ -53,7 +54,7 @@ export default function WinrateMatrix({ data }: WinrateMatrixProps) {
     <div className="">
       <div className="max-w-[1400px] mx-auto space-y-2">
         <h1 className="text-2xl font-semibold text-amber-300">
-          Last updated: January 15, 2025
+          Last updated: {lastUpdated}
         </h1>
         {/* Date Range Filter */}
         {/*<div>*/}
