@@ -61,6 +61,9 @@ export const CardsListAndDeckView = (props: Props) => {
   }, []);
 
   const createDeckMutation = useCallback(async () => {
+    if (!deckName || Object.keys(selectedCards).length === 0) {
+      return;
+    }
     await api.deck.createDeck.useMutation().mutateAsync({
       name: deckName,
       cards: Object.values(selectedCards).map((card) => ({
