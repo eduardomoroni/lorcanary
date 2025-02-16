@@ -30,6 +30,7 @@ export type SelectedCards = {
 };
 
 export const CardsListAndDeckView = (props: Props) => {
+  const createDeckMutation = api.deck.createDeck.useMutation();
   const searchParams = { color: props.color, type: props.type };
   const [selectedCards, setSelectedCards] = useState<SelectedCards>({});
   const [deckName, setDeckName] = useState<string>("");
@@ -60,11 +61,11 @@ export const CardsListAndDeckView = (props: Props) => {
     });
   }, []);
 
-  const createDeckMutation = useCallback(async () => {
+  const handleSaveDeck = useCallback(async () => {
     if (!deckName || Object.keys(selectedCards).length === 0) {
       return;
     }
-    await api.deck.createDeck.useMutation().mutateAsync({
+    await createDeckMutation.mutateAsync({
       name: deckName,
       cards: Object.values(selectedCards).map((card) => ({
         qty: card.qty,
@@ -109,7 +110,7 @@ export const CardsListAndDeckView = (props: Props) => {
         <DeckView
           cards={Object.values(selectedCards)}
           handleSetDeckName={handleSetDeckName}
-          createDeckMutation={createDeckMutation}
+          handleSaveDeck={handleSaveDeck}
         />
       </div>
     </>

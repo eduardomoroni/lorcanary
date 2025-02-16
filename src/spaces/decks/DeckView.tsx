@@ -9,11 +9,11 @@ import { ChangeEvent, Fragment } from "react";
 
 export const DeckView = ({
   cards,
-  createDeckMutation,
+  handleSaveDeck,
   handleSetDeckName,
 }: {
   cards: Omit<DBCardWIthCardJson, "id">[];
-  createDeckMutation: () => void;
+  handleSaveDeck: () => void;
   handleSetDeckName: (e: ChangeEvent<HTMLInputElement>) => void;
 }) => {
   const cardCategories: { [key: string]: Omit<DBCardWIthCardJson, "id">[] } =
@@ -60,7 +60,7 @@ export const DeckView = ({
       </div>
 
       <div className="p-4  gap-2 grid grid-cols-3">
-        <Button size="sm" className="w-full" onClick={createDeckMutation}>
+        <Button size="sm" className="w-full" onClick={handleSaveDeck}>
           <Save className="w-4 h-4 mr-2" />
           Save
         </Button>
