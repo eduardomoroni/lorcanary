@@ -8,7 +8,7 @@ export type CardPageProps = {
   decks: Promise<DeckThumbnail[]>;
 };
 
-export function DecksPage(props: CardPageProps) {
+export function DecksListPage(props: CardPageProps) {
   const allDecks = use(props.decks);
   return <DeckList decks={allDecks} />;
 }

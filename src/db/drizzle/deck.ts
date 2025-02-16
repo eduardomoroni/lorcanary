@@ -1,9 +1,22 @@
-import { DeckThumbnail, DeckWithCardsAndStats } from "@/db/drizzle/types";
+import {
+  CardWithQuantity,
+  DBDeckWithCards,
+  DeckThumbnail,
+  DeckWithCardsAndStats,
+} from "@/db/drizzle/types";
 import { db } from "@/db/drizzle/index";
-import { decks } from "@/db/drizzle/schema";
-import { count, eq } from "drizzle-orm";
+import { deckHistories, decks, deckVersionsToDecks } from "@/db/drizzle/schema";
+import { eq, sql } from "drizzle-orm";
 import { getCardById, getDeckColors } from "@/data/lorcanitoCards";
-import { getDeckListStats } from "@/db/drizzle/deck-versions";
+import {
+  getDeckListStats,
+  getOrCreateDeckVersion,
+} from "@/db/drizzle/deck-versions";
+import { getProfileByUserId } from "@/db/drizzle/profile";
+
+type EitherOrIds = {
+  ownerId: string;
+};
 
 const withClauseDeckThumbnails = {
   currentVersion: {
@@ -130,13 +143,67 @@ export const readDeck = async (
 
 export const countDecks = async (): Promise<number> => {
   try {
-    const [rows] = await db
-      .select({ count: count() })
-      .from(decks)
-      .where(eq(decks.visibility, "public"));
-    return rows.count;
+    return db.$count(decks, eq(decks.visibility, "public"));
   } catch (error) {
     console.error(error);
     return 0;
   }
+};
+
+export const countPlayerDecks = async (
+  params: EitherOrIds,
+): Promise<number> => {
+  const { ownerId } = params;
+  return db.$count(decks, eq(decks.ownerId, ownerId));
+};
+
+export const createDeck = async (params: {
+  name: string;
+  cards: CardWithQuantity[];
+  playerId: string;
+}): Promise<DBDeckWithCards> => {
+  const { name, cards, playerId } = params;
+  const existingVersion = await getOrCreateDeckVersion(cards);
+
+  if (!existingVersion || !existingVersion.id) {
+    throw new Error("Failed to create deck version");
+  }
+
+  const profile = await getProfileByUserId(playerId);
+
+  // Create the deck
+  const newDeck = await db.transaction(async (tx) => {
+    const [newDeck] = await tx
+      .insert(decks)
+      .values({
+        name,
+        ownerId: playerId,
+        ownerProfileId: profile.id,
+        currentVersionId: existingVersion.id,
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .returning();
+
+    if (!newDeck) {
+      throw new Error("Failed to create deck");
+    }
+
+    await tx.insert(deckVersionsToDecks).values({
+      deckId: newDeck.id,
+      deckVersionId: existingVersion.id,
+    });
+    await tx.insert(deckHistories).values({
+      deckId: newDeck.id,
+      versionId: existingVersion.id,
+      createdAt: new Date(),
+      note: "Initial deck version",
+    });
+
+    await tx.execute(sql`commit`);
+
+    return newDeck;
+  });
+
+  return { ...newDeck, cards: existingVersion.cards };
 };

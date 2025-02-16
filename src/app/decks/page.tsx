@@ -1,7 +1,7 @@
 import { countDecks, readDecks } from "@/db/drizzle/deck";
 import { Suspense } from "react";
 import { DeckListSkeleton } from "@/components/app/DecksList";
-import { DecksPage } from "@/spaces/decks/DecksPage";
+import { DecksListPage } from "@/spaces/decks/DecksListPage";
 import Pagination from "@/components/app/Pagination";
 
 type Params = Promise<{ slug: string }>;
@@ -29,7 +29,7 @@ export default async function Decks({ searchParams }: Props) {
     <main>
       <div className="grid gap-4 p-4 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4">
         <Suspense fallback={<DeckListSkeleton count={20} />}>
-          <DecksPage decks={decks} />
+          <DecksListPage decks={decks} />
         </Suspense>
         <div className="col-span-full">
           <Pagination

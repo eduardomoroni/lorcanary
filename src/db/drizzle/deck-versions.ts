@@ -1,6 +1,13 @@
 import { db } from "@/db/drizzle/index";
-import { eq, or, sql } from "drizzle-orm";
-import { deckVersions, gameResult } from "@/db/drizzle/schema";
+import { eq, inArray, or, sql } from "drizzle-orm";
+import {
+  deckVersions,
+  deckVersionsToCards,
+  gameResult,
+} from "@/db/drizzle/schema";
+import { CardWithQuantity, DeckVersionWithCards } from "@/db/drizzle/types";
+import { getDeckColors } from "@/data/lorcanitoCards";
+import { hashDeck, normalizeDeckInput } from "@/lib/utils";
 
 export interface DeckStats {
   deck_id: number;
@@ -15,6 +22,46 @@ export interface DeckStats {
   median_duration: number;
   distinct_players: number;
 }
+
+type DeckVersion = typeof deckVersions.$inferSelect;
+type DeckVersionWithRelations = DeckVersion & {
+  cards: Array<{
+    qty: number;
+    card: {
+      id: number;
+      publicId: string;
+    };
+  }>;
+  decks: Array<{
+    deck: {
+      id: number;
+      name: string;
+    };
+  }>;
+};
+
+const withClause = {
+  cards: {
+    with: {
+      card: {
+        columns: {
+          publicId: true,
+          id: true,
+        },
+      },
+    },
+  },
+  decks: {
+    with: {
+      deck: {
+        columns: {
+          id: true,
+          name: true,
+        },
+      },
+    },
+  },
+} as const;
 
 export const getDeckListStats = async (
   deckId: number,
@@ -123,3 +170,101 @@ export const readList = async ({
 
   return { ...deckList, ...deckStats };
 };
+
+export const getOrCreateDeckVersion = async (
+  cards: CardWithQuantity[] = [],
+): Promise<DeckVersionWithCards> => {
+  const cardsWithQuantity = normalizeDeckInput(cards);
+  const colors = getDeckColors(
+    cardsWithQuantity.map((c) => ({ publicId: c.publicId })),
+  );
+
+  // Generate hash from sorted cards and quantities
+  const hash = hashDeck(cardsWithQuantity);
+
+  // Check if version already exists
+  const existingVersion = await db.query.deckVersions.findFirst({
+    where: eq(deckVersions.hash, hash),
+    with: withClause,
+  });
+
+  if (existingVersion) {
+    return mapDeckVersion(existingVersion);
+  }
+
+  // Start a transaction
+  const transaction = await db.transaction(async (tx) => {
+    // Create new deck version
+    const [newVersion] = await tx
+      .insert(deckVersions)
+      .values({
+        hash,
+        metadata: { colors },
+        createdAt: new Date(),
+        updatedAt: new Date(),
+      })
+      .returning();
+
+    if (!newVersion) {
+      throw new Error("Failed to create deck version");
+    }
+
+    // Get all card IDs in one query
+    const cardIds = await tx.query.cards.findMany({
+      where: (fields) =>
+        inArray(
+          fields.publicId,
+          cardsWithQuantity.map((c) => c.publicId),
+        ),
+      columns: {
+        id: true,
+        publicId: true,
+      },
+    });
+
+    // Create card to version relationships
+    const value = cardsWithQuantity.map((card) => {
+      const dbCard = cardIds.find((c) => c.publicId === card.publicId);
+      if (!dbCard) {
+        throw new Error(`Card with publicId ${card.publicId} not found`);
+      }
+      return {
+        deckVersionId: newVersion.id,
+        cardId: dbCard.id,
+        qty: card.qty,
+      };
+    });
+
+    await tx.insert(deckVersionsToCards).values(value);
+
+    console.log(
+      `Created deck version ${newVersion.id} with ${cardsWithQuantity.length} cards`,
+    );
+    await tx.execute(sql`commit`);
+    return newVersion;
+  });
+
+  // newVersion needs a with clause to get cards
+  // return getDeckVersionById(transaction.id);
+  return { ...transaction, cards: [], decks: [] };
+};
+
+function mapDeckVersion(
+  version: DeckVersionWithRelations,
+): DeckVersionWithCards {
+  return {
+    id: version.id,
+    hash: version.hash,
+    createdAt: version.createdAt,
+    updatedAt: version.updatedAt,
+    cards: version.cards.map((c) => ({
+      qty: c.qty,
+      publicId: c.card.publicId,
+      id: c.card.id,
+    })),
+    decks: version.decks.map((d) => ({
+      id: d.deck.id,
+      name: d.deck.name,
+    })),
+  };
+}

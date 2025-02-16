@@ -1,6 +1,7 @@
 import { CardColor, LorcanitoCard } from "@/shared/types/lorcanito";
 import { cardNameToUrlSafeString } from "@/shared/strings";
 import { mock, allCardsById } from "@/data/mock";
+import { CardWithQuantity } from "@/db/drizzle/types";
 
 export async function getCardBySetAndNumber(
   set: string,
@@ -50,7 +51,7 @@ export async function allLorcanitoCardNames(): Promise<string[]> {
 }
 
 export function getDeckColors(
-  cards?: Array<{ publicId: string; id: number }>,
+  cards?: Array<{ publicId: string; id?: number }>,
 ): Array<CardColor> {
   if (!cards || cards.length === 0) {
     return [];

@@ -1,4 +1,4 @@
-import { DeckWithCards } from "@/db/drizzle/types";
+import { DBCardWIthCardJson, DeckWithCards } from "@/db/drizzle/types";
 import { InkColorIcon } from "@/spaces/icons/ColorIcon";
 import { Skeleton } from "@/components/ui/skeleton";
 import { cn } from "@/lib/utils";
@@ -22,41 +22,47 @@ export function CardList({ title, cards, count }: CardListProps) {
         </span>
       </div>
       <div className="grid grid-cols-1 md:grid-cols-2 gap-2">
-        {cards.map((card) => (
-          <div
-            key={card.id}
-            className={cn(
-              "flex items-center justify-between rounded border-b-4 border-border dark:border-darkNavBorder px-3 py-2",
-              `bg-${card.lorcanitoCard.color}`,
-            )}
-          >
-            <div className="flex items-center gap-2">
-              <span className="text-sm text-black dark:text-white">
-                {card.qty}x
-              </span>
-              <div className="flex items-center gap-1">
-                <InkColorIcon color={card.lorcanitoCard.color} />
-                <InkIcon
-                  inkCost={card.lorcanitoCard.cost}
-                  inktype={card.lorcanitoCard.inkwell ? "inkpot" : "inkless"}
-                />
-              </div>
-              <span className="text-sm text-black dark:text-white">
-                {card.lorcanitoCard.name}
-                {card.lorcanitoCard.title && ` - ${card.lorcanitoCard.title}`}
-              </span>
-            </div>
-            <div className="flex items-center gap-4">
-              {/*<span className="text-sm font-medium text-green-400">*/}
-              {/*  ${card.price.toFixed(2)}*/}
-              {/*</span>*/}
-            </div>
-          </div>
-        ))}
+        <DeckDetailsCardsList cards={cards} />
       </div>
     </div>
   );
 }
+
+export const DeckDetailsCardsList = ({
+  cards,
+}: {
+  cards: Omit<DBCardWIthCardJson, "id">[];
+}) => {
+  return cards.map((card) => (
+    <div
+      key={card.publicId}
+      className={cn(
+        "flex items-center justify-between rounded border-b-4 border-border dark:border-darkNavBorder px-3 py-2",
+        `bg-${card.lorcanitoCard.color}`,
+      )}
+    >
+      <div className="flex items-center gap-2">
+        <span className="text-sm text-black dark:text-white">{card.qty}x</span>
+        <div className="flex items-center gap-1">
+          <InkColorIcon color={card.lorcanitoCard.color} />
+          <InkIcon
+            inkCost={card.lorcanitoCard.cost}
+            inktype={card.lorcanitoCard.inkwell ? "inkpot" : "inkless"}
+          />
+        </div>
+        <span className="text-sm text-black dark:text-white">
+          {card.lorcanitoCard.name}
+          {card.lorcanitoCard.title && ` - ${card.lorcanitoCard.title}`}
+        </span>
+      </div>
+      <div className="flex items-center gap-4">
+        {/*<span className="text-sm font-medium text-green-400">*/}
+        {/*  ${card.price.toFixed(2)}*/}
+        {/*</span>*/}
+      </div>
+    </div>
+  ));
+};
 
 export function CardListSkeleton({ count }: { count: number }) {
   return (

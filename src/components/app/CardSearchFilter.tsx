@@ -2,8 +2,7 @@
 
 import React, { useState, useRef, useEffect, useCallback } from "react";
 import { inputStyles } from "@/components/ui/input";
-import { X, SlidersHorizontal } from "lucide-react";
-import { Button } from "@/components/ui/button";
+import { X } from "lucide-react";
 import { useLocalStorage } from "@uidotdev/usehooks";
 import { clsx } from "clsx";
 import { Badge } from "@/components/ui/badge";
