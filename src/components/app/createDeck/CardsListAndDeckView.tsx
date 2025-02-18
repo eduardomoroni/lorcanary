@@ -12,8 +12,7 @@ import {
 } from "@/components/app/createDeck/CardsList";
 import { DeckView } from "@/spaces/decks/DeckView";
 import type { LorcanitoCard } from "@/shared/types/lorcanito";
-import { useCallback, useState, ChangeEvent } from "react";
-import { api } from "@/data/api/react";
+import { useCallback, useState } from "react";
 
 type Props = {
   color?: LorcanitoCard["color"];
@@ -30,10 +29,8 @@ export type SelectedCards = {
 };
 
 export const CardsListAndDeckView = (props: Props) => {
-  const createDeckMutation = api.deck.createDeck.useMutation();
   const searchParams = { color: props.color, type: props.type };
   const [selectedCards, setSelectedCards] = useState<SelectedCards>({});
-  const [deckName, setDeckName] = useState<string>("");
   const handleSelectCard = useCallback((card: LorcanitoCard) => {
     setSelectedCards((prev: SelectedCards) => {
       if (!prev[card.id]) {
@@ -61,26 +58,6 @@ export const CardsListAndDeckView = (props: Props) => {
     });
   }, []);
 
-  const handleSaveDeck = useCallback(async () => {
-    if (!deckName || Object.keys(selectedCards).length === 0) {
-      return;
-    }
-    await createDeckMutation.mutateAsync({
-      name: deckName,
-      cards: Object.values(selectedCards).map((card) => ({
-        qty: card.qty,
-        publicId: card.publicId,
-      })),
-    });
-  }, [deckName, selectedCards]);
-
-  const handleSetDeckName = useCallback(
-    (e: ChangeEvent<HTMLInputElement>) => {
-      setDeckName(e.target.value);
-    },
-    [setDeckName],
-  );
-
   return (
     <>
       <div className="space-y-4">
@@ -107,11 +84,7 @@ export const CardsListAndDeckView = (props: Props) => {
         </ClientOnly>
       </div>
       <div className="flex items-start">
-        <DeckView
-          cards={Object.values(selectedCards)}
-          handleSetDeckName={handleSetDeckName}
-          handleSaveDeck={handleSaveDeck}
-        />
+        <DeckView cards={Object.values(selectedCards)} />
       </div>
     </>
   );

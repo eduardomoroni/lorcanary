@@ -5,17 +5,21 @@ import { Download, Save, Share2 } from "lucide-react";
 import { Input } from "@/components/ui/input";
 import { DeckDetailsCardsList } from "@/components/app/deckDetails/DeckDetailsCardList";
 import { DBCardWIthCardJson } from "@/db/drizzle/types";
-import { ChangeEvent, Fragment } from "react";
+import { Fragment } from "react";
+import { createDeckServerAction } from "@/spaces/decks/createDeckServerAction";
 
 export const DeckView = ({
   cards,
-  handleSaveDeck,
-  handleSetDeckName,
 }: {
   cards: Omit<DBCardWIthCardJson, "id">[];
-  handleSaveDeck: () => void;
-  handleSetDeckName: (e: ChangeEvent<HTMLInputElement>) => void;
 }) => {
+  const handleSaveDeck = createDeckServerAction.bind(
+    null,
+    cards.map((card) => ({
+      qty: card.qty,
+      publicId: card.lorcanitoCard.id,
+    })),
+  );
   const cardCategories: { [key: string]: Omit<DBCardWIthCardJson, "id">[] } =
     cards.reduce(
       (acc, card: Omit<DBCardWIthCardJson, "id">) => {
@@ -30,11 +34,17 @@ export const DeckView = ({
     );
 
   return (
-    <div className="w-96 bg-navy-800 flex flex-col">
+    <form
+      className="w-96 bg-navy-800 flex flex-col"
+      onSubmit={async (e) => {
+        e.preventDefault();
+        await handleSaveDeck(new FormData(e.currentTarget));
+      }}
+    >
       <Input
         className="bg-navy-900 text-white"
         placeholder="Deck Name"
-        onChange={handleSetDeckName}
+        name="name"
       />
 
       <div className="p-4">
@@ -60,7 +70,7 @@ export const DeckView = ({
       </div>
 
       <div className="p-4  gap-2 grid grid-cols-3">
-        <Button size="sm" className="w-full" onClick={handleSaveDeck}>
+        <Button size="sm" className="w-full" type="submit">
           <Save className="w-4 h-4 mr-2" />
           Save
         </Button>
@@ -73,6 +83,6 @@ export const DeckView = ({
           Share
         </Button>
       </div>
-    </div>
+    </form>
   );
 };
